@@ -10,7 +10,7 @@ SaveMenu:
 	call AskOverwriteSaveFile
 	jr c, .refused
 	call PauseGameLogic
-	call _SavingDontTurnOffThePower
+	call SavedTheGame
 	call ResumeGameLogic
 	call ExitMenu
 	and a
@@ -33,8 +33,7 @@ SaveAfterLinkTrade:
 	call SaveBackupChecksum
 	farcall BackupPartyMonMail
 	farcall SaveRTC
-	call ResumeGameLogic
-	ret
+	jp ResumeGameLogic
 
 ChangeBoxSaveGame:
 	push de
@@ -46,7 +45,6 @@ ChangeBoxSaveGame:
 	call AskOverwriteSaveFile
 	jr c, .refused
 	call PauseGameLogic
-	call SavingDontTurnOffThePower
 	call SaveBox
 	pop de
 	ld a, e
@@ -64,7 +62,7 @@ Link_SaveGame:
 	call AskOverwriteSaveFile
 	jr c, .refused
 	call PauseGameLogic
-	call _SavingDontTurnOffThePower
+	call SavedTheGame
 	call ResumeGameLogic
 	and a
 
@@ -79,8 +77,7 @@ MoveMonWOMail_SaveGame:
 	ld a, e
 	ld [wCurBox], a
 	call LoadBox
-	call ResumeGameLogic
-	ret
+	jp ResumeGameLogic
 
 MoveMonWOMail_InsertMon_SaveGame:
 	call PauseGameLogic
@@ -109,10 +106,7 @@ MoveMonWOMail_InsertMon_SaveGame:
 	call LoadBox
 	call ResumeGameLogic
 	ld de, SFX_SAVE
-	call PlaySFX
-	ld c, 24
-	call DelayFrames
-	ret
+	jp PlaySFX
 
 StartMoveMonWOMail_SaveGame:
 	ld hl, Text_SaveOnMoveMonWOMail
@@ -123,7 +117,7 @@ StartMoveMonWOMail_SaveGame:
 	call AskOverwriteSaveFile
 	jr c, .refused
 	call PauseGameLogic
-	call _SavingDontTurnOffThePower
+	call SavedTheGame
 	call ResumeGameLogic
 	and a
 	ret
@@ -160,34 +154,20 @@ AddHallOfFameEntry:
 	ld de, sHallOfFame
 	ld bc, wHallOfFamePokemonListEnd - wHallOfFamePokemonList + 1
 	call CopyBytes
-	call CloseSRAM
-	ret
-
-SaveGameData:
-	call _SaveGameData
-	ret
+	jp CloseSRAM
 
 AskOverwriteSaveFile:
 	ld a, [wSaveFileExists]
 	and a
 	jr z, .erase
 	call CompareLoadedAndSavedPlayerID
-	jr z, .yoursavefile
+	ret z
 	ld hl, Text_AnotherSaveFile
 	call SaveTheGame_yesorno
 	jr nz, .refused
-	jr .erase
-
-.yoursavefile
-	ld hl, Text_AlreadyASaveFile
-	call SaveTheGame_yesorno
-	jr nz, .refused
-	jr .ok
 
 .erase
 	call ErasePreviousSave
-
-.ok
 	and a
 	ret
 
@@ -225,34 +205,27 @@ CompareLoadedAndSavedPlayerID:
 	cp c
 	ret
 
-_SavingDontTurnOffThePower:
-	call SavingDontTurnOffThePower
 SavedTheGame:
-	call _SaveGameData
-	; wait 32 frames
-	ld c, 32
-	call DelayFrames
-	; copy the original text speed setting to the stack
-	ld a, [wOptions]
-	push af
-	; set text speed to medium
-	ld a, TEXT_DELAY_MED
-	ld [wOptions], a
-	; <PLAYER> saved the game!
-	ld hl, Text_PlayerSavedTheGame
+	ld hl, wOptions
+	set NO_TEXT_SCROLL, [hl]
+	push hl
+	ld hl, .saving_text
 	call PrintText
-	; restore the original text speed setting
-	pop af
-	ld [wOptions], a
-	ld de, SFX_SAVE
-	call WaitPlaySFX
-	call WaitSFX
-	; wait 30 frames
-	ld c, 30
-	call DelayFrames
-	ret
+	pop hl
+	res NO_TEXT_SCROLL, [hl]
+ 	call SaveGameData
+ 	; <PLAYER> saved the game!
+ 	ld hl, Text_PlayerSavedTheGame
+ 	call PrintText
+ 	ld de, SFX_SAVE
+ 	call WaitPlaySFX
+ 	jp WaitSFX
 
-_SaveGameData:
+.saving_text
+	text "Saving…"
+	done
+
+SaveGameData:
 	ld a, TRUE
 	ld [wSaveFileExists], a
 	farcall StageRTCTimeForSave
@@ -280,8 +253,7 @@ _SaveGameData:
 	xor a
 	ld [sBattleTowerChallengeState], a
 .ok
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 UpdateStackTop:
 ; sStackTop appears to be unused.
@@ -308,8 +280,7 @@ UpdateStackTop:
 	ld [sStackTop + 1], a
 
 .done
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 FindStackTop:
 ; Find the furthest point that sp has traversed to.
@@ -321,30 +292,6 @@ FindStackTop:
 	ret nz
 	inc hl
 	jr .loop
-
-SavingDontTurnOffThePower:
-	; Prevent joypad interrupts
-	xor a
-	ldh [hJoypadReleased], a
-	ldh [hJoypadPressed], a
-	ldh [hJoypadSum], a
-	ldh [hJoypadDown], a
-	; Save the text speed setting to the stack
-	ld a, [wOptions]
-	push af
-	; Set the text speed to medium
-	ld a, TEXT_DELAY_MED
-	ld [wOptions], a
-	; SAVING... DON'T TURN OFF THE POWER.
-	ld hl, Text_SavingDontTurnOffThePower
-	call PrintText
-	; Restore the text speed setting
-	pop af
-	ld [wOptions], a
-	; Wait for 16 frames
-	ld c, 16
-	call DelayFrames
-	ret
 
 ErasePreviousSave:
 	call EraseBoxes
@@ -417,10 +364,6 @@ EraseBattleTowerStatus:
 	xor a
 	ld [sBattleTowerChallengeState], a
 	jp CloseSRAM
-
-SaveData:
-	call _SaveData
-	ret
 
 Unreferenced_Function14d6c:
 	ld a, 4 ; MBC30 bank used by JP Crystal; inaccessible by MBC3
@@ -502,13 +445,11 @@ SavePokemonData:
 	ld de, sPokemonData
 	ld bc, wPokemonDataEnd - wPokemonData
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 SaveBox:
 	call GetBoxAddress
-	call SaveBoxAddress
-	ret
+	jp SaveBoxAddress
 
 SaveChecksum:
 	ld hl, sGameData
@@ -520,8 +461,7 @@ SaveChecksum:
 	ld [sChecksum + 0], a
 	ld a, d
 	ld [sChecksum + 1], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 ValidateBackupSave:
 	ld a, BANK(sBackupCheckValue1) ; aka BANK(sBackupCheckValue2)
@@ -530,8 +470,7 @@ ValidateBackupSave:
 	ld [sBackupCheckValue1], a
 	ld a, SAVE_CHECK_VALUE_2
 	ld [sBackupCheckValue2], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 SaveBackupOptions:
 	ld a, BANK(sBackupOptions)
@@ -540,8 +479,7 @@ SaveBackupOptions:
 	ld de, sBackupOptions
 	ld bc, wOptionsEnd - wOptions
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 SaveBackupPlayerData:
 	ld a, BANK(sBackupPlayerData)
@@ -554,8 +492,7 @@ SaveBackupPlayerData:
 	ld de, sBackupCurMapData
 	ld bc, wCurMapDataEnd - wCurMapData
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 SaveBackupPokemonData:
 	ld a, BANK(sBackupPokemonData)
@@ -564,8 +501,7 @@ SaveBackupPokemonData:
 	ld de, sBackupPokemonData
 	ld bc, wPokemonDataEnd - wPokemonData
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 SaveBackupChecksum:
 	ld hl, sBackupGameData
@@ -577,8 +513,7 @@ SaveBackupChecksum:
 	ld [sBackupChecksum + 0], a
 	ld a, d
 	ld [sBackupChecksum + 1], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 TryLoadSaveFile:
 	call VerifyChecksum
@@ -644,8 +579,7 @@ TryLoadSaveData:
 	ld de, wStatusFlags
 	ld a, [hl]
 	ld [de], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 .backup
 	call CheckBackupSaveFile
@@ -663,16 +597,14 @@ TryLoadSaveData:
 	ld de, wStatusFlags
 	ld a, [hl]
 	ld [de], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 .corrupt
 	ld hl, DefaultOptions
 	ld de, wOptions
 	ld bc, wOptionsEnd - wOptions
 	call CopyBytes
-	call PanicResetClock
-	ret
+	jp PanicResetClock
 
 INCLUDE "data/default_options.asm"
 
@@ -694,8 +626,7 @@ CheckPrimarySaveFile:
 	ld [wSaveFileExists], a
 
 .nope
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 CheckBackupSaveFile:
 	ld a, BANK(sBackupCheckValue1) ; aka BANK(sBackupCheckValue2)
@@ -714,8 +645,7 @@ CheckBackupSaveFile:
 	ld [wSaveFileExists], a
 
 .nope
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 LoadPlayerData:
 	ld a, BANK(sPlayerData)
@@ -737,8 +667,7 @@ LoadPlayerData:
 	ld a, BATTLETOWER_WON_CHALLENGE
 	ld [sBattleTowerChallengeState], a
 .not_4
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 LoadPokemonData:
 	ld a, BANK(sPokemonData)
@@ -747,13 +676,11 @@ LoadPokemonData:
 	ld de, wPokemonData
 	ld bc, wPokemonDataEnd - wPokemonData
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 LoadBox:
 	call GetBoxAddress
-	call LoadBoxAddress
-	ret
+	jp LoadBoxAddress
 
 VerifyChecksum:
 	ld hl, sGameData
@@ -783,8 +710,7 @@ LoadBackupPlayerData:
 	ld de, wCurMapData
 	ld bc, wCurMapDataEnd - wCurMapData
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 LoadBackupPokemonData:
 	ld a, BANK(sBackupPokemonData)
@@ -793,8 +719,7 @@ LoadBackupPokemonData:
 	ld de, wPokemonData
 	ld bc, wPokemonDataEnd - wPokemonData
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 VerifyBackupChecksum:
 	ld hl, sBackupGameData
@@ -813,7 +738,7 @@ VerifyBackupChecksum:
 	pop af
 	ret
 
-_SaveData:
+SaveData:
 	; This is called within two scenarios:
 	;   a) ErasePreviousSave (the process of erasing the save from a previous game file)
 	;   b) unused mobile functionality
@@ -1100,19 +1025,9 @@ Text_WouldYouLikeToSaveTheGame:
 	text_far UnknownText_0x1c454b
 	text_end
 
-Text_SavingDontTurnOffThePower:
-	; SAVING… DON'T TURN OFF THE POWER.
-	text_far UnknownText_0x1c456d
-	text_end
-
 Text_PlayerSavedTheGame:
 	; saved the game.
 	text_far UnknownText_0x1c4590
-	text_end
-
-Text_AlreadyASaveFile:
-	; There is already a save file. Is it OK to overwrite?
-	text_far UnknownText_0x1c45a3
 	text_end
 
 Text_AnotherSaveFile:
