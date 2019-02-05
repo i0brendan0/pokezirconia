@@ -146,12 +146,9 @@ LoadMetatiles::
 	ld e, l
 	ld d, h
 	; Set hl to the address of the current metatile data ([wTilesetBlocksAddress] + (a) tiles).
-	; This is buggy; it wraps around past 128 blocks.
-	; To fix, uncomment the line below.
-	add a ; Comment or delete this line to fix the above bug.
 	ld l, a
 	ld h, 0
-	; add hl, hl
+	add hl, hl
 	add hl, hl
 	add hl, hl
 	add hl, hl
@@ -2186,8 +2183,8 @@ GetMapMusic::
 	ld a, c
 	cp MUSIC_MAHOGANY_MART
 	jr z, .mahoganymart
-	bit RADIO_TOWER_MUSIC_F, c
-	jr nz, .radiotower
+	cp MUSIC_RADIO_TOWER
+	jr z, .radiotower
 	farcall Function8b342
 	ld e, c
 	ld d, 0
@@ -2204,11 +2201,7 @@ GetMapMusic::
 	jr .done
 
 .clearedradiotower
-	; the rest of the byte
-	ld a, c
-	and RADIO_TOWER_MUSIC - 1
-	ld e, a
-	ld d, 0
+	ld de, MUSIC_GOLDENROD_CITY
 	jr .done
 
 .mahoganymart

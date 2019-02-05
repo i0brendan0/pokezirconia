@@ -1,8 +1,6 @@
 # Instructions
 
-These instructions explain how to set up the tools required to build **pokecrystal**, including [**rgbds**](https://github.com/rednex/rgbds), which assembles the source files into a ROM.
-
-If you run into trouble, ask for help on IRC or Discord (see [README.md](README.md)).
+These instructions explain how to set up the tools required to build **pokeselenite**, including [**rgbds**](https://github.com/rednex/rgbds), which assembles the source files into a ROM.
 
 
 ## Windows 10
@@ -42,9 +40,9 @@ Then download [**rgbds**](https://github.com/rednex/rgbds/releases/): the latest
 
 Now open the **Cygwin terminal** and enter the following commands.
 
-Cygwin has its own file system that's within Windows, at **C:\cygwin64\home\\*\<user>***. If you don't want to store pokecrystal there, you'll have to change the **current working directory** every time you open Cygwin.
+Cygwin has its own file system that's within Windows, at **C:\cygwin64\home\\*\<user>***. If you don't want to store pokeselenite there, you'll have to change the **current working directory** every time you open Cygwin.
 
-For example, if you want to store pokecrystal in **C:\Users\\*\<user>*\Desktop**:
+For example, if you want to store pokeselenite in **C:\Users\\*\<user>*\Desktop**:
 
 ```bash
 cd /cygdrive/c/Users/<user>/Desktop
@@ -52,7 +50,7 @@ cd /cygdrive/c/Users/<user>/Desktop
 
 (The Windows `C:\` drive is called `/cygdrive/c/` in Cygwin. Replace *\<user>* in the example path with your username.)
 
-Now you're ready to [build **pokecrystal**](#build-pokecrystal).
+Now you're ready to [build **pokeselenite**](#build-pokeselenite).
 
 
 ## Mac OS X
@@ -72,7 +70,7 @@ git clone --depth=1 https://github.com/rednex/rgbds
 sudo make -C rgbds CFLAGS=-O2 install
 ```
 
-Now you're ready to [build **pokecrystal**](#build-pokecrystal).
+Now you're ready to [build **pokeselenite**](#build-pokeselenite).
 
 
 ## Linux
@@ -81,7 +79,7 @@ Open **Terminal** and enter the following commands, depending on which distro yo
 
 ### Debian or Ubuntu
 
-To install the software required for **pokecrystal**:
+To install the software required for **pokeselenite**:
 
 ```bash
 sudo apt-get install make gcc git
@@ -97,7 +95,7 @@ sudo make -C rgbds CFLAGS=-O2 install
 
 ### OpenSUSE
 
-To install the software required for **pokecrystal**:
+To install the software required for **pokeselenite**:
 
 ```bash
 sudo zypper install make gcc git
@@ -113,7 +111,7 @@ sudo make -C rgbds CFLAGS=-O2 install
 
 ### Arch Linux
 
-To install the software required for **pokecrystal**:
+To install the software required for **pokeselenite**:
 
 ```bash
 sudo pacman -S make gcc git
@@ -131,7 +129,7 @@ sudo make -C rgbds CFLAGS=-O2 install
 
 ### Termux
 
-To install the software required for **pokecrystal**:
+To install the software required for **pokeselenite**:
 
 ```bash
 sudo apt install make clang git sed
@@ -166,26 +164,20 @@ git clone --depth=1 https://github.com/rednex/rgbds
 sudo make -C rgbds CFLAGS=-O2 install
 ```
 
-Now you're ready to [build **pokecrystal**](#build-pokecrystal).
+Now you're ready to [build **pokeselenite**](#build-pokeselenite).
 
 
-## Build pokecrystal
+## Build pokeselenite
 
-To download the **pokecrystal** source files:
+To download the **pokeselenite** source files:
 
 ```bash
-git clone https://github.com/pret/pokecrystal
-cd pokecrystal
+git clone https://github.com/i0brendan0/pokeselenite
+cd pokeselenite
 ```
 
-To build **pokecrystal.gbc**:
+To build **pokeselenite.gbc**:
 
 ```bash
 make
-```
-
-To build **pokecrystal11.gbc**:
-
-```bash
-make crystal11
 ```

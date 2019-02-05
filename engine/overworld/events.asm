@@ -137,8 +137,7 @@ EnterMap:
 
 UnusedWait30Frames:
 	ld c, 30
-	call DelayFrames
-	ret
+	jp DelayFrames
 
 HandleMap:
 	call ResetOverworldDelay
@@ -154,8 +153,7 @@ HandleMap:
 	call HandleMapObjects
 	call NextOverworldFrame
 	call HandleMapBackground
-	call CheckPlayerState
-	ret
+	jp CheckPlayerState
 
 MapEvents:
 	ld a, [wMapEventStatus]
@@ -190,8 +188,7 @@ NextOverworldFrame:
 	and a
 	ret z
 	ld c, a
-	call DelayFrames
-	ret
+	jp DelayFrames
 
 HandleMapTimeAndJoypad:
 	ld a, [wMapEventStatus]
@@ -200,14 +197,12 @@ HandleMapTimeAndJoypad:
 
 	call UpdateTime
 	call GetJoypad
-	call TimeOfDayPals
-	ret
+	jp TimeOfDayPals
 
 HandleMapObjects:
 	farcall HandleNPCStep ; engine/map_objects.asm
 	farcall _HandlePlayerStep
-	call _CheckObjectEnteringVisibleRange
-	ret
+	jp _CheckObjectEnteringVisibleRange
 
 HandleMapBackground:
 	farcall _UpdateSprites
@@ -337,7 +332,6 @@ CheckTileEvent:
 
 	call RandomEncounter
 	ret c
-	jr .ok ; pointless
 
 .ok
 	xor a
@@ -367,8 +361,7 @@ CheckTileEvent:
 	ld h, [hl]
 	ld l, a
 	call GetMapScriptsBank
-	call CallScript
-	ret
+	jp CallScript
 
 CheckWildEncounterCooldown::
 	ld hl, wWildEncounterCooldown
@@ -399,8 +392,7 @@ SetMinTwoStepWildEncounterCooldown:
 Dummy_CheckScriptFlags3Bit5:
 	call CheckBit5_ScriptFlags3
 	ret z
-	call ret_2f3e
-	ret
+	jp ret_2f3e
 
 RunSceneScript:
 	ld a, [wCurMapSceneScriptCount]
@@ -555,7 +547,6 @@ TryObjectEvent:
 	ld a, [hl]
 	and %00001111
 
-; Bug: If IsInArray returns nc, data at bc will be executed as code.
 	push bc
 	ld de, 3
 	ld hl, .pointers
@@ -570,7 +561,7 @@ TryObjectEvent:
 	jp hl
 
 .nope_bugged
-	; pop bc
+	pop bc
 	xor a
 	ret
 
@@ -592,8 +583,7 @@ TryObjectEvent:
 	ld h, [hl]
 	ld l, a
 	call GetMapScriptsBank
-	call CallScript
-	ret
+	jp CallScript
 
 .itemball
 	ld hl, MAPOBJECT_SCRIPT_POINTER
@@ -665,7 +655,6 @@ TryBGEvent:
 	jr .checkdir
 .left
 	ld b, OW_LEFT
-	jr .checkdir
 
 .checkdir
 	ld a, [wPlayerDirection]
@@ -1110,8 +1099,7 @@ TryTileCollisionEvent::
 
 .surf
 	farcall TrySurfOW
-	jr nc, .noevent
-	jr .done
+	jr c, .done
 
 .noevent
 	xor a
@@ -1541,8 +1529,7 @@ CmdQueue_Type4:
 	add hl, bc
 	ld a, [hl]
 	ldh [hSCY], a
-	call _DelCmdQueue
-	ret
+	jp _DelCmdQueue
 
 CmdQueue_Type3:
 	call CmdQueueAnonymousJumptable

@@ -386,6 +386,7 @@ AI_Smart:
 	dbw EFFECT_SOLARBEAM,        AI_Smart_Solarbeam
 	dbw EFFECT_THUNDER,          AI_Smart_Thunder
 	dbw EFFECT_FLY,              AI_Smart_Fly
+	dbw EFFECT_VITAL_THROW,      AI_Smart_AlwaysHit
 	db -1 ; end
 
 AI_Smart_Sleep:
@@ -1740,7 +1741,7 @@ AI_Smart_MeanLook:
 
 ; 80% chance to greatly encourage this move if the enemy is badly poisoned (buggy).
 ; Should check wPlayerSubStatus5 instead.
-	ld a, [wEnemySubStatus5]
+	ld a, [wPlayerSubStatus5]
 	bit SUBSTATUS_TOXIC, a
 	jr nz, .asm_38e26
 
