@@ -605,9 +605,9 @@ TrainerCard_JohtoBadgesOAM:
 
 CardStatusGFX: INCBIN "gfx/trainer_card/card_status.2bpp"
 
-LeaderGFX:  INCBIN "gfx/trainer_card/leaders.2bpp"
-LeaderGFX2: INCBIN "gfx/trainer_card/leaders.2bpp"
-BadgeGFX:   INCBIN "gfx/trainer_card/badges.2bpp"
+LeaderGFX:
+LeaderGFX2: INCLUDE "gfx/trainer_card/leaders/leaders.asm"
+BadgeGFX:
 BadgeGFX2:  INCBIN "gfx/trainer_card/badges.2bpp"
 
 CardRightCornerGFX: INCBIN "gfx/trainer_card/card_right_corner.2bpp"
