@@ -951,7 +951,7 @@ LoveBallMultiplier:
 	pop de
 	cp d
 	pop bc
-	ret n
+	ret nc
 
 	sla b
 	jr c, .max
