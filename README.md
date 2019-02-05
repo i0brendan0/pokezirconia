@@ -1,6 +1,6 @@
-# Pokémon Selenite [![Build Status][travis-badge]][travis]
+# Pokémon Cubit Zirconia [![Build Status][travis-badge]][travis]
 
-This is a disassembly of Pokémon Selenite.
+This is a disassembly of Pokémon Cubit Zirconia.
 
 To set up the repository, see [INSTALL.md](INSTALL.md).
 

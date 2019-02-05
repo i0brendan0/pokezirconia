@@ -1,15 +1,15 @@
 # Instructions
 
-These instructions explain how to set up the tools required to build **pokeselenite**, including [**rgbds**](https://github.com/rednex/rgbds), which assembles the source files into a ROM.
+These instructions explain how to set up the tools required to build **pokezirconia**, including [**rgbds**](https://github.com/rednex/rgbds), which assembles the source files into a ROM.
 
 
 ## Windows 10
 
 Download and install [**Windows Subsystem for Linux**](https://docs.microsoft.com/en-us/windows/wsl/install-win10). Then open the **WSL terminal**.
 
-WSL has its own file system that's not accessible from Windows, but Windows files *are* accessible from WSL. So you're going to want to install pokecrystal within Windows. You'll have to change the **current working directory** every time you open WSL.
+WSL has its own file system that's not accessible from Windows, but Windows files *are* accessible from WSL. So you're going to want to install pokezirconia within Windows. You'll have to change the **current working directory** every time you open WSL.
 
-For example, if you want to store pokecrystal in **C:\Users\\*\<user>*\Desktop**, enter this command:
+For example, if you want to store pokezirconia in **C:\Users\\*\<user>*\Desktop**, enter this command:
 
 ```bash
 cd /mnt/c/Users/<user>/Desktop
@@ -40,9 +40,9 @@ Then download [**rgbds**](https://github.com/rednex/rgbds/releases/): the latest
 
 Now open the **Cygwin terminal** and enter the following commands.
 
-Cygwin has its own file system that's within Windows, at **C:\cygwin64\home\\*\<user>***. If you don't want to store pokeselenite there, you'll have to change the **current working directory** every time you open Cygwin.
+Cygwin has its own file system that's within Windows, at **C:\cygwin64\home\\*\<user>***. If you don't want to store pokezirconia there, you'll have to change the **current working directory** every time you open Cygwin.
 
-For example, if you want to store pokeselenite in **C:\Users\\*\<user>*\Desktop**:
+For example, if you want to store pokezirconia in **C:\Users\\*\<user>*\Desktop**:
 
 ```bash
 cd /cygdrive/c/Users/<user>/Desktop
@@ -50,7 +50,7 @@ cd /cygdrive/c/Users/<user>/Desktop
 
 (The Windows `C:\` drive is called `/cygdrive/c/` in Cygwin. Replace *\<user>* in the example path with your username.)
 
-Now you're ready to [build **pokeselenite**](#build-pokeselenite).
+Now you're ready to [build **pokezirconia**](#build-pokezirconia).
 
 
 ## Mac OS X
@@ -70,7 +70,7 @@ git clone --depth=1 https://github.com/rednex/rgbds
 sudo make -C rgbds CFLAGS=-O2 install
 ```
 
-Now you're ready to [build **pokeselenite**](#build-pokeselenite).
+Now you're ready to [build **pokezirconia**](#build-pokezirconia).
 
 
 ## Linux
@@ -79,7 +79,7 @@ Open **Terminal** and enter the following commands, depending on which distro yo
 
 ### Debian or Ubuntu
 
-To install the software required for **pokeselenite**:
+To install the software required for **pokezirconia**:
 
 ```bash
 sudo apt-get install make gcc git
@@ -95,7 +95,7 @@ sudo make -C rgbds CFLAGS=-O2 install
 
 ### OpenSUSE
 
-To install the software required for **pokeselenite**:
+To install the software required for **pokezirconia**:
 
 ```bash
 sudo zypper install make gcc git
@@ -111,7 +111,7 @@ sudo make -C rgbds CFLAGS=-O2 install
 
 ### Arch Linux
 
-To install the software required for **pokeselenite**:
+To install the software required for **pokezirconia**:
 
 ```bash
 sudo pacman -S make gcc git
@@ -129,7 +129,7 @@ sudo make -C rgbds CFLAGS=-O2 install
 
 ### Termux
 
-To install the software required for **pokeselenite**:
+To install the software required for **pokezirconia**:
 
 ```bash
 sudo apt install make clang git sed
@@ -164,19 +164,19 @@ git clone --depth=1 https://github.com/rednex/rgbds
 sudo make -C rgbds CFLAGS=-O2 install
 ```
 
-Now you're ready to [build **pokeselenite**](#build-pokeselenite).
+Now you're ready to [build **pokezirconia**](#build-pokezirconia).
 
 
-## Build pokeselenite
+## Build pokezirconia
 
-To download the **pokeselenite** source files:
+To download the **pokezirconia** source files:
 
 ```bash
-git clone https://github.com/i0brendan0/pokeselenite
-cd pokeselenite
+git clone https://github.com/i0brendan0/pokezirconia
+cd pokezirconia
 ```
 
-To build **pokeselenite.gbc**:
+To build **pokezirconia.gbc**:
 
 ```bash
 make
