@@ -1,6 +1,6 @@
 roms := pokezirconia.gbc
 
-crystal_obj := \
+zirconia_obj := \
 audio.o \
 home.o \
 main.o \
@@ -35,7 +35,7 @@ RGBLINK ?= $(RGBDS)rgblink
 ### Build targets
 
 .SUFFIXES:
-.PHONY: all zirconia clean tidy compare tools
+.PHONY: all zirconia clean tidy tools
 .SECONDEXPANSION:
 .PRECIOUS:
 .SECONDARY:
@@ -44,23 +44,20 @@ all: zirconia
 zirconia: pokezirconia.gbc
 
 clean:
-	rm -f $(roms) $(crystal_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym)
+	rm -f $(roms) $(zirconia_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym)
 	find gfx \( -name "*.[12]bpp" -o -name "*.lz" -o -name "*.gbcpal" \) -delete
 	find gfx/pokemon -mindepth 1 ! -path "gfx/pokemon/unown/*" \( -name "bitmask.asm" -o -name "frames.asm" -o -name "front.animated.tilemap" -o -name "front.dimensions" \) -delete
 	$(MAKE) clean -C tools/
 
 tidy:
-	rm -f $(roms) $(crystal_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym)
+	rm -f $(roms) $(zirconia_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym)
 	$(MAKE) clean -C tools/
-
-compare: $(roms)
-	@$(SHA1) -c roms.sha1
 
 tools:
 	$(MAKE) -C tools/
 
 
-$(crystal_obj):   RGBASMFLAGS = -D _CRYSTAL
+$(zirconia_obj):   RGBASMFLAGS = -D _CRYSTAL
 
 # The dep rules have to be explicit or else missing files won't be reported.
 # As a side effect, they're evaluated immediately instead of when the rule is invoked.
@@ -76,13 +73,13 @@ ifeq (,$(filter clean tools,$(MAKECMDGOALS)))
 
 $(info $(shell $(MAKE) -C tools))
 
-$(foreach obj, $(crystal_obj), $(eval $(call DEP,$(obj),$(obj:.o=.asm))))
+$(foreach obj, $(zirconia_obj), $(eval $(call DEP,$(obj),$(obj:.o=.asm))))
 
 endif
 
 
-pokezirconia.gbc: $(crystal_obj) pokecrystal.link
-	$(RGBLINK) -n pokezirconia.sym -m pokezirconia.map -l pokecrystal.link -o $@ $(crystal_obj)
+pokezirconia.gbc: $(zirconia_obj) pokecrystal.link
+	$(RGBLINK) -n pokezirconia.sym -m pokezirconia.map -l pokecrystal.link -o $@ $(zirconia_obj)
 	$(RGBFIX) -Cjv -i PKCZ -k 01 -l 0x33 -m 0x10 -p 0 -r 3 -t PM_CUBZIRC $@
 	tools/sort_symfile.sh pokezirconia.sym
 
