@@ -4,7 +4,7 @@ UNION ; a000
 sScratch:: ds $600 ; a000
 
 NEXTU ; a000
-xEnemyFrontpicTileCount:: db
+sEnemyFrontpicTileCount:: db
 sPaddedEnemyFrontpic:: ds 7 * 7 tiles
 ENDU ; a600
 
