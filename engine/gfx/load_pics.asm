@@ -92,7 +92,7 @@ _GetFrontpic:
 	ld a, BANK(wDecompressScratch)
 	ldh [rSVBK], a
 	ld a, b
-	ld de, wDecompressEnemyScratch
+	ld de, wDecompressScratch
 	call FarDecompress
 	; Save decompressed size
 	swap e
