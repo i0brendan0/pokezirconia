@@ -2802,7 +2802,7 @@ SpeciesItemBoost:
 	jr z, .GetItemHeldEffect
 	cp c
 	jr z, .GetItemHeldEffect
-	cd d
+	cp d
 	ret nz
 
 .GetItemHeldEffect:
