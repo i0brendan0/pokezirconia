@@ -100,7 +100,7 @@ BattleCommand_BeatUp:
 .enemy_got_mon
 	ld a, [wBattleMode]
 	dec a
-	jr z, .wild
+	jp z, .wild
 
 	ld a, [wLinkMode]
 	and a
