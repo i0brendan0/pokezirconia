@@ -79,7 +79,7 @@ NamingScreen:
 	dw .Rival
 	dw .Mom
 	dw .Box
-	dw .Tomodachi
+	dw .Pokemon
 	dw .Pokemon
 	dw .Pokemon
 
@@ -179,16 +179,6 @@ NamingScreen:
 
 .BoxNameString:
 	db "BOX NAME?@"
-
-.Tomodachi:
-	hlcoord 3, 2
-	ld de, .oTomodachi_no_namae_sutoringu
-	call PlaceString
-	call .StoreSpriteIconParams
-	ret
-
-.oTomodachi_no_namae_sutoringu
-	db "おともだち　の　なまえは？@"
 
 .LoadSprite:
 	push de
@@ -698,17 +688,6 @@ NamingScreen_AdvanceCursor_CheckEndOfString:
 	scf
 	ret
 
-; unused
-	ld a, [wNamingScreenCurNameLength]
-	and a
-	ret z
-	push hl
-	ld hl, wNamingScreenCurNameLength
-	dec [hl]
-	call NamingScreen_GetTextCursorPosition
-	ld c, [hl]
-	pop hl
-
 .loop
 	ld a, [hli]
 	cp $ff
@@ -721,8 +700,6 @@ NamingScreen_AdvanceCursor_CheckEndOfString:
 .done
 	ld a, [hl]
 	jr NamingScreen_LoadNextCharacter
-
-INCLUDE "data/text/unused_dakutens.asm"
 
 NamingScreen_DeleteCharacter:
 	ld hl, wNamingScreenCurNameLength
@@ -974,9 +951,6 @@ INCBIN "gfx/icons/mail_big.2bpp"
 	ld a, MAIL_MSG_LENGTH + 1
 	ld [wNamingScreenMaxNameLength], a
 	ret
-
-.UnusedString11f7a:
-	db "メールを　かいてね@"
 
 .InitCharset:
 	call WaitTop

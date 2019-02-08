@@ -150,16 +150,6 @@ BattleCommand_BeatUp:
 
 	ld a, $1
 	ld [wBeatUpHitAtLeastOnce], a
-	jr .finish_beatup
-
-.wild
-	ld a, [wEnemyMonSpecies]
-	ld [wNamedObjectIndexBuffer], a
-	call GetPokemonName
-	ld hl, BeatUpAttackText
-	call StdBattleTextBox
-	jp EnemyAttackDamage
-
 .finish_beatup
 	ld hl, BeatUpAttackText
 	call StdBattleTextBox
@@ -190,6 +180,15 @@ BattleCommand_BeatUp:
 	ld a, [wEnemyMoveStructPower]
 	ld d, a
 	ret
+
+
+.wild
+	ld a, [wEnemyMonSpecies]
+	ld [wNamedObjectIndexBuffer], a
+	call GetPokemonName
+	ld hl, BeatUpAttackText
+	call StdBattleTextBox
+	jp EnemyAttackDamage
 
 .beatup_fail
 	ld b, buildopponentrage_command

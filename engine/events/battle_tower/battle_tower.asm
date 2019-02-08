@@ -64,8 +64,7 @@ Function170114:
 	ld bc, $f6 ; 246
 	call CopyBytes
 	call CloseSRAM
-	call Function170c8b
-	ret
+	jp Function170c8b
 
 Function170139:
 ; Convert the 4-digit decimal number at 5:aa41 into binary
@@ -160,8 +159,7 @@ Function170139:
 	ld de, $a948
 	ld bc, $f6
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 .DecToBin:
 	ld a, [de]
@@ -178,8 +176,7 @@ Function170139:
 BattleTowerBattle:
 	xor a
 	ld [wBattleTowerBattleEnded], a
-	call _BattleTowerBattle
-	ret
+	jp _BattleTowerBattle
 
 DummySpecial_17021d:
 	ret
@@ -603,8 +600,7 @@ Function1704e1:
 	call FadeToMenu
 	call InitBattleTowerChallengeRAM
 	call .JumptableLoop
-	call CloseSubmenu
-	ret
+	jp CloseSubmenu
 
 .JumptableLoop:
 	call ClearBGPalettes
@@ -696,8 +692,7 @@ Function1704e1:
 	ret z
 	sub 15
 	ld [wNrOfBeatenBattleTowerTrainers], a
-	call .PlaceTextItems
-	ret
+	jp .PlaceTextItems
 
 .pressed_down
 	ld a, [wNrOfBeatenBattleTowerTrainers]
@@ -705,8 +700,7 @@ Function1704e1:
 	ret z
 	add 15
 	ld [wNrOfBeatenBattleTowerTrainers], a
-	call .PlaceTextItems
-	ret
+	jp .PlaceTextItems
 
 .pressed_a_or_b
 	ld hl, wJumptableIndex
@@ -925,9 +919,7 @@ ResetBattleTowerTrainersSRAM: ; BattleTowerAction $1a
 	xor a
 	ld [sNrOfBeatenBattleTowerTrainers], a
 
-	call CloseSRAM
-
-	ret
+	jp CloseSRAM
 
 BattleTower_GiveReward: ; BattleTowerAction $1b
 	ld a, BANK(sBattleTowerReward)
@@ -963,16 +955,14 @@ Function17071b: ; BattleTowerAction $1c
 	call GetSRAMBank
 	ld a, BATTLETOWER_WON_CHALLENGE
 	ld [sBattleTowerChallengeState], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function170729: ; BattleTowerAction $1d
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
 	ld a, BATTLETOWER_RECEIVED_REWARD
 	ld [sBattleTowerChallengeState], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTower_SaveOptions: ; BattleTowerAction $1f
 	farcall SaveOptions
@@ -996,8 +986,7 @@ BattleTower_RandomlyChooseReward: ; BattleTowerAction $1e
 	call GetSRAMBank
 	pop af
 	ld [sBattleTowerReward], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTowerAction_CheckExplanationRead: ; BattleTowerAction $00
 	call BattleTower_CheckSaveFileExistsAndIsYours
@@ -1010,8 +999,7 @@ BattleTowerAction_CheckExplanationRead: ; BattleTowerAction $00
 	ld a, [sBattleTowerSaveFileFlags]
 	and $2
 	ld [wScriptVar], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTowerAction_GetChallengeState: ; BattleTowerAction $02
 	ld hl, sBattleTowerChallengeState
@@ -1019,8 +1007,7 @@ BattleTowerAction_GetChallengeState: ; BattleTowerAction $02
 	call GetSRAMBank
 	ld a, [hl]
 	ld [wScriptVar], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTowerAction_SetExplanationRead: ; BattleTowerAction $01
 	ld a, BANK(sBattleTowerSaveFileFlags)
@@ -1028,8 +1015,7 @@ BattleTowerAction_SetExplanationRead: ; BattleTowerAction $01
 	ld a, [sBattleTowerSaveFileFlags]
 	or $2
 	ld [sBattleTowerSaveFileFlags], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTowerAction_SetByteToQuickSaveChallenge: ; BattleTowerAction $03
 	ld c, BATTLETOWER_SAVED_AND_LEFT
@@ -1042,8 +1028,7 @@ asm_17079f:
 	call GetSRAMBank
 	ld a, c
 	ld [sBattleTowerChallengeState], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function1707ac: ; BattleTowerAction $05
 	ld a, $5
@@ -1093,8 +1078,7 @@ Function1707f4: ; BattleTowerAction $06
 	ld [$be46], a
 	ld [$aa8b], a
 	ld [$aa8c], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function170807: ; BattleTowerAction $16
 	call UpdateTime
@@ -1104,8 +1088,7 @@ Function170807: ; BattleTowerAction $16
 	ld [$b2f9], a
 	xor a
 	ld [$b2fa], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function17081d: ; BattleTowerAction $17
 	xor a
@@ -1147,8 +1130,7 @@ Function17081d: ; BattleTowerAction $17
 	xor a
 	ld [$b2f9], a
 	ld [$b2fa], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 SaveBattleTowerLevelGroup: ; BattleTowerAction $07
 	ld a, BANK(sBTChoiceOfLevelGroup)
@@ -1161,8 +1143,7 @@ SaveBattleTowerLevelGroup: ; BattleTowerAction $07
 	ld [sBTChoiceOfLevelGroup], a
 	pop af
 	ldh [rSVBK], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 LoadBattleTowerLevelGroup: ; BattleTowerAction $08 ; Load level group choice
 	ld a, BANK(sBTChoiceOfLevelGroup)
@@ -1175,8 +1156,7 @@ LoadBattleTowerLevelGroup: ; BattleTowerAction $08 ; Load level group choice
 	ld [wBTChoiceOfLvlGroup], a
 	pop af
 	ldh [rSVBK], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTower_CheckSaveFileExistsAndIsYours: ; BattleTowerAction $09
 	ld a, [wSaveFileExists]
@@ -1197,16 +1177,14 @@ BattleTower_CheckSaveFileExistsAndIsYours: ; BattleTowerAction $09
 Function1708b1: ; BattleTowerAction $0a
 	xor a
 	ld [wMusicFade], a
-	call MaxVolume
-	ret
+	jp MaxVolume
 
 CheckMobileEventIndex: ; BattleTowerAction $0b something to do with GS Ball
 	ld a, BANK(sMobileEventIndex)
 	call GetSRAMBank
 	ld a, [sMobileEventIndex]
 	ld [wScriptVar], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function1708c8: ; BattleTowerAction $0c
 	call UpdateTime
@@ -1224,8 +1202,7 @@ Function1708c8: ; BattleTowerAction $0c
 	ld a, $1
 	ld [$aa47], a
 .asm_1708ec
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function1708f0: ; BattleTowerAction $0d
 	xor a
@@ -1262,8 +1239,7 @@ Function170923:
 	ld hl, $aa5d
 	ld bc, $0011
 	call ByteFill
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTowerAction_EggTicket: ; BattleTowerAction $0e
 	xor a
@@ -1370,8 +1346,7 @@ Function1709bb: ; BattleTowerAction $10
 	call GetSRAMBank
 	xor a
 	ld [$a800], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 .jumptable:
 	dw .NoAction
@@ -1481,16 +1456,14 @@ asm_170aa2:
 	call GetSRAMBank
 	ld a, c
 	ld [$aa8d], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function170aaf: ; BattleTowerAction $13
 	ld a, $5
 	call GetSRAMBank
 	ld a, [$aa8d]
 	ld [wScriptVar], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function170abe: ; BattleTowerAction $14
 	call BattleTower_CheckSaveFileExistsAndIsYours
@@ -1503,8 +1476,7 @@ Function170abe: ; BattleTowerAction $14
 	ld a, [sBattleTowerSaveFileFlags]
 	and $1
 	ld [wScriptVar], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function170ad7: ; BattleTowerAction $15
 	ld a, BANK(sBattleTowerSaveFileFlags)
@@ -1512,8 +1484,7 @@ Function170ad7: ; BattleTowerAction $15
 	ld a, [sBattleTowerSaveFileFlags]
 	or $1
 	ld [sBattleTowerSaveFileFlags], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 BattleTowerAction_LevelCheck: ; BattleTowerAction $18
 	ld a, $5

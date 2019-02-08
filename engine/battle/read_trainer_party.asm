@@ -69,16 +69,14 @@ ReadTrainerParty:
 	push bc
 	jp hl
 
-.done
-	jp ComputeTrainerReward
-
 .cal2
 	ld a, BANK(sMysteryGiftTrainer)
 	call GetSRAMBank
 	ld de, sMysteryGiftTrainer
 	call TrainerType2
 	call CloseSRAM
-	jr .done
+.done
+	jp ComputeTrainerReward
 
 TrainerTypes:
 ; entries correspond to TRAINERTYPE_* constants

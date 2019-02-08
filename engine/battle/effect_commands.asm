@@ -1056,8 +1056,7 @@ BattleCommand_DoTurn:
 
 .mimic
 	ld hl, wWildMonPP
-	call .consume_pp
-	ret
+	jp .consume_pp
 
 .out_of_pp
 	call BattleCommand_MoveDelay
@@ -2457,9 +2456,6 @@ BattleCommand_CheckFaint:
 BattleCommand_BuildOpponentRage:
 ; buildopponentrage
 
-	jp .start
-
-.start
 	ld a, [wAttackMissed]
 	and a
 	ret nz
@@ -2783,8 +2779,8 @@ LightBallBoost:
 SpeciesItemBoost:
 ; Return in hl the stat value at hl.
 
-; If the attacking monster is species b or c and
-; it's holding item d, double it.
+; If the attacking monster is species b or c or d and
+; it's holding item e, double it.
 
 	ld a, [hli]
 	ld l, [hl]
@@ -2805,6 +2801,8 @@ SpeciesItemBoost:
 	cp b
 	jr z, .GetItemHeldEffect
 	cp c
+	jr z, .GetItemHeldEffect
+	cd d
 	ret nz
 
 .GetItemHeldEffect:
@@ -2812,7 +2810,7 @@ SpeciesItemBoost:
 	call GetUserItem
 	ld a, [hl]
 	pop hl
-	cp d
+	cp e
 	ret nz
 
 ; Double the stat
@@ -4199,7 +4197,6 @@ BattleCommand_AccuracyUp2:
 BattleCommand_EvasionUp2:
 ; evasionup2
 	ld b, $10 | EVASION
-	jr BattleCommand_StatUp
 
 BattleCommand_StatUp:
 ; statup
@@ -5662,28 +5659,26 @@ BattleCommand_Charge:
 	call GetBattleVar
 	cp RAZOR_WIND
 	ld hl, .RazorWind
-	jr z, .done
+	ret z
 
 	cp SOLARBEAM
 	ld hl, .Solarbeam
-	jr z, .done
+	ret z
 
 	cp SKULL_BASH
 	ld hl, .SkullBash
-	jr z, .done
+	ret z
 
 	cp SKY_ATTACK
 	ld hl, .SkyAttack
-	jr z, .done
+	ret z
 
 	cp FLY
 	ld hl, .Fly
-	jr z, .done
+	ret z
 
 	cp DIG
 	ld hl, .Dig
-
-.done
 	ret
 
 .RazorWind:
@@ -6103,12 +6098,11 @@ DoubleDamage:
 	sla [hl]
 	dec hl
 	rl [hl]
-	jr nc, .quit
+	ret nc
 
 	ld a, $ff
 	ld [hli], a
 	ld [hl], a
-.quit
 	ret
 
 INCLUDE "engine/battle/move_effects/mimic.asm"

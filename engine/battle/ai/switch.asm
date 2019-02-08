@@ -44,14 +44,13 @@ CheckPlayerMoveTypeMatchups:
 	ld e, 1
 	jr .next
 
-.neutral
-	ld e, 2
-	jr .next
-
 .super_effective
 	call .DecreaseScore
 	pop hl
 	jr .done
+	
+.neutral
+	ld e, 2
 
 .next
 	pop hl
@@ -157,7 +156,11 @@ CheckPlayerMoveTypeMatchups:
 	jr c, .DecreaseScore ; down
 	cp 100
 	ret c
-	jr .IncreaseScore ; up
+.IncreaseScore:
+	ld a, [wEnemyAISwitchScore]
+	inc a
+	ld [wEnemyAISwitchScore], a
+	ret
 
 .doubledown
 	call .DecreaseScore
@@ -167,11 +170,6 @@ CheckPlayerMoveTypeMatchups:
 	ld [wEnemyAISwitchScore], a
 	ret
 
-.IncreaseScore:
-	ld a, [wEnemyAISwitchScore]
-	inc a
-	ld [wEnemyAISwitchScore], a
-	ret
 
 CheckAbleToSwitch:
 	xor a
@@ -510,7 +508,6 @@ FindEnemyMonsWithASuperEffectiveMove:
 	ld a, d
 	or b
 	ld d, a
-	jr .next ; such a long jump
 
 .next
 	; next pokemon?

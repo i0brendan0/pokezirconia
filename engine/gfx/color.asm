@@ -96,15 +96,13 @@ Unreferenced_Function8aa4:
 	ld hl, wSGBPals
 	call PushSGBPals
 	ld hl, BlkPacket_9a86
-	call PushSGBPals
-	ret
+	jp PushSGBPals
 
 InitPartyMenuPalettes:
 	ld hl, PalPacket_PartyMenu + 1
 	call CopyFourPalettes
 	call InitPartyMenuOBPals
-	call WipeAttrMap
-	ret
+	jp WipeAttrMap
 
 ; SGB layout for SCGB_PARTY_MENU_HP_PALS
 SGB_ApplyPartyMenuHPPals:
@@ -234,8 +232,7 @@ Unreferenced_Function8b81:
 	ld de, wOBPals1
 	ld a, c
 	call GetMonPalettePointer
-	call LoadPalette_White_Col1_Col2_Black
-	ret
+	jp LoadPalette_White_Col1_Col2_Black
 
 LoadTrainerClassPaletteAsNthBGPal:
 	ld a, [wTrainerClass]
@@ -270,8 +267,7 @@ got_palette_pointer_8bd7
 	ld e, l
 	ld d, h
 	pop hl
-	call LoadPalette_White_Col1_Col2_Black
-	ret
+	jp LoadPalette_White_Col1_Col2_Black
 
 Unreferenced_Function8bec:
 	ldh a, [hCGB]
@@ -300,8 +296,7 @@ Unreferenced_Function8bec:
 	ld a, [wEnemySafeguardCount] ; value
 	and $3
 	call FillBoxCGB
-	call CopyTilemapAtOnce
-	ret
+	jp CopyTilemapAtOnce
 
 ApplyMonOrTrainerPals:
 	call CheckCGB
@@ -322,8 +317,7 @@ ApplyMonOrTrainerPals:
 	call LoadPalette_White_Col1_Col2_Black
 	call WipeAttrMap
 	call ApplyAttrMap
-	call ApplyPals
-	ret
+	jp ApplyPals
 
 ApplyHPBarPals:
 	ld a, [wWhichHPBar]
@@ -372,8 +366,7 @@ ApplyHPBarPals:
 .done
 	lb bc, 2, 8
 	ld a, e
-	call FillBoxCGB
-	ret
+	jp FillBoxCGB
 
 LoadStatsScreenPals:
 	call CheckCGB
@@ -428,8 +421,7 @@ LoadMailPalettes:
 	ld hl, wSGBPals
 	call PushSGBPals
 	ld hl, BlkPacket_9a86
-	call PushSGBPals
-	ret
+	jp PushSGBPals
 
 .cgb
 	ld de, wBGPals1
@@ -438,8 +430,7 @@ LoadMailPalettes:
 	call FarCopyWRAM
 	call ApplyPals
 	call WipeAttrMap
-	call ApplyAttrMap
-	ret
+	jp ApplyAttrMap
 
 .MailPals:
 INCLUDE "gfx/mail/mail.pal"
@@ -454,8 +445,7 @@ Unreferenced_Function95f0:
 	call FarCopyWRAM
 	call ApplyPals
 	call WipeAttrMap
-	call ApplyAttrMap
-	ret
+	jp ApplyAttrMap
 
 .Palette:
 	RGB 31, 31, 31
@@ -594,16 +584,14 @@ WipeAttrMap:
 	hlcoord 0, 0, wAttrMap
 	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
 	xor a
-	call ByteFill
-	ret
+	jp ByteFill
 
 ApplyPals:
 	ld hl, wBGPals1
 	ld de, wBGPals2
 	ld bc, 16 palettes
 	ld a, BANK(wGBCPalettes)
-	call FarCopyWRAM
-	ret
+	jp FarCopyWRAM
 
 ApplyAttrMap:
 	ldh a, [rLCDC]
@@ -671,16 +659,14 @@ CGB_ApplyPartyMenuHPPals:
 .done
 	lb bc, 2, 8
 	ld a, e
-	call FillBoxCGB
-	ret
+	jp FillBoxCGB
 
 InitPartyMenuOBPals:
 	ld hl, PartyMenuOBPals
 	ld de, wOBPals1
 	ld bc, 2 palettes
 	ld a, BANK(wOBPals1)
-	call FarCopyWRAM
-	ret
+	jp FarCopyWRAM
 
 GetBattlemonBackpicPalettePointer:
 	push de
@@ -733,27 +719,9 @@ GetTrainerPalettePointer:
 	ret
 
 GetMonPalettePointer:
-	call _GetMonPalettePointer
-	ret
+	jp _GetMonPalettePointer
 
 Unreferenced_Function9779:
-	ret
-	call CheckCGB
-	ret z
-	ld hl, BattleObjectPals
-	ld a, $90
-	ldh [rOBPI], a
-	ld c, 6 palettes
-.loop
-	ld a, [hli]
-	ldh [rOBPD], a
-	dec c
-	jr nz, .loop
-	ld hl, BattleObjectPals
-	ld de, wOBPals1 palette 2
-	ld bc, 2 palettes
-	ld a, BANK(wOBPals1)
-	call FarCopyWRAM
 	ret
 
 BattleObjectPals:
@@ -769,8 +737,6 @@ Unreferenced_Function97cc:
 	call .PushPalette
 	ld a, PREDEFPAL_RB_GREENMON
 	call GetPredefPal
-	call .PushPalette
-	ret
 
 .PushPalette:
 	ld c, 1 palettes
@@ -988,8 +954,7 @@ PushSGBBorder:
 	push de
 	call SGBBorder_YetMorePalPushing
 	pop hl
-	call SGBBorder_MorePalPushing
-	ret
+	jp SGBBorder_MorePalPushing
 
 .LoadSGBBorderPointers:
 	ld hl, SGBBorder
@@ -1000,8 +965,7 @@ SGB_ClearVRAM:
 	ld hl, VRAM_Begin
 	ld bc, VRAM_End - VRAM_Begin
 	xor a
-	call ByteFill
-	ret
+	jp ByteFill
 
 PushSGBBorderPalsAndWait:
 	ld hl, MltReq2Packet
@@ -1307,8 +1271,7 @@ endr
 	ld de, wBGPals1 palette PAL_BG_ROOF color 1
 	ld bc, 4
 	ld a, BANK(wBGPals1)
-	call FarCopyWRAM
-	ret
+	jp FarCopyWRAM
 
 INCLUDE "data/maps/environment_colors.asm"
 

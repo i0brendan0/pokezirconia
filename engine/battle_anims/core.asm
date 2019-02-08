@@ -17,8 +17,7 @@ QueueBattleAnimation:
 	ld b, h
 	ld hl, wNumActiveBattleAnims
 	inc [hl]
-	call InitBattleAnimation
-	ret
+	jp InitBattleAnimation
 
 DeinitBattleAnimation:
 	ld hl, BATTLEANIMSTRUCT_INDEX

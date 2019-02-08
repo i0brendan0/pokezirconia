@@ -62,8 +62,7 @@ JumpText_ExcuseMeYoureNotReady:
 
 BattleTower_PleaseReturnWhenReady:
 	ld hl, .PleaseReturnWhenReady
-	call PrintText
-	ret
+	jp PrintText
 
 .PleaseReturnWhenReady:
 	; Please return when you're ready.
@@ -221,8 +220,7 @@ Function_PartyCountEq3:
 
 Function_PartySpeciesAreUnique:
 	ld hl, wPartyMon1Species
-	call VerifyUniqueness
-	ret
+	jp VerifyUniqueness
 
 VerifyUniqueness:
 	ld de, wPartyCount

@@ -30,7 +30,13 @@ DetermineLinkBattleResult:
 	cp h
 	jr c, .victory
 	jr z, .compare_lo
-	jr .defeat
+
+.defeat
+	ld a, [wBattleResult]
+	and $f0
+	add LOSE
+	ld [wBattleResult], a
+	ret
 
 .compare_lo
 	ld a, e
@@ -42,13 +48,6 @@ DetermineLinkBattleResult:
 	ld a, [wBattleResult]
 	and $f0
 	ld [wBattleResult], a ; WIN
-	ret
-
-.defeat
-	ld a, [wBattleResult]
-	and $f0
-	add LOSE
-	ld [wBattleResult], a
 	ret
 
 .drawn

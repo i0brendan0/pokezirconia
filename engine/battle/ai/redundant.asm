@@ -168,7 +168,9 @@ AI_Redundant:
 	ld a, [wBattleMonStatus]
 	and SLP
 	jr z, .Redundant
-	jr .NotRedundant
+.NotRedundant:
+	xor a
+	ret
 
 .Swagger:
 	ld a, [wPlayerSubStatus3]
@@ -191,8 +193,4 @@ AI_Redundant:
 .Redundant:
 	ld a, 1
 	and a
-	ret
-
-.NotRedundant:
-	xor a
 	ret

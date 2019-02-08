@@ -39,8 +39,7 @@ AI_SwitchOrTryItem:
 	; fallthrough
 
 DontSwitch:
-	call AI_TryItem
-	ret
+	jp AI_TryItem
 
 SwitchOften:
 	callfar CheckAbleToSwitch
@@ -488,17 +487,17 @@ AI_Items:
 	jr nz, .notfirstturnout
 	ld a, [bc]
 	bit ALWAYS_USE_F, a
-	jp nz, .Use
+	jr nz, .Use
 	call Random
 	cp 50 percent + 1
 	jp c, .DontUse
 	ld a, [bc]
 	bit CONTEXT_USE_F, a
-	jp nz, .Use
+	jr nz, .Use
 	call Random
 	cp 50 percent + 1
 	jp c, .DontUse
-	jp .Use
+	jr .Use
 .notfirstturnout
 	ld a, [bc]
 	bit ALWAYS_USE_F, a
@@ -506,14 +505,12 @@ AI_Items:
 	call Random
 	cp 20 percent - 1
 	jp nc, .DontUse
-	jp .Use
+.Use:
+	and a
+	ret
 
 .DontUse:
 	scf
-	ret
-
-.Use:
-	and a
 	ret
 
 AIUpdateHUD:

@@ -95,8 +95,7 @@ _UnownPrinter:
 	ld [wOptions], a
 	pop af
 	ldh [hInMenu], a
-	call ReturnToMapFromSubmenu
-	ret
+	jp ReturnToMapFromSubmenu
 
 .LeftRight:
 	ldh a, [hJoyLast]
@@ -127,8 +126,7 @@ _UnownPrinter:
 	inc [hl]
 
 .return
-	call .UpdateUnownFrontpic
-	ret
+	jp .UpdateUnownFrontpic
 
 .UpdateUnownFrontpic:
 	ld a, [wJumptableIndex]
@@ -193,8 +191,7 @@ _UnownPrinter:
 	call Get2bpp
 	call CloseSRAM
 	ld c, 20
-	call DelayFrames
-	ret
+	jp DelayFrames
 
 AlphRuinsStampString:
 	db " ALPH RUINS STAMP@"

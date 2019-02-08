@@ -432,8 +432,7 @@ DummyGame_PlaceCard:
 	inc a
 	ld [hl], a
 	ld c, 3
-	call DelayFrames
-	ret
+	jp DelayFrames
 
 DummyGame_DeleteCard:
 	ld a, $1
@@ -444,8 +443,7 @@ DummyGame_DeleteCard:
 	ld [hli], a
 	ld [hl], a
 	ld c, 3
-	call DelayFrames
-	ret
+	jp DelayFrames
 
 DummyGame_InitStrings:
 	hlcoord 0, 0
@@ -459,8 +457,7 @@ DummyGame_InitStrings:
 	ld de, .japstr2
 	call PlaceString
 	ld hl, .dummy_text
-	call PrintText
-	ret
+	jp PrintText
 
 .dummy_text
 	db "@"

@@ -6,27 +6,30 @@ ENDM
 OddEggProbabilities:
 prob_total = 0
 ; Pichu
-	prob 8
-	prob 1
+	prob 7
+	prob 7
 ; Cleffa
-	prob 16
-	prob 3
+	prob 7
+	prob 7
 ; Igglybuff
-	prob 16
-	prob 3
+	prob 7
+	prob 7
 ; Smoochum
-	prob 14
-	prob 2
+	prob 7
+	prob 7
 ; Magby
-	prob 10
-	prob 2
+	prob 7
+	prob 7
 ; Elekid
-	prob 12
-	prob 2
+	prob 7
+	prob 7
 ; Tyrogue
-	prob 10
+	prob 7
+	prob 7
+; Celebi
 	prob 1
-
+; Mew
+	prob 1
 OddEggs:
 
 	db PICHU

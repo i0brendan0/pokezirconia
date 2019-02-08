@@ -1,22 +1,5 @@
 INCLUDE "gfx/font.asm"
 
-; This and the following two functions are unreferenced.
-; Debug, perhaps?
-Unreferenced_fb434:
-	db 0
-
-Unreferenced_Functionfb435:
-	ld a, [Unreferenced_fb434]
-	and a
-	jp nz, Get1bpp_2
-	jp Get1bpp
-
-Unreferenced_Functionfb43f:
-	ld a, [Unreferenced_fb434]
-	and a
-	jp nz, Get2bpp_2
-	jp Get2bpp
-; End unreferenced block
 
 _LoadStandardFont::
 	ld de, Font
@@ -34,8 +17,7 @@ _LoadStandardFont::
 	ld de, Font + 96 * LEN_1BPP_TILE
 	ld hl, vTiles1 tile $60
 	lb bc, BANK(Font), 32 ; "'" to "9"
-	call Get1bpp_2
-	ret
+	jp Get1bpp_2
 
 _LoadFontsExtra1::
 	jr LoadFrame
@@ -64,8 +46,7 @@ LoadFrame:
 	ld hl, vTiles2 tile " " ; $7f
 	ld de, TextBoxSpaceGFX
 	lb bc, BANK(TextBoxSpaceGFX), 1
-	call Get1bpp_2
-	ret
+	jp Get1bpp_2
 
 LoadBattleFontsHPBar:
 	ld de, FontBattleExtra
@@ -94,8 +75,7 @@ LoadHPBar:
 	ld de, MobilePhoneTilesGFX + 7 tiles ; mobile phone icon
 	ld hl, vTiles2 tile $5e
 	lb bc, BANK(MobilePhoneTilesGFX), 2
-	call Get2bpp_2
-	ret
+	jp Get2bpp_2
 
 StatsScreen_LoadFont:
 	call _LoadFontsBattleExtra
@@ -119,5 +99,4 @@ LoadStatsScreenPageTilesGFX:
 	ld de, StatsScreenPageTilesGFX
 	ld hl, vTiles2 tile $31
 	lb bc, BANK(StatsScreenPageTilesGFX), 17
-	call Get2bpp_2
-	ret
+	jp Get2bpp_2

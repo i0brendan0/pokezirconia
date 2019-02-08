@@ -45,7 +45,13 @@ ProtectChance:
 	ld a, b
 	and a
 	jr nz, .loop
-	jr .failed
+.failed
+	xor a
+	ld [de], a
+	call AnimateFailedMove
+	call PrintButItFailed
+	scf
+	ret
 .done
 
 .rand
@@ -64,12 +70,4 @@ ProtectChance:
 	ld [de], a
 
 	and a
-	ret
-
-.failed
-	xor a
-	ld [de], a
-	call AnimateFailedMove
-	call PrintButItFailed
-	scf
 	ret
