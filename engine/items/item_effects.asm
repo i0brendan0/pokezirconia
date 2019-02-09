@@ -1149,7 +1149,7 @@ VitaminEffect:
 
 	call RareCandy_StatBooster_GetParameters
 
-	call call GetEVRelativePointer
+	call GetEVRelativePointer
 
 	ld a, MON_EVS
 	call GetPartyParamLocation
@@ -1163,7 +1163,7 @@ VitaminEffect:
 	ld [hl], a
 	call UpdateStatsAfterItem
 
-	call call GetEVRelativePointer
+	call GetEVRelativePointer
 
 	ld hl, StatStrings
 	add hl, bc
