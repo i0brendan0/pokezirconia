@@ -7007,12 +7007,9 @@ GiveExperiencePoints:
 	add a
 .no_pokerus_boost
 	add [hl]
-	jr c, .ev_overflow
-	cp MAX_EV + 1
-	jr c, .got_ev
-.ev_overflow
-	ld a, MAX_EV
-.got_ev
+	jr nc, .no_overflow
+	ld a, $ff
+.no_overflow
 	ld [hli], a
 	dec c
 	jr z, .evs_done
