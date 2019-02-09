@@ -104,6 +104,30 @@ ReadTrainerPartyPieces:
 	push hl
 	predef TryAddMonToParty
 	pop hl
+	
+; id
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1ID
+	call .copy_loc_to_de
+	pop hl
+	
+	call .copy_byte_inc_de
+	call .copy_byte_inc_de
+
+; personality
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1Personality
+	call .copy_loc_to_de
+	pop hl
+
+	call .copy_byte_inc_de
+	call .copy_byte_inc_de
 
 ; nickname?
 	ld a, [wOtherTrainerType]
@@ -114,9 +138,7 @@ ReadTrainerPartyPieces:
 
 	ld de, wStringBuffer2
 .copy_nickname
-	call GetNextTrainerDataByte
-	ld [de], a
-	inc de
+	call .copy_byte_inc_de
 	cp "@"
 	jr nz, .copy_nickname
 
@@ -145,9 +167,7 @@ ReadTrainerPartyPieces:
 	ld a, [wOTPartyCount]
 	dec a
 	ld hl, wOTPartyMon1DVs
-	call GetPartyLocation
-	ld d, h
-	ld e, l
+	call .copy_loc_to_de
 	pop hl
 
 ; When reading DVs, treat PERFECT_DV as $ff
@@ -175,9 +195,7 @@ ReadTrainerPartyPieces:
 	ld a, [wOTPartyCount]
 	dec a
 	ld hl, wOTPartyMon1Item
-	call GetPartyLocation
-	ld d, h
-	ld e, l
+	call .copy_loc_to_de
 	pop hl
 
 	call GetNextTrainerDataByte
@@ -193,16 +211,12 @@ ReadTrainerPartyPieces:
 	ld a, [wOTPartyCount]
 	dec a
 	ld hl, wOTPartyMon1Moves
-	call GetPartyLocation
-	ld d, h
-	ld e, l
+	call .copy_loc_to_de
 	pop hl
 
 	ld b, NUM_MOVES
 .copy_moves
-	call GetNextTrainerDataByte
-	ld [de], a
-	inc de
+	call .copy_byte_inc_de
 	dec b
 	jr nz, .copy_moves
 
@@ -211,9 +225,7 @@ ReadTrainerPartyPieces:
 	ld a, [wOTPartyCount]
 	dec a
 	ld hl, wOTPartyMon1
-	call GetPartyLocation
-	ld d, h
-	ld e, l
+	call .copy_loc_to_de
 	ld hl, MON_PP
 	add hl, de
 
@@ -258,9 +270,7 @@ ReadTrainerPartyPieces:
 	ld a, [wOTPartyCount]
 	dec a
 	ld hl, wOTPartyMon1MaxHP
-	call GetPartyLocation
-	ld d, h
-	ld e, l
+	call .copy_loc_to_de
 
 	ld a, [wOTPartyCount]
 	dec a
@@ -287,6 +297,18 @@ ReadTrainerPartyPieces:
 .no_stat_recalc
 
 	jp .loop
+
+.copy_byte_inc_de
+	call GetNextTrainerDataByte
+	ld [de], a
+	inc de
+	ret
+	
+.copy_loc_to_de
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	ret
 
 ComputeTrainerReward:
 	ld hl, hProduct

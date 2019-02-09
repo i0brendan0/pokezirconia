@@ -3,14 +3,13 @@ Trainers:
 ; - db "NAME@", TRAINERTYPE_* constants |ed together
 ; - 1 to 6 Pokémon:
 ;    * in all cases:                db level, species
+;                                   dw id, personality
 ;    * with TRAINERTYPE_NICKNAME:   db "NICKNAME@"
 ;    * with TRAINERTYPE_DVS:        db atk|def dv, spd|spc dv
+;    * with TRAINERTYPE_EVS:        db hp, atk, def, spe, spa, spd
 ;    * with TRAINERTYPE_ITEM:       db item
 ;    * with TRAINERTYPE_MOVES:      db move 1, move 2, move 3, move 4
-;    * with TRAINERTYPE_PAD_5
-;    * with TRAINERTYPE_PAD_6
-;    * with TRAINERTYPE_PERSONALITY dw personality
-; priority for types goes NICKNAME > PERSONALITY > DVS > EVS > ITEM > MOVES
+; priority for types goes NICKNAME > DVS > EVS > ITEM > MOVES
 ; - db -1 ; end
 
 SECTION "Enemy Trainer Parties 1", ROMX
@@ -18,15 +17,23 @@ SECTION "Enemy Trainer Parties 1", ROMX
 FalknerGroup:
 	; FALKNER (1)
 	db "FALKNER@", TRAINERTYPE_MOVES
-	db  7, PIDGEY,     TACKLE, MUD_SLAP, NO_MOVE, NO_MOVE
-	db  9, PIDGEOTTO,  TACKLE, MUD_SLAP, GUST, NO_MOVE
+	db 7, PIDGEY
+		dw 0, 0
+		db TACKLE, MUD_SLAP, NO_MOVE, NO_MOVE
+	db 9, PIDGEOTTO
+		dw 0, 0
+		db TACKLE, MUD_SLAP, GUST, NO_MOVE
 	db -1 ; end
 
 WhitneyGroup:
 	; WHITNEY (1)
 	db "WHITNEY@", TRAINERTYPE_MOVES
-	db 18, CLEFAIRY,   DOUBLESLAP, MIMIC, ENCORE, METRONOME
-	db 20, MILTANK,    ROLLOUT, ATTRACT, STOMP, MILK_DRINK
+	db 18, CLEFAIRY
+	dw 0, 0
+	db DOUBLESLAP, MIMIC, ENCORE, METRONOME
+	db 20, MILTANK
+	dw 0, 0
+	db ROLLOUT, ATTRACT, STOMP, MILK_DRINK
 	db -1 ; end
 
 BugsyGroup:

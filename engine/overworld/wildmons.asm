@@ -920,14 +920,21 @@ RandomPhoneMon:
 	bit TRAINERTYPE_NICKNAME_F, b
 	jr nz, .got_mon
 ; c = mon length
-; All trainers use 2 bytes for level and species
-	ld c, 2
+; All trainers use 2 bytes for level, species, ID, and personality
+	ld c, 6
 ; TRAINERTYPE_DVS uses 2 more bytes
 	bit TRAINERTYPE_DVS_F, b
 	jr z, .no_dvs
 	inc c
 	inc c
 .no_dvs
+; TRAINERTYPE_EVS uses 6 more bytes
+	bit TRAINERTYPE_EVS_F, b
+	jr z, .no_evs
+	ld a, 6
+	add c
+	ld c, a
+.no_evs
 ; TRAINERTYPE_ITEM uses 1 more byte
 	bit TRAINERTYPE_ITEM_F, b
 	jr z, .no_item
