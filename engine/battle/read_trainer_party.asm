@@ -248,12 +248,6 @@ ReadTrainerPartyPieces:
 	pop hl
 .no_moves
 
-;DVs
-	ld a, [wOtherTrainerType]
-	bit TRAINERTYPE_DVS_F, a
-	jr z, .no_dvs
-.no_dvs
-
 ; Custom DVs and EVs affect stats, so recalculate them after TryAddMonToParty
 	ld a, [wOtherTrainerType]
 	and TRAINERTYPE_DVS | TRAINERTYPE_EVS

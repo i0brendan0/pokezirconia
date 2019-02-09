@@ -1,5 +1,3 @@
-INCLUDE "data/trainers/party_pointers.asm"
-
 Trainers:
 ; Trainer data structure:
 ; - db "NAME@", TRAINERTYPE_* constants |ed together
