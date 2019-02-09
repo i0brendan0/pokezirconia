@@ -167,7 +167,7 @@ endr
 
 	; Initialize stat experience.
 	xor a
-	ld b, MON_DVS - MON_STAT_EXP
+	ld b, MON_DVS - MON_EVS
 .loop
 	ld [de], a
 	inc de
