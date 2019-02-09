@@ -2,13 +2,20 @@ INCLUDE "data/trainers/party_pointers.asm"
 
 Trainers:
 ; Trainer data structure:
-; - db "NAME@", TRAINERTYPE_* constant
+; - db "NAME@", TRAINERTYPE_* constants |ed together
 ; - 1 to 6 Pokémon:
-;    * for TRAINERTYPE_NORMAL:     db level, species
-;    * for TRAINERTYPE_MOVES:      db level, species, 4 moves
-;    * for TRAINERTYPE_ITEM:       db level, species, item
-;    * for TRAINERTYPE_ITEM_MOVES: db level, species, item, 4 moves
+;    * in all cases:                db level, species
+;    * with TRAINERTYPE_NICKNAME:   db "NICKNAME@"
+;    * with TRAINERTYPE_DVS:        db atk|def dv, spd|spc dv
+;    * with TRAINERTYPE_ITEM:       db item
+;    * with TRAINERTYPE_MOVES:      db move 1, move 2, move 3, move 4
+;    * with TRAINERTYPE_PAD_5
+;    * with TRAINERTYPE_PAD_6
+;    * with TRAINERTYPE_PERSONALITY dw personality
+; priority for types goes NICKNAME > PERSONALITY > DVS > EVS > ITEM > MOVES
 ; - db -1 ; end
+
+SECTION "Enemy Trainer Parties 1", ROMX
 
 FalknerGroup:
 	; FALKNER (1)
@@ -842,7 +849,7 @@ CooltrainerMGroup:
 	db -1 ; end
 
 	; COOLTRAINERM (7)
-	db "GAVEN@", TRAINERTYPE_ITEM_MOVES
+	db "GAVEN@", TRAINERTYPE_ITEM | TRAINERTYPE_MOVES
 	db 39, VICTREEBEL, NO_ITEM,      GIGA_DRAIN, TOXIC, SLUDGE_BOMB, RAZOR_LEAF
 	db 39, KINGLER,    KINGS_ROCK,   SURF, STOMP, GUILLOTINE, BLIZZARD
 	db 39, FLAREON,    NO_ITEM,      FLAMETHROWER, QUICK_ATTACK, BITE, FIRE_SPIN
@@ -1037,7 +1044,7 @@ CooltrainerFGroup:
 	db -1 ; end
 
 	; COOLTRAINERF (18)
-	db "BETH@", TRAINERTYPE_ITEM_MOVES
+	db "BETH@", TRAINERTYPE_ITEM | TRAINERTYPE_MOVES
 	db 43, RAPIDASH,   FOCUS_BAND,   STOMP, FIRE_SPIN, FURY_ATTACK, FIRE_BLAST
 	db -1 ; end
 
@@ -1049,7 +1056,7 @@ CooltrainerFGroup:
 	db -1 ; end
 
 	; COOLTRAINERF (20)
-	db "REENA@", TRAINERTYPE_ITEM_MOVES
+	db "REENA@", TRAINERTYPE_ITEM | TRAINERTYPE_MOVES
 	db 38, STARMIE,    NO_ITEM,      DOUBLE_TEAM, PSYCHIC_M, WATERFALL, CONFUSE_RAY
 	db 40, NIDOQUEEN,  PINK_BOW,     EARTHQUAKE, DOUBLE_KICK, TOXIC, BODY_SLAM
 	db 38, STARMIE,    NO_ITEM,      BLIZZARD, PSYCHIC_M, WATERFALL, RECOVER

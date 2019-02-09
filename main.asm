@@ -164,6 +164,9 @@ INCLUDE "engine/battle/read_trainer_attributes.asm"
 INCLUDE "engine/battle/read_trainer_party.asm"
 
 
+INCLUDE "data/trainers/parties.asm"
+
+
 SECTION "Battle Core", ROMX
 
 INCLUDE "engine/battle/core.asm"
@@ -704,8 +707,4 @@ INCLUDE "engine/events/odd_egg.asm"
 
 SECTION "Mobile Stadium 2", ROMX
 
-if DEF(_CRYSTAL11)
-INCBIN "mobile/stadium/stadium2_2.bin"
-else
 INCBIN "mobile/stadium/stadium2_1.bin"
-endc
