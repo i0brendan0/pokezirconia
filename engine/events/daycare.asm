@@ -560,9 +560,6 @@ DayCare_InitBreeding:
 	cp 150
 	jr c, .loop
 	ld [wStepsToEgg], a
-	jp .UselessJump
-
-.UselessJump:
 	xor a
 	ld hl, wEggMon
 	ld bc, wEggMonEnd - wEggMon
@@ -653,8 +650,8 @@ DayCare_InitBreeding:
 	ldh a, [hMultiplicand + 2]
 	ld [hl], a
 	xor a
-	ld b, wEggMonDVs - wEggMonStatExp
-	ld hl, wEggMonStatExp
+	ld b, wEggMonDVs - wEggMonEVs
+	ld hl, wEggMonEVs
 .loop2
 	ld [hli], a
 	dec b

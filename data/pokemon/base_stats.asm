@@ -31,6 +31,11 @@ _tms3 = _tms3 >> 8
 endr
 ENDM
 
+evs: MACRO
+	db (\1 << 6) | (\2 << 4) | (\3 << 2) | \4
+	db (\5 << 6) | (\6 << 4)
+ENDM
+
 BaseData::
 INCLUDE "data/pokemon/base_stats/bulbasaur.asm"
 INCLUDE "data/pokemon/base_stats/ivysaur.asm"
