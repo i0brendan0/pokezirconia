@@ -18,7 +18,8 @@ CheckShininess:
 	pop bc
 	jr nz, .NotShiny
 	inc de
-	ld b, [bc]
+	ld a, [bc]
+	ld b, a
 	ld a, [de]
 	xor b
 	cp 8
