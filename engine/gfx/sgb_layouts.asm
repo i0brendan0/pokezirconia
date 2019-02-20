@@ -177,7 +177,8 @@ LoadSGBLayout:
 	ld a, [hl]
 	ld [wSGBPals + 6], a
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wTempMonPersonality
+	ld de, wTempMonID
 	call GetPlayerOrMonPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 9], a
@@ -237,7 +238,8 @@ LoadSGBLayout:
 	inc hl
 	ld [hl], HIGH(palred 26 + palgreen 10 + palblue 6)
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld de, wTempMonID
+	ld bc, wTempMonPersonality
 	call GetPlayerOrMonPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 9], a
@@ -375,12 +377,20 @@ endr
 	jr .done
 
 .partymon
-	ld hl, wPartyMon1DVs
+	ld hl, wPartyMon1Personality
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wCurPartyMon]
 	call AddNTimes
 	ld c, l
 	ld b, h
+	push bc
+	ld hl, wPartyMon1ID
+	ld bc, PARTYMON_STRUCT_LENGTH
+	ld a, [wCurPartyMon]
+	call AddNTimes
+	ld e, l
+	ld d, h
+	pop bc
 	ld a, [wPlayerHPPal]
 	call GetPlayerOrMonPalettePointer
 	ld a, [hli]
@@ -480,7 +490,8 @@ endr
 	ld bc, PALPACKET_LENGTH
 	call CopyBytes
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wTempMonPersonality
+	ld de, wTempMonID
 	call GetPlayerOrMonPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 3], a

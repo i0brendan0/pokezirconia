@@ -10,13 +10,15 @@ CheckShininess:
 ; de = Trainer ID
 ; bc = Personality Value
 	
-	ld a, [hli]
+	push bc
+	ld a, [bc]
 	ld b, a
 	ld a, [de]
 	xor b
+	pop bc
 	jr nz, .NotShiny
 	inc de
-	ld b, [hl]
+	ld b, [bc]
 	ld a, [de]
 	xor b
 	cp 8
