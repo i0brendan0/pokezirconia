@@ -8217,7 +8217,7 @@ InitEnemyWildmon:
 	ld de, wWildMonPP
 	ld bc, NUM_MOVES
 	call CopyBytes
-	ld hl, wTrainerID
+	ld hl, wPlayerID
 	ld de, wOTPartyMon1ID
 	ld bc, 2
 	call CopyBytes
