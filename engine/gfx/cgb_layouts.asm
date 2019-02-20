@@ -562,7 +562,7 @@ _CGB_Evolution:
 	ld b, h
 	push de
 	push bc
-	ld hl, wPartyMon1Personality
+	ld hl, wPartyMon1ID
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wCurPartyMon]
 	call AddNTimes
