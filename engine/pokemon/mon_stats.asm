@@ -159,7 +159,7 @@ GetGender:
 	jr z, .DVs
 
 ; else: WildMon
-	ld hl, wEnemyMonGenderByte
+	ld hl, wOTPartyMon1GenderByte
 	jr .DVs
 
 ; Get our place in the party/box.
