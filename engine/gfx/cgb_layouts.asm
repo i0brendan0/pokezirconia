@@ -947,9 +947,12 @@ _CGB_TradeTube:
 
 _CGB_TrainerOrMonFrontpicPals:
 	ld de, wBGPals1
+	push de
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wTempMonPersonality
+	ld de, wTempMonID
 	call GetFrontpicPalettePointer
+	pop de
 	call LoadPalette_White_Col1_Col2_Black
 	call WipeAttrMap
 	call ApplyAttrMap

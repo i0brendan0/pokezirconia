@@ -516,7 +516,8 @@ endr
 	ld bc, PALPACKET_LENGTH
 	call CopyBytes
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld de, wTempMonID
+	ld bc, wTempMonPersonality
 	call GetFrontpicPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 3], a
