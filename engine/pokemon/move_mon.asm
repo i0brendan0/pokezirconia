@@ -800,7 +800,7 @@ RetrieveMonFromDayCareLady:
 	ld [wCurPartyLevel], a
 	ld a, PC_DEPOSIT
 	ld [wPokemonWithdrawDepositParameter], a
-	jp RetrieveBreedmon
+; fallthrough
 
 RetrieveBreedmon:
 	ld hl, wPartyCount
@@ -1007,14 +1007,33 @@ SendMonIntoBox:
 	ld [de], a
 	inc de
 
-	; Set all 5 Experience Values to 0
+	; Set all 6 Experience Values to 0
 	xor a
-	ld b, 2 * 5
+	ld b, 6
 .loop2
 	ld [de], a
 	inc de
 	dec b
 	jr nz, .loop2
+	
+	; Set PV
+	ld hl, wOTPartyMon1Personality
+	ld a, [wCurOTMon]
+	call GetPartyLocation
+	ld a, [hli]
+	ld [de], a
+	inc de
+	ld a, [hli]
+	ld [de], a
+	inc de
+	
+	; Set gender - assumes gender comes after personality
+	ld a, [hl]
+	ld [de], a
+	inc de
+	
+	; Padding
+	inc de
 
 	ld hl, wEnemyMonDVs
 	ld b, 2 + NUM_MOVES ; DVs and PP ; wEnemyMonHappiness - wEnemyMonDVs

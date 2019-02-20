@@ -105,6 +105,17 @@ ReadTrainerPartyPieces:
 	predef TryAddMonToParty
 	pop hl
 	
+; gender
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1GenderByte
+	call .copy_loc_to_de
+	pop hl
+	
+	call .copy_byte_inc_de
+	
 ; id
 
 	push hl

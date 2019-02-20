@@ -64,3 +64,6 @@ TRAINERTYPE_DVS         EQU 1 << TRAINERTYPE_DVS_F
 TRAINERTYPE_EVS         EQU 1 << TRAINERTYPE_EVS_F
 
 PERFECT_DV EQU $11 ; treated as $FF
+
+GENDER_MALE   EQU $ff ; highest value
+GENDER_FEMALE EQU $00 ; lowest value

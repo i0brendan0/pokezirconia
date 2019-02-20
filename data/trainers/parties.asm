@@ -2,10 +2,10 @@ Trainers:
 ; Trainer data structure:
 ; - db "NAME@", TRAINERTYPE_* constants |ed together
 ; - 1 to 6 Pokémon:
-;    * in all cases:                db level, species
+;    * in all cases:                db level, species, gender
 ;                                   dw id, personality
 ;    * with TRAINERTYPE_NICKNAME:   db "NICKNAME@"
-;    * with TRAINERTYPE_DVS:        db atk|def dv, spd|spc dv
+;    * with TRAINERTYPE_DVS:        dn atk, def, spd, spc
 ;    * with TRAINERTYPE_EVS:        db hp, atk, def, spe, spa, spd
 ;    * with TRAINERTYPE_ITEM:       db item
 ;    * with TRAINERTYPE_MOVES:      db move 1, move 2, move 3, move 4
@@ -16,13 +16,14 @@ SECTION "Enemy Trainer Parties 1", ROMX
 
 FalknerGroup:
 	; FALKNER (1)
-	db "FALKNER@", TRAINERTYPE_MOVES
-	db 7, PIDGEY
+	db "FALKNER@", TRAINERTYPE_NICKNAME|TRAINERTYPE_DVS|TRAINERTYPE_EVS|TRAINERTYPE_ITEM|TRAINERTYPE_MOVES
+	db 7, PIDGEY, GENDER_MALE
 		dw 0, 0
+		db "PIDGEY@"
+		dn 15, 15, 15, 15
+		db 255, 255, 255, 255, 255, 255
+		db 0
 		db TACKLE, MUD_SLAP, NO_MOVE, NO_MOVE
-	db 9, PIDGEOTTO
-		dw 0, 0
-		db TACKLE, MUD_SLAP, GUST, NO_MOVE
 	db -1 ; end
 
 WhitneyGroup:

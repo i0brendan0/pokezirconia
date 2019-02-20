@@ -202,12 +202,13 @@ mailmsg: MACRO
 ENDM
 
 roam_struct: MACRO
-\1Species::   db
-\1Level::     db
-\1MapGroup::  db
-\1MapNumber:: db
-\1HP::        db
-\1DVs::       dw
+\1Species::     db
+\1Level::       db
+\1MapGroup::    db
+\1MapNumber::   db
+\1HP::          db
+\1DVs::         dw
+\1Personality:: dw
 ENDM
 
 bugcontestwinner: MACRO

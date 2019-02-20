@@ -3878,40 +3878,53 @@ InitBattleMon:
 	jp BadgeStatBoosts
 
 BattleCheckPlayerShininess:
-	call GetPartyMonDVs
+	call GetPartyMonPV
+	ld b, h
+	ld c, l
+	push bc
+	call GetPartyMonID
+	pop bc
 	jr BattleCheckShininess
 
 BattleCheckEnemyShininess:
-	call GetEnemyMonDVs
-
-BattleCheckShininess:
+	call GetEnemyMonPV
 	ld b, h
 	ld c, l
+	push bc
+	call GetEnemyMonID
+	pop bc
+	
+BattleCheckShininess:
+	ld d, h
+	ld e, l
 	callfar CheckShininess
 	ret
 
-GetPartyMonDVs:
-	ld hl, wBattleMonDVs
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_TRANSFORMED, a
-	ret z
-	ld hl, wPartyMon1DVs
+GetPartyMonPV:
+	ld hl, wPartyMon1Personality
 	ld a, [wCurBattleMon]
 	jp GetPartyLocation
 
-GetEnemyMonDVs:
-	ld hl, wEnemyMonDVs
-	ld a, [wEnemySubStatus5]
-	bit SUBSTATUS_TRANSFORMED, a
-	ret z
-	ld hl, wEnemyBackupDVs
-	ld a, [wBattleMode]
-	dec a
-	ret z
-	ld hl, wOTPartyMon1DVs
+GetPartyMonID:	
+	ld hl, wPartyMon1ID
+	ld a, [wCurBattleMon]
+	jp GetPartyLocation
+
+GetEnemyMonPV:
+	ld hl, wOTPartyMon1Personality
 	ld a, [wCurOTMon]
 	jp GetPartyLocation
 
+GetEnemyMonID:
+	push bc
+	ld hl, wOTPartyMon1ID
+	ld a, [wCurOTMon]
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	pop bc
+	ret
+	
 ResetPlayerStatLevels:
 	ld a, BASE_STAT_LEVEL
 	ld b, NUM_LEVEL_STATS
@@ -6030,7 +6043,7 @@ LoadEnemyMon:
 ; They have their own structs, which are shorter than normal
 	ld a, [wBattleType]
 	cp BATTLETYPE_ROAMING
-	jr nz, .NotRoaming
+	jr nz, .GenerateDVs
 
 ; Grab HP
 	call GetRoamMonHP
@@ -6065,21 +6078,6 @@ LoadEnemyMon:
 ; We're done with DVs
 	jr .UpdateDVs
 
-.NotRoaming:
-; Register a contains wBattleType
-
-; Forced shiny battle type
-; Used by Red Gyarados at Lake of Rage
-	cp BATTLETYPE_SHINY
-	jr nz, .GenerateDVs
-
-	call BattleRandom
-	and $f0
-	or $2a
-	ld b, a 
-	ld c, SPDSPCDV_SHINY ; $aa
-	jr .UpdateDVs
-
 .GenerateDVs:
 ; Generate new random DVs
 	call BattleRandom
@@ -6110,7 +6108,6 @@ LoadEnemyMon:
 	ld hl, wEnemyMonDVs
 	predef GetUnownLetter
 ; Can't use any letters that haven't been unlocked
-; If combined with forced shiny battletype, causes an infinite loop
 	call CheckUnownLetter
 	jr c, .GenerateDVs ; try again
 
@@ -6198,7 +6195,45 @@ LoadEnemyMon:
 	ld b, FALSE
 	ld hl, wEnemyMonDVs - (MON_DVS - MON_EVS+ 1) ; wLinkBattleRNs + 7 ; ?
 	predef CalcMonStats
+	
+	ld a, [wBattleType]
+	cp BATTLETYPE_ROAMING
+	jr nz, .skip_roam_pv
+	call GetRoamMonPV
+	ld a, [hli]
+	and a
+	push af
+	ld b, a
+	ld c, [hl]
+	pop af
+	jr nz, .roam_pv_done
+	call BattleRandom
+	ld c, a
+	ld [hld], a
+	call BattleRandom
+	ld b, a
+	ld [hl], a
+	
+.roam_pv_done
+	ld a, b
+	ld [wOTPartyMon1Personality], a
+	ld a, c
+	ld [wOTPartyMon1Personality + 1], a
+	jr .skip_shiny_pv
 
+.skip_roam_pv
+	cp BATTLETYPE_SHINY
+	jr nz, .skip_shiny_pv
+	ld a, [wPlayerID]
+	ld [wOTPartyMon1Personality], a
+	call BattleRandom ; this gives the appearance of a random personality value
+	and %00000111     ; since trying to do two randoms would be time wasting
+	ld b, a
+	ld a, [wPlayerID + 1]
+	or b
+	ld [wOTPartyMon1Personality + 1], a
+
+.skip_shiny_pv
 ; If we're in a trainer battle,
 ; get the rest of the parameters from the party struct
 	ld a, [wBattleMode]
@@ -8182,6 +8217,17 @@ InitEnemyWildmon:
 	ld de, wWildMonPP
 	ld bc, NUM_MOVES
 	call CopyBytes
+	ld hl, wTrainerID
+	ld de, wOTPartyMon1ID
+	ld bc, 2
+	call CopyBytes
+	ld hl, wOTPartyMon1Personality
+	call BattleRandom
+	ld [hli], a
+	call BattleRandom
+	ld [hli], a
+	call BattleRandom
+	ld [hl], a ; Gender
 	ld hl, wEnemyMonDVs
 	predef GetUnownLetter
 	ld a, [wCurPartySpecies]
@@ -8682,6 +8728,21 @@ GetRoamMonSpecies:
 	cp [hl]
 	ret z
 	ld hl, wRoamMon3Species
+	ret
+	
+GetRoamMonPV:
+; output: hl = wRoamMonPersonality
+	ld a, [wTempEnemyMonSpecies]
+	ld b, a
+	ld a, [wRoamMon1Species]
+	cp b
+	ld hl, wRoamMon1Personality
+	ret z
+	ld a, [wRoamMon2Species]
+	cp b
+	ld hl, wRoamMon2Personality
+	ret z
+	ld hl, wRoamMon3Personality
 	ret
 
 AddLastMobileBattleToLinkRecord:
