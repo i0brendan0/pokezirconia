@@ -17,6 +17,7 @@ CheckShininess:
 	xor b
 	pop bc
 	jr nz, .NotShiny
+	inc bc
 	inc de
 	ld a, [bc]
 	ld b, a
