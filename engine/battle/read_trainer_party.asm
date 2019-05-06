@@ -213,7 +213,7 @@ ReadTrainerPartyPieces:
 .evs_loop
 ; When reading stat experience, treat PERFECT_EVS as 255
 	ld a, [hli]
-	cp PERFECT_EVS
+	cp PERFECT_EV
 	jr nz, .not_perfect_evs
 
 	ld a, $ff
