@@ -226,7 +226,7 @@ ReadTrainerPartyPieces:
 	inc de
 .continue_evs
 	dec c
-	jr nz, .evs
+	jr nz, .evs_loop
 .no_evs
 
 ; item?
