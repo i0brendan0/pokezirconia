@@ -205,7 +205,7 @@ ReadTrainerPartyPieces:
 	push hl
 	ld a, [wOTPartyCount]
 	dec a
-	ld hl, wOTPartyMon1StatExp
+	ld hl, wOTPartyMon1EVs
 	call .copy_loc_to_de
 	pop hl
 
