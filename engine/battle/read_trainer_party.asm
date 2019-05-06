@@ -197,6 +197,40 @@ ReadTrainerPartyPieces:
 	ld [de], a
 .no_dvs
 
+; evs?
+	ld a, [wOtherTrainerType]
+	bit TRAINERTYPE_EVS_F, a
+	jr z, .no_evs
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1StatExp
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	pop hl
+
+	ld c, 6
+.stat_exp_loop
+; When reading stat experience, treat PERFECT_EVS as 255
+	ld a, [hli]
+	cp PERFECT_EVS
+	jr nz, .not_perfect_stat_exp
+
+	ld a, $ff
+	ld [de], a
+	inc de
+	jr .continue_stat_exp
+
+.not_perfect_stat_exp
+	ld [de], a
+	inc de
+.continue_stat_exp
+	dec c
+	jr nz, .stat_exp_loop
+.no_stat_exp
+
 ; item?
 	ld a, [wOtherTrainerType]
 	bit TRAINERTYPE_ITEM_F, a
