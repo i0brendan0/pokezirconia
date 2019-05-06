@@ -206,30 +206,28 @@ ReadTrainerPartyPieces:
 	ld a, [wOTPartyCount]
 	dec a
 	ld hl, wOTPartyMon1StatExp
-	call GetPartyLocation
-	ld d, h
-	ld e, l
+	call .copy_loc_to_de
 	pop hl
 
 	ld c, 6
-.stat_exp_loop
+.evs_loop
 ; When reading stat experience, treat PERFECT_EVS as 255
 	ld a, [hli]
 	cp PERFECT_EVS
-	jr nz, .not_perfect_stat_exp
+	jr nz, .not_perfect_evs
 
 	ld a, $ff
 	ld [de], a
 	inc de
-	jr .continue_stat_exp
+	jr .continue_evs
 
-.not_perfect_stat_exp
+.not_perfect_evs
 	ld [de], a
 	inc de
-.continue_stat_exp
+.continue_evs
 	dec c
-	jr nz, .stat_exp_loop
-.no_stat_exp
+	jr nz, .evs
+.no_evs
 
 ; item?
 	ld a, [wOtherTrainerType]
