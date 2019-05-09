@@ -518,7 +518,7 @@ PokeBallEffect:
 
 	ld a, [wPartyCount]
 	cp PARTY_LENGTH
-	jr z, .SendToPC
+	jp z, .SendToPC
 
 	xor a ; PARTYMON
 	ld [wMonType], a
@@ -527,6 +527,18 @@ PokeBallEffect:
 	predef TryAddMonToParty
 
 	farcall SetCaughtData
+	
+	ld a, [wPartyCount]
+	dec a
+	ld hl, wPartyMon1Personality
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	ld a, [wOTPartyMon1Personality]
+	ld [hli], a
+	ld a, [wOTPartyMon1Personality + 1]
+	ld [hli], a
+	ld a, [wOTPartyMon1GenderByte]
+	ld [hl], a
 
 	ld a, [wCurItem]
 	cp FRIEND_BALL
@@ -583,6 +595,15 @@ PokeBallEffect:
 	predef SendMonIntoBox
 
 	farcall SetBoxMonCaughtData
+	
+	ld a, BANK(sBoxMon1Personality)
+	call GetSRAMBank
+	ld hl, sBoxMon1Personality
+	ld a, [wOTPartyMon1Personality]
+	ld [hli], a
+	ld a, [wOTPartyMon1Personality + 1]
+	ld [hl], a
+	call CloseSRAM
 
 	ld a, BANK(sBoxCount)
 	call GetSRAMBank

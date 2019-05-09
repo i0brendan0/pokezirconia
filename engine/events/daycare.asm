@@ -732,6 +732,28 @@ DayCare_InitBreeding:
 	ld [hl], a
 	ld a, [wCurPartyLevel]
 	ld [wEggMonLevel], a
+	call Random
+	cp 8
+	ld de, wEggMonPersonality
+	jr nc, .dont_inherit_pv
+	cp 4
+	ld hl, wBreedMon1Personality
+	jr c, .pv_2
+	ld hl, wBreedMon2Personality
+.pv_2
+	ld a, [hli]
+	ld [de], a
+	inc de
+	ld a, [hl]
+	ld [de], a
+	ret
+	
+.dont_inherit_pv
+	call BattleRandom
+	ld [de], a
+	inc de
+	call BattleRandom
+	ld [de], a
 	ret
 
 .String_EGG:

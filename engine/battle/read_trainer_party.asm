@@ -105,6 +105,17 @@ ReadTrainerPartyPieces:
 	predef TryAddMonToParty
 	pop hl
 	
+; gender
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1GenderByte
+	call .copy_loc_to_de
+	pop hl
+	
+	call .copy_byte_inc_de
+	
 ; id
 
 	push hl
@@ -185,6 +196,38 @@ ReadTrainerPartyPieces:
 .spd_spc_dv_ok
 	ld [de], a
 .no_dvs
+
+; evs?
+	ld a, [wOtherTrainerType]
+	bit TRAINERTYPE_EVS_F, a
+	jr z, .no_evs
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1EVs
+	call .copy_loc_to_de
+	pop hl
+
+	ld c, 6
+.evs_loop
+; When reading stat experience, treat PERFECT_EVS as 255
+	ld a, [hli]
+	cp PERFECT_EV
+	jr nz, .not_perfect_evs
+
+	ld a, $ff
+	ld [de], a
+	inc de
+	jr .continue_evs
+
+.not_perfect_evs
+	ld [de], a
+	inc de
+.continue_evs
+	dec c
+	jr nz, .evs_loop
+.no_evs
 
 ; item?
 	ld a, [wOtherTrainerType]

@@ -6,73 +6,27 @@ SHINY_SPD_VAL EQU 10
 SHINY_SPC_VAL EQU 10
 
 CheckShininess:
-; Check if a mon is shiny by DVs at bc.
-; Return carry if shiny.
-
-	ld l, c
-	ld h, b
-
-; Attack
-	ld a, [hl]
-	and 1 << SHINY_ATK_BIT
-	jr z, .NotShiny
-
-; Defense
-	ld a, [hli]
-	and $f
-	cp  SHINY_DEF_VAL
+; Return carry if the OT ID XOR Personality Value < 8
+; de = Trainer ID
+; bc = Personality Value
+	
+	push bc
+	ld a, [bc]
+	ld b, a
+	ld a, [de]
+	xor b
+	pop bc
 	jr nz, .NotShiny
-
-; Speed
-	ld a, [hl]
-	and $f0
-	cp  SHINY_SPD_VAL << 4
-	jr nz, .NotShiny
-
-; Special
-	ld a, [hl]
-	and $f
-	cp  SHINY_SPC_VAL
-	jr nz, .NotShiny
-
-.Shiny:
-	scf
+	inc bc
+	inc de
+	ld a, [bc]
+	ld b, a
+	ld a, [de]
+	xor b
+	cp 8
 	ret
 
-.NotShiny:
-	and a
-	ret
-
-Unused_CheckShininess:
-; Return carry if the DVs at hl are all 10 or higher.
-
-; Attack
-	ld a, [hl]
-	cp 10 << 4
-	jr c, .NotShiny
-
-; Defense
-	ld a, [hli]
-	and $f
-	cp 10
-	jr c, .NotShiny
-
-; Speed
-	ld a, [hl]
-	cp 10 << 4
-	jr c, .NotShiny
-
-; Special
-	ld a, [hl]
-	and $f
-	cp 10
-	jr c, .NotShiny
-
-.Shiny:
-	scf
-	ret
-
-.NotShiny:
+.NotShiny
 	and a
 	ret
 
@@ -670,9 +624,14 @@ InitPartyMenuOBPals:
 
 GetBattlemonBackpicPalettePointer:
 	push de
-	farcall GetPartyMonDVs
+	farcall GetPartyMonPV
 	ld c, l
 	ld b, h
+	push bc
+	farcall GetPartyMonID
+	pop bc
+	ld e, l
+	ld d, h
 	ld a, [wTempBattleMonSpecies]
 	call GetPlayerOrMonPalettePointer
 	pop de
@@ -680,9 +639,14 @@ GetBattlemonBackpicPalettePointer:
 
 GetEnemyFrontpicPalettePointer:
 	push de
-	farcall GetEnemyMonDVs
+	farcall GetEnemyMonPV
 	ld c, l
 	ld b, h
+	push bc
+	farcall GetEnemyMonID
+	pop bc
+	ld e, l
+	ld d, h
 	ld a, [wTempEnemyMonSpecies]
 	call GetFrontpicPalettePointer
 	pop de

@@ -200,9 +200,12 @@ _CGB_StatsScreenHPPals:
 	ld bc, HPBarPals
 	add hl, bc
 	call LoadPalette_White_Col1_Col2_Black ; hp palette
+	push de
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wTempMonPersonality
+	ld de, wTempMonID
 	call GetPlayerOrMonPalettePointer
+	pop de
 	call LoadPalette_White_Col1_Col2_Black ; mon palette
 	ld hl, ExpBarPalette
 	call LoadPalette_White_Col1_Col2_Black ; exp palette
@@ -302,8 +305,11 @@ _CGB_BillsPC:
 	jr .Resume
 
 .GetMonPalette:
-	ld bc, wTempMonDVs
+	push de
+	ld de, wTempMonID
+	ld bc, wTempMonPersonality
 	call GetPlayerOrMonPalettePointer
+	pop de
 	call LoadPalette_White_Col1_Col2_Black
 .Resume:
 	call WipeAttrMap
@@ -324,8 +330,11 @@ _CGB_BillsPC:
 	jr .asm_901a
 
 .unused
-	ld bc, wTempMonDVs
+	push de
+	ld de, wTempMonID
+	ld bc, wTempMonPersonality
 	call GetPlayerOrMonPalettePointer
+	pop de
 	call LoadPalette_White_Col1_Col2_Black
 .asm_901a
 	call WipeAttrMap
@@ -545,14 +554,24 @@ _CGB_Evolution:
 	jr .got_palette
 
 .pokemon
-	ld hl, wPartyMon1DVs
+	ld hl, wPartyMon1Personality
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wCurPartyMon]
 	call AddNTimes
 	ld c, l
 	ld b, h
+	push de
+	push bc
+	ld hl, wPartyMon1ID
+	ld bc, PARTYMON_STRUCT_LENGTH
+	ld a, [wCurPartyMon]
+	call AddNTimes
+	ld e, l
+	ld d, h
 	ld a, [wPlayerHPPal]
+	pop bc
 	call GetPlayerOrMonPalettePointer
+	pop de
 	call LoadPalette_White_Col1_Col2_Black
 	ld hl, BattleObjectPals
 	ld de, wOBPals1 palette PAL_BATTLE_OB_GRAY
@@ -893,9 +912,12 @@ INCLUDE "gfx/splash/logo.pal"
 
 _CGB_PlayerOrMonFrontpicPals:
 	ld de, wBGPals1
+	push de
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wTempMonPersonality
+	ld de, wTempMonID
 	call GetPlayerOrMonPalettePointer
+	pop de
 	call LoadPalette_White_Col1_Col2_Black
 	call WipeAttrMap
 	call ApplyAttrMap
@@ -925,9 +947,12 @@ _CGB_TradeTube:
 
 _CGB_TrainerOrMonFrontpicPals:
 	ld de, wBGPals1
+	push de
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wTempMonPersonality
+	ld de, wTempMonID
 	call GetFrontpicPalettePointer
+	pop de
 	call LoadPalette_White_Col1_Col2_Black
 	call WipeAttrMap
 	call ApplyAttrMap
