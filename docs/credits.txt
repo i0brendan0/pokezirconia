@@ -1,0 +1,13 @@
+Anchorage Sprite
+-Bronzeswagger
+-Neb
+
+Manbuoy Sprite
+-Bronzeswagger
+-Neb
+
+Warwolf (Brrufman) Sprite
+-EeveeEe
+
+Wolfman (Warwulf) Sprite
+-EeveeEe
