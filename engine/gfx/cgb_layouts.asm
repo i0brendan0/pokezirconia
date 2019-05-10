@@ -658,7 +658,12 @@ _CGB_TrainerCard:
 	ld a, PRYCE
 	call GetTrainerPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
-	ld hl, .BadgePalettes
+	ld hl, .JohtoBadgePalettes
+	ld a, [wBadgePage]
+	dec a
+	jr nz, .got_page
+	ld hl, .KantoBadgePalettes
+.got_page
 	ld bc, 8 palettes
 	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
@@ -738,8 +743,11 @@ _CGB_TrainerCard:
 	ldh [hCGBPalUpdate], a
 	ret
 
-.BadgePalettes:
+.JohtoBadgePalettes:
 INCLUDE "gfx/trainer_card/badges.pal"
+
+.KantoBadgePalettes:
+INCLUDE "gfx/trainer_card/badges_kanto.pal"
 
 _CGB_MoveList:
 	ld de, wBGPals1

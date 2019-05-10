@@ -362,7 +362,8 @@ wc608:: ds 53
 wc63d:: ds 5
 wc642:: ds 5
 wc647:: ds 33
-wc668:: ds 32
+wc668:: ds 31
+wBadgePage:: ds 1
 wc688:: ds 2
 wc68a:: ds 4
 
