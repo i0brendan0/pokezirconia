@@ -784,12 +784,6 @@ SellMenu:
 	and a
 	ret
 
-.Unreferenced_NothingToSell:
-	ld hl, .NothingToSellText
-	call MenuTextBoxBackup
-	and a
-	ret
-
 .NothingToSellText:
 	; You don't have anything to sell.
 	text_far UnknownText_0x1c4f12

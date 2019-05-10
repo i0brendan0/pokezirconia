@@ -207,22 +207,6 @@ ClearActorHud:
 	lb bc, 5, 11
 	jp ClearBox
 
-Unreferenced_Functioncc220:
-	xor a
-	ldh [hBGMapMode], a
-	ld a, LOW(vBGMap0 tile $28)
-	ldh [hBGMapAddress], a
-	ld a, HIGH(vBGMap0 tile $28)
-	ldh [hBGMapAddress + 1], a
-	call WaitBGMap2
-	ld a, $60
-	ldh [hWY], a
-	xor a ; LOW(vBGMap0)
-	ldh [hBGMapAddress], a
-	ld a, HIGH(vBGMap0)
-	ldh [hBGMapAddress + 1], a
-	jp BattleAnimDelayFrame
-
 BattleAnim_ClearCGB_OAMFlags:
 	ld a, [wBattleAnimFlags]
 	bit 3, a

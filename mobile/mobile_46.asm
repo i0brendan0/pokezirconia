@@ -1501,48 +1501,6 @@ MenuDownloadURL:
 IndexDownloadURL:
 	db "http://gameboy.datacenter.ne.jp/cgb/download?name=/01/CGB-BXTJ/tamago/index.txt", 0
 
-Unreferenced_Function118d35:
-	ld hl, $d200
-	ld a, [wcd38]
-	and a
-	jr nz, .asm_118d6e
-	ld a, [hli]
-	cp $94
-	jr nz, .asm_118d7b
-	ld a, [hl]
-	cp $5
-	jr nz, .asm_118d7b
-	ld a, [wcd4f]
-	sla a
-	ld b, a
-	sla a
-	sla a
-	add b
-	ld b, a
-	ld a, $5
-	call GetSRAMBank
-	ld a, b
-	ld [$b2fb], a
-	call CloseSRAM
-	farcall Function170be4
-	farcall Function1700c4
-	jr .asm_118d78
-
-.asm_118d6e
-	ld a, [hli]
-	cp $96
-	jr nz, .asm_118d7b
-	ld a, [hl]
-	cp $0
-	jr nz, .asm_118d7b
-
-.asm_118d78
-	jp BattleTowerRoomMenu_IncrementJumptable
-
-.asm_118d7b
-	ld a, $d3
-	jp Function118805
-
 Function118d80:
 	call Function118e06
 	ld a, [wcd38]
@@ -6674,35 +6632,6 @@ Function11b397:
 	inc de
 	ld a, $5
 	ld [de], a ; attributes
-	inc de
-	jr .loop
-
-Unreferenced_Function11b3b6:
-.loop
-	ld a, [hl]
-	cp -1
-	ret z
-	ld a, [wcd4d]
-	and $7
-	swap a
-	add [hl]
-	inc hl
-	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
-	push hl
-	ld l, c
-	ld h, b
-	ld a, [wcd4e]
-	add [hl]
-	inc bc
-	ld [de], a
-	inc de
-	pop hl
-	ld a, $5
-	ld [de], a
 	inc de
 	jr .loop
 

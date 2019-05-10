@@ -292,6 +292,8 @@ ROMX $73
 	"Pokedex Entries 129-192"
 ROMX $74
 	"Pokedex Entries 193-251"
+;ROMX $75
+;ROMX $76
 ROMX $77
 	"bank77"
 	"Tileset Data 7"
@@ -302,8 +304,7 @@ ROMX $7b
 	"Battle Tower Text"
 ROMX $7c
 	"Battle Tower Trainer Data"
-ROMX $7d
-	"Mobile News Data"
+;ROMX $7d
 ROMX $7e
 	"Crystal Events"
 ROMX $7f
