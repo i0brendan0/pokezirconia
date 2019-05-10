@@ -28,8 +28,7 @@ Function11c075:
 	call Function11c254
 	pop de
 	ld bc, wcd36
-	call Function11c08f
-	ret
+	jp Function11c08f
 
 Function11c08f:
 	ld l, e
@@ -325,8 +324,7 @@ Function11c1b9:
 	pop af
 	ldh [rSVBK], a
 	call EZChat_GetCategoryWordsByKana
-	call EZChat_GetSeenPokemonByKana
-	ret
+	jp EZChat_GetSeenPokemonByKana
 
 Function11c254:
 	push af
@@ -345,15 +343,13 @@ Function11c254:
 	ld de, wcd36
 	ld bc, 12
 	call CopyBytes
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 EZChat_ClearBottom12Rows:
 	ld a, "　"
 	hlcoord 0, 6
 	ld bc, (SCREEN_HEIGHT - 6) * SCREEN_WIDTH
-	call ByteFill
-	ret
+	jp ByteFill
 
 EZChat_MasterLoop:
 .loop
@@ -370,8 +366,7 @@ EZChat_MasterLoop:
 
 .exit
 	farcall ClearSpriteAnims
-	call ClearSprites
-	ret
+	jp ClearSprites
 
 .DoJumptableFunction:
 	jumptable .Jumptable, wJumptableIndex
@@ -630,8 +625,7 @@ Function11c3ed:
 	call Function11c4a5
 .asm_11c475
 	ld [wJumptableIndex], a
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .asm_11c47c
 	ld a, [hl]
@@ -793,14 +787,12 @@ Function11c53d:
 	ld hl, wcd24
 	set 1, [hl]
 	ld [wJumptableIndex], a
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .done
 	ld a, [wcd20] ; wcd20
 	call Function11ca6a
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .up
 	ld a, [hl]
@@ -881,8 +873,7 @@ EZChat_PlaceCategoryNames:
 	jr nz, .loop
 	hlcoord 1, 17
 	ld de, EZChatString_Stop_Mode_Cancel
-	call PlaceString
-	ret
+	jp PlaceString
 
 Function11c618:
 	ld a, $2
@@ -974,8 +965,7 @@ Function11c675:
 .asm_11c6c4
 	call Function11c992
 	call Function11c7bc
-	call Function11c86e
-	ret
+	jp Function11c86e
 
 .select
 	ld de, hJoyLast
@@ -1010,8 +1000,7 @@ Function11c675:
 	ld [wJumptableIndex], a
 	ld hl, wcd24
 	set 3, [hl]
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .asm_11c708
 	ld a, [hl]
@@ -1525,8 +1514,7 @@ Function11c9c3:
 	set 4, [hl]
 	ld a, $4
 	ld [wJumptableIndex], a
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .asm_11c9f7
 	ld a, [hl]
@@ -1612,8 +1600,7 @@ Function11ca6a:
 	ld [hl], b
 	call Function11c95d
 	ld de, String_11c3bc
-	call PlaceString
-	ret
+	jp PlaceString
 
 Function11ca7f:
 	push de
@@ -1632,8 +1619,7 @@ Function11ca7f:
 	ld [wcd2a], a
 	ld hl, wcd24
 	res 4, [hl]
-	call Function11cfb5
-	ret
+	jp Function11cfb5
 
 Function11caad:
 	ld de, String_11cb1c
@@ -1956,8 +1942,7 @@ Function11cd54:
 	ld [wJumptableIndex], a
 	ld hl, wcd24
 	set 5, [hl]
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .asm_11cd8b
 	ld a, [hl]
@@ -1979,8 +1964,7 @@ Function11cd54:
 	call Function11cfce
 	pop de
 	hlcoord 1, 14
-	call PlaceString
-	ret
+	jp PlaceString
 
 Function11cdaa:
 	ld a, $2
@@ -2096,14 +2080,12 @@ Function11ce2b:
 	ld [wJumptableIndex], a
 	ld hl, wcd24
 	set 2, [hl]
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .done
 	ld a, [wcd20] ; wcd20
 	call Function11ca6a
-	call PlayClickSFX
-	ret
+	jp PlayClickSFX
 
 .left
 	inc hl
@@ -2522,8 +2504,7 @@ AnimateEZChatCursor:
 	ld [hl], a
 	pop de
 	ld a, e
-	call .UpdateObjectFlags
-	ret
+	jp .UpdateObjectFlags
 
 .four
 	ld a, SPRITE_ANIM_FRAMESET_EZCHAT_CURSOR_2
@@ -2561,8 +2542,7 @@ AnimateEZChatCursor:
 
 	ld a, $1
 	ld e, a
-	call .UpdateObjectFlags
-	ret
+	jp .UpdateObjectFlags
 
 .seven
 	ld a, [wEZChatCursorYCoord]
@@ -2597,8 +2577,7 @@ AnimateEZChatCursor:
 	ld [hl], a
 	ld a, $2
 	ld e, a
-	call .UpdateObjectFlags
-	ret
+	jp .UpdateObjectFlags
 
 .asm_11d1b1
 	; X = [wEZChatCursorXCoord] * 40 + 24
@@ -2619,8 +2598,7 @@ AnimateEZChatCursor:
 	ld [hl], a
 	ld a, $2
 	ld e, a
-	call .UpdateObjectFlags
-	ret
+	jp .UpdateObjectFlags
 
 .nine
 	ld d, -13 * 8
@@ -2648,16 +2626,14 @@ AnimateEZChatCursor:
 	ld [hl], a
 	ld a, $4
 	ld e, a
-	call .UpdateObjectFlags
-	ret
+	jp .UpdateObjectFlags
 
 .ten
 	ld a, SPRITE_ANIM_FRAMESET_EZCHAT_CURSOR_1
 	call ReinitSpriteAnimFrame
 	ld a, $8
 	ld e, a
-	call .UpdateObjectFlags
-	ret
+	jp .UpdateObjectFlags
 
 .Coords_Zero:
 	dbpixel  1,  3, 5, 2

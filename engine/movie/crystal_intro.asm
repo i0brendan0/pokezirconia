@@ -101,16 +101,14 @@ Copyright_GFPresents:
 	ld a, $90
 	ldh [hWY], a
 	lb de, %11100100, %11100100
-	call DmgToCgbObjPals
-	ret
+	jp DmgToCgbObjPals
 
 .StopGamefreakAnim:
 	farcall ClearSpriteAnims
 	call ClearTileMap
 	call ClearSprites
 	ld c, 16
-	call DelayFrames
-	ret
+	jp DelayFrames
 
 PlaceGameFreakPresents:
 	ld a, [wJumptableIndex]
@@ -154,8 +152,7 @@ PlaceGameFreakPresents_1:
 	call CopyBytes
 	call PlaceGameFreakPresents_AdvanceIndex
 	ld de, SFX_GAME_FREAK_PRESENTS
-	call PlaySFX
-	ret
+	jp PlaySFX
 
 .GAME_FREAK:
 	;  G  A  M  E   _  F  R  E  A  K
@@ -177,8 +174,7 @@ PlaceGameFreakPresents_2:
 	decoord 7, 11
 	ld bc, .end - .presents
 	call CopyBytes
-	call PlaceGameFreakPresents_AdvanceIndex
-	ret
+	jp PlaceGameFreakPresents_AdvanceIndex
 
 .presents
 	db 7, 8, 9, 10, 11, 12
@@ -256,8 +252,7 @@ GameFreakLogoScene2:
 	sub $30
 	ld [hl], a
 	ld de, SFX_DITTO_BOUNCE
-	call PlaySFX
-	ret
+	jp PlaySFX
 
 .asm_e4747
 	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX
@@ -267,8 +262,7 @@ GameFreakLogoScene2:
 	add hl, bc
 	ld [hl], $0
 	ld de, SFX_DITTO_POP_UP
-	call PlaySFX
-	ret
+	jp PlaySFX
 
 GameFreakLogoScene3:
 	ld hl, SPRITEANIMSTRUCT_0D
@@ -287,8 +281,7 @@ GameFreakLogoScene3:
 	add hl, bc
 	ld [hl], $0
 	ld de, SFX_DITTO_TRANSFORM
-	call PlaySFX
-	ret
+	jp PlaySFX
 
 GameFreakLogoScene4:
 	ld hl, SPRITEANIMSTRUCT_0D
@@ -485,8 +478,7 @@ IntroScene1:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene2:
 ; First Unown (A) fades in, pulses, then fades out.
@@ -506,11 +498,9 @@ IntroScene2:
 .DontPlaySound:
 	ld [wIntroSceneTimer], a
 	xor a
-	call CrystalIntro_UnownFade
-	ret
+	jp CrystalIntro_UnownFade
 .endscene
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene3:
 ; More setup. Transition to the outdoor scene.
@@ -557,8 +547,7 @@ IntroScene3:
 	call Intro_SetCGBPalUpdate
 	xor a
 	ld [wIntroSceneFrameCounter], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene4:
 ; Scroll the outdoor panorama for a bit.
@@ -571,8 +560,7 @@ IntroScene4:
 	ret
 
 .endscene
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene5:
 ; Go back to the Unown.
@@ -624,8 +612,7 @@ IntroScene5:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene6:
 ; Two more Unown (I, H) fade in.
@@ -652,8 +639,7 @@ IntroScene6:
 .NoUnown:
 	ld [wIntroSceneTimer], a
 	xor a
-	call CrystalIntro_UnownFade
-	ret
+	jp CrystalIntro_UnownFade
 
 .SecondUnown:
 	push af
@@ -665,12 +651,10 @@ IntroScene6:
 .StopUnown:
 	ld [wIntroSceneTimer], a
 	ld a, $1
-	call CrystalIntro_UnownFade
-	ret
+	jp CrystalIntro_UnownFade
 
 .endscene
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene7:
 ; Back to the outdoor scene.
@@ -740,8 +724,7 @@ IntroScene7:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene8:
 ; Scroll the scene, then show Suicune running across the screen.
@@ -751,8 +734,7 @@ IntroScene8:
 	cp $40
 	jr z, .suicune_sound
 	jr nc, .animate_suicune
-	call Intro_PerspectiveScrollBG
-	ret
+	jp Intro_PerspectiveScrollBG
 
 .suicune_sound
 	ld de, SFX_INTRO_SUICUNE_3
@@ -769,8 +751,7 @@ IntroScene8:
 	ld de, SFX_INTRO_SUICUNE_2
 	call PlaySFX
 	farcall DeinitializeAllSprites
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene9:
 ; Set up the next scene (same bg).
@@ -806,8 +787,7 @@ IntroScene9:
 	ld [wGlobalAnimXOffset], a
 	xor a
 	ld [wIntroSceneFrameCounter], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene10:
 ; Wooper and Pichu enter.
@@ -828,19 +808,16 @@ IntroScene10:
 	ld a, SPRITE_ANIM_INDEX_INTRO_PICHU
 	call _InitSpriteAnimStruct
 	ld de, SFX_INTRO_PICHU
-	call PlaySFX
-	ret
+	jp PlaySFX
 
 .wooper
 	depixel 22, 6
 	ld a, SPRITE_ANIM_INDEX_INTRO_WOOPER
 	call _InitSpriteAnimStruct
 	ld de, SFX_INTRO_PICHU
-	call PlaySFX
-	ret
+	jp PlaySFX
 .done
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene11:
 ; Back to Unown again.
@@ -889,8 +866,7 @@ IntroScene11:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene12:
 ; Even more Unown.
@@ -911,8 +887,7 @@ IntroScene12:
 	and $e0
 	srl a
 	swap a
-	call CrystalIntro_UnownFade
-	ret
+	jp CrystalIntro_UnownFade
 
 .second_half
 ; double speed
@@ -925,12 +900,10 @@ IntroScene12:
 	and $70
 	or $40
 	swap a
-	call CrystalIntro_UnownFade
-	ret
+	jp CrystalIntro_UnownFade
 
 .done
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 .PlayUnownSound:
 	ld a, [wIntroSceneFrameCounter]
@@ -952,8 +925,7 @@ IntroScene12:
 	push de
 	call SFXChannelsOff
 	pop de
-	call PlaySFX
-	ret
+	jp PlaySFX
 
 .UnownSounds:
 	dbw $00, SFX_INTRO_UNOWN_3
@@ -1022,8 +994,7 @@ IntroScene13:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene14:
 ; Suicune runs then jumps.
@@ -1067,8 +1038,7 @@ IntroScene14:
 	ret
 
 .done
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene15:
 ; Transition to a new scene.
@@ -1131,8 +1101,7 @@ IntroScene15:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene16:
 ; Suicune shows its face. An Unown appears in front.
@@ -1149,8 +1118,7 @@ IntroScene16:
 	ldh [hSCY], a
 	ret
 .done
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene17:
 ; ...
@@ -1198,8 +1166,7 @@ IntroScene17:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene18:
 ; Suicune close up.
@@ -1215,8 +1182,7 @@ IntroScene18:
 	ldh [hSCX], a
 	ret
 .done
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene19:
 ; More setup.
@@ -1280,8 +1246,7 @@ IntroScene19:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene20:
 ; Suicune running away. A bunch of Unown appear.
@@ -1313,21 +1278,10 @@ IntroScene20:
 	srl a
 	ld [wIntroSceneTimer], a
 	xor a
-	call Intro_Scene20_AppearUnown
-	ret
-; unused
-	ld a, c
-	and $1c
-	srl a
-	srl a
-	ld [wIntroSceneTimer], a
-	ld a, 1
-	call Intro_Scene20_AppearUnown
-	ret
+	jp Intro_Scene20_AppearUnown
 
 .finished
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene21:
 ; Suicune gets more distant and turns black.
@@ -1338,8 +1292,7 @@ IntroScene21:
 	ldh [hBGMapMode], a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene22:
 	ld hl, wIntroSceneFrameCounter
@@ -1350,14 +1303,12 @@ IntroScene22:
 	ret
 .done
 	farcall DeinitializeAllSprites
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene23:
 	xor a
 	ld [wIntroSceneFrameCounter], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene24:
 ; Fade to white.
@@ -1374,14 +1325,12 @@ IntroScene24:
 	ld a, c
 	and $1c
 	sla a
-	call Intro_Scene24_ApplyPaletteFade
-	ret
+	jp Intro_Scene24_ApplyPaletteFade
 
 .done
 	ld a, $40
 	ld [wIntroSceneFrameCounter], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene25:
 ; Wait around a bit.
@@ -1392,8 +1341,7 @@ IntroScene25:
 	ret
 
 .done
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene26:
 ; Load the final scene.
@@ -1441,8 +1389,7 @@ IntroScene26:
 	xor a
 	ld [wIntroSceneFrameCounter], a
 	ld [wIntroSceneTimer], a
-	call NextIntroScene
-	ret
+	jp NextIntroScene
 
 IntroScene27:
 ; Spell out C R Y S T A L with Unown.
@@ -1460,8 +1407,7 @@ IntroScene27:
 	ld a, c
 	and $70
 	swap a
-	call Intro_FadeUnownWordPals
-	ret
+	jp Intro_FadeUnownWordPals
 
 .done
 	call NextIntroScene
@@ -1482,12 +1428,10 @@ IntroScene28:
 	ret nz
 
 	ld de, SFX_INTRO_WHOOSH
-	call PlaySFX
-	ret
+	jp PlaySFX
 
 .clear
-	call ClearBGPalettes
-	ret
+	jp ClearBGPalettes
 
 .done
 	ld hl, wJumptableIndex
@@ -1567,8 +1511,7 @@ CrystalIntro_InitUnownAnim:
 	add hl, bc
 	ld [hl], $38
 	ld a, SPRITE_ANIM_FRAMESET_INTRO_UNOWN_2
-	call ReinitSpriteAnimFrame
-	ret
+	jp ReinitSpriteAnimFrame
 
 CrystalIntro_UnownFade:
 	add a
@@ -1921,8 +1864,7 @@ Intro_ClearBGPals:
 	ld a, $1
 	ldh [hCGBPalUpdate], a
 	call DelayFrame
-	call DelayFrame
-	ret
+	jp DelayFrame
 
 Intro_DecompressRequest2bpp_128Tiles:
 	ldh a, [rSVBK]

@@ -13,8 +13,7 @@ Function16c09e:
 	ld a, [wcf64]
 	cp $4
 	ret nz
-	call Function16c0fa
-	ret
+	jp Function16c0fa
 
 Function16c0a8:
 	xor a
@@ -23,8 +22,7 @@ Function16c0a8:
 	call ClearSprites
 	ld a, $90
 	ldh [hWY], a
-	call Function16c0fa
-	ret
+	jp Function16c0fa
 
 Function16c0ba:
 	call Function16c943
@@ -90,8 +88,7 @@ MobileSystemSplashScreen_InitGFX:
 	call Function16cc02
 	xor a
 	ldh [hBGMapMode], a
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 .LoadPals:
 	ld de, wBGPals1
@@ -110,8 +107,7 @@ MobileSystemSplashScreen_InitGFX:
 	ld hl, .TileMap
 	decoord 0, 1
 	ld bc, $0154
-	call CopyBytes
-	ret
+	jp CopyBytes
 
 .LoadAttrMap:
 	hlcoord 0, 0, wAttrMap
@@ -121,8 +117,7 @@ MobileSystemSplashScreen_InitGFX:
 	ld hl, .AttrMap
 	decoord 0, 1, wAttrMap
 	ld bc, 17 * SCREEN_WIDTH
-	call CopyBytes
-	ret
+	jp CopyBytes
 
 .Tiles:
 INCBIN "gfx/mobile/mobile_splash.2bpp"

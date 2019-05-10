@@ -127,8 +127,6 @@ EvolutionAnimation:
 	ld [wCurPartySpecies], a
 	pop af
 	ld [wBoxAlignment], a
-	ret
-
 .no_anim
 	ret
 
@@ -147,8 +145,7 @@ EvolutionAnimation:
 	ret c
 
 	ld a, [wPlayerHPPal]
-	call PlayMonCry
-	ret
+	jp PlayMonCry
 
 .GetSGBLayout:
 	ld b, SCGB_EVOLUTION
@@ -345,8 +342,7 @@ endr
 	dec c
 	jr nz, .loop6
 	pop bc
-	call DelayFrame
-	ret
+	jp DelayFrame
 
 .GFX:
 INCBIN "gfx/evo/bubble_large.2bpp"
