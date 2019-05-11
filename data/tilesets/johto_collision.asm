@@ -128,6 +128,6 @@
 	tilecoll WALL, WALL, WALL, WALL ; 7f
 	tilecoll UP_WALL, FLOOR, FLOOR, FLOOR ; 80
 	tilecoll FLOOR, UP_WALL, FLOOR, FLOOR ; 81
-	tilecoll FLLOR, FLOOR, ROCKY_WALL, WALL ; 82
+	tilecoll FL0OR, FLOOR, ROCKY_WALL, WALL ; 82
 	tilecoll FLOOR, UP_WALL, WALL, FLOOR ; 83
 	tilecoll UP_WALL, FLOOR, FLOOR, WALL ; 84
