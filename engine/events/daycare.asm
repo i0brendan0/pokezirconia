@@ -551,8 +551,6 @@ DayCare_InitBreeding:
 	ld a, [wBreedingCompatibility]
 	and a
 	ret z
-	inc a
-	ret z
 	ld hl, wDayCareMan
 	set DAYCAREMAN_MONS_COMPATIBLE_F, [hl]
 .loop
@@ -605,10 +603,13 @@ DayCare_InitBreeding:
 	ld a, EGG_LEVEL
 	ld [wCurPartyLevel], a
 
-; Nidoran♀ can give birth to either gender of Nidoran
+; Nidoran can give birth to either gender of Nidoran
 	ld a, [wCurPartySpecies]
+	cp NIDORAN_M
+	jr z, .either
 	cp NIDORAN_F
 	jr nz, .GotEggSpecies
+.either
 	call Random
 	cp 50 percent + 1
 	ld a, NIDORAN_F
