@@ -1930,7 +1930,7 @@ UsedRockClimbScript:
 	closetext
 	waitsfx
 	playsound SFX_STRENGTH
-	readvar VAR_FACING
+	checkcode VAR_FACING
 	if_equal DOWN, .Down
 .loop_up
 	applymovement PLAYER, .RockClimbUpStep
