@@ -27,7 +27,7 @@ SpriteAnimFrameData:
 	dw .Frameset_TrademonBubble
 	dw .Frameset_EvolutionBallOfLight
 	dw .Frameset_RadioTuningKnob
-	dw .Frameset_MagnetTrainRed
+	dw .Frameset_MagnetTrainBlue
 	dw .Frameset_Unused1C
 	dw .Frameset_Leaf
 	dw .Frameset_CutTree
@@ -45,8 +45,8 @@ SpriteAnimFrameData:
 	dw .Frameset_EZChatCursor5
 	dw .Frameset_EZChatCursor6
 	dw .Frameset_EZChatCursor7
-	dw .Frameset_BlueWalk
-	dw .Frameset_MagnetTrainBlue
+	dw .Frameset_PinkWalk
+	dw .Frameset_MagnetTrainPink
 	dw .Frameset_MobileTradeSentBall
 	dw .Frameset_MobileTradeOTBall
 	dw .Frameset_MobileTradeCableBulge
@@ -66,6 +66,7 @@ SpriteAnimFrameData:
 	dw .Frameset_IntroUnownF
 	dw .Frameset_CelebiLeft
 	dw .Frameset_CelebiRight
+	dw .Frameset_BlueWalk
 
 .Frameset_00:
 	frame SPRITE_ANIM_OAMSET_RED_WALK_1, 32
@@ -108,18 +109,18 @@ SpriteAnimFrameData:
 	frame SPRITE_ANIM_OAMSET_RED_WALK_2,  8, OAM_X_FLIP
 	dorestart
 
-.Frameset_BlueWalk:
-	frame SPRITE_ANIM_OAMSET_BLUE_WALK_1,  8
-	frame SPRITE_ANIM_OAMSET_BLUE_WALK_2,  8
-	frame SPRITE_ANIM_OAMSET_BLUE_WALK_1,  8
-	frame SPRITE_ANIM_OAMSET_BLUE_WALK_2,  8, OAM_X_FLIP
+.Frameset_PinkWalk:
+	frame SPRITE_ANIM_OAMSET_PINK_WALK_1,  8
+	frame SPRITE_ANIM_OAMSET_PINK_WALK_2,  8
+	frame SPRITE_ANIM_OAMSET_PINK_WALK_1,  8
+	frame SPRITE_ANIM_OAMSET_PINK_WALK_2,  8, OAM_X_FLIP
 	dorestart
 
-.Frameset_MagnetTrainBlue:
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_1,  8
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_2,  8
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_1,  8
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_2,  8, OAM_X_FLIP
+.Frameset_MagnetTrainPink:
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_PINK_1,  8
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_PINK_2,  8
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_PINK_1,  8
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_PINK_2,  8, OAM_X_FLIP
 	dorestart
 
 .Frameset_GSTitleTrail:
@@ -238,54 +239,11 @@ SpriteAnimFrameData:
 	frame SPRITE_ANIM_OAMSET_RADIO_TUNING_KNOB, 32
 	endanim
 
-.Frameset_MagnetTrainRed:
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_RED_1,  8
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_RED_2,  8
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_RED_1,  8
-	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_RED_2,  8, OAM_X_FLIP
-	dorestart
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_43,  8
-	frame SPRITE_ANIM_OAMSET_UNUSED_44,  8
-	dorestart
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_45,  8
-	frame SPRITE_ANIM_OAMSET_UNUSED_46,  8
-	dorestart
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_47,  8
-	frame SPRITE_ANIM_OAMSET_UNUSED_48,  8
-	dorestart
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_49,  1
-	frame SPRITE_ANIM_OAMSET_UNUSED_49,  1, OAM_X_FLIP
-	frame SPRITE_ANIM_OAMSET_UNUSED_49,  1, OAM_X_FLIP, OAM_Y_FLIP
-	frame SPRITE_ANIM_OAMSET_UNUSED_49,  1, OAM_Y_FLIP
-	dorestart
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_4A, 32
-	endanim
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_4B, 32
-	endanim
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_4C, 32
-	endanim
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_4D, 32
-	endanim
-
-; unused
-	frame SPRITE_ANIM_OAMSET_UNUSED_4E,  3
-	dorepeat  3
+.Frameset_MagnetTrainBlue:
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_1,  8
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_2,  8
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_1,  8
+	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_2,  8, OAM_X_FLIP
 	dorestart
 
 .Frameset_Unused1C:
@@ -495,3 +453,10 @@ SpriteAnimFrameData:
 	frame SPRITE_ANIM_OAMSET_CELEBI_1,  8, OAM_X_FLIP
 	frame SPRITE_ANIM_OAMSET_CELEBI_2,  8, OAM_X_FLIP
 	endanim
+	
+.Frameset_BlueWalk:
+	frame SPRITE_ANIM_OAMSET_BLUE_WALK_1,  8
+	frame SPRITE_ANIM_OAMSET_BLUE_WALK_2,  8
+	frame SPRITE_ANIM_OAMSET_BLUE_WALK_1,  8
+	frame SPRITE_ANIM_OAMSET_BLUE_WALK_2,  8, OAM_X_FLIP
+	dorestart

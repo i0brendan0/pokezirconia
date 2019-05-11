@@ -13,8 +13,7 @@ BlankScreen:
 	ld a, $7
 	call ByteFill
 	call WaitBGMap2
-	call SetPalettes
-	ret
+	jp SetPalettes
 
 SpawnPlayer:
 	ld a, -1
@@ -29,14 +28,14 @@ SpawnPlayer:
 	call GetMapObject
 	ld hl, MAPOBJECT_COLOR
 	add hl, bc
-	ln e, PAL_NPC_RED, OBJECTTYPE_SCRIPT
+	ln e, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT
 	ld a, [wPlayerSpriteSetupFlags]
 	bit PLAYERSPRITESETUP_FEMALE_TO_MALE_F, a
 	jr nz, .ok
 	ld a, [wPlayerGender]
 	bit PLAYERGENDER_FEMALE_F, a
 	jr z, .ok
-	ln e, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT
+	ln e, PAL_NPC_PINK, OBJECTTYPE_SCRIPT
 
 .ok
 	ld [hl], e
@@ -79,8 +78,7 @@ PlayerSpawn_ConvertCoords:
 	add 4
 	ld e, a
 	pop bc
-	call CopyDECoordsToMapObject
-	ret
+	jp CopyDECoordsToMapObject
 
 WriteObjectXY::
 	ld a, b
@@ -124,7 +122,6 @@ RefreshPlayerCoords:
 	ld e, a
 	ld a, [wObjectFollow_Leader]
 	cp $0
-	ret nz ; wtf
 	ret
 
 CopyObjectStruct::
@@ -163,8 +160,7 @@ CopyObjectStruct::
 
 CopyMapObjectToObjectStruct:
 	call .CopyMapObjectToTempObject
-	call CopyTempObjectToObjectStruct
-	ret
+	jp CopyTempObjectToObjectStruct
 
 .CopyMapObjectToTempObject:
 	ldh a, [hObjectStructIndexBuffer]
@@ -268,7 +264,7 @@ InitializeVisibleSprites:
 	push bc
 	call CopyObjectStruct
 	pop bc
-	jp c, .ret
+	ret c
 
 .next
 	ld hl, OBJECT_LENGTH
@@ -279,9 +275,6 @@ InitializeVisibleSprites:
 	inc a
 	cp NUM_OBJECTS
 	jr nz, .loop
-	ret
-
-.ret
 	ret
 
 CheckObjectEnteringVisibleRange::
@@ -530,8 +523,7 @@ TrainerWalkToPlayer:
 
 .TerminateStep:
 	ld a, movement_step_end
-	call AppendToMovementBuffer
-	ret
+	jp AppendToMovementBuffer
 
 .GetPathToPlayer:
 	push de
@@ -574,16 +566,14 @@ TrainerWalkToPlayer:
 	ld d, a
 
 	pop af
-	call ComputePathToWalkToPlayer
-	ret
+	jp ComputePathToWalkToPlayer
 
 SurfStartStep:
 	call InitMovementBuffer
 	call .GetMovementData
 	call AppendToMovementBuffer
 	ld a, movement_step_end
-	call AppendToMovementBuffer
-	ret
+	jp AppendToMovementBuffer
 
 .GetMovementData:
 	ld a, [wPlayerDirection]
@@ -708,8 +698,7 @@ GetRelativeFacing::
 	cp NUM_OBJECT_STRUCTS
 	jr nc, .carry
 	ld e, a
-	call .GetFacing_e_relativeto_d
-	ret
+	jp .GetFacing_e_relativeto_d
 
 .carry
 	scf
@@ -769,13 +758,11 @@ GetRelativeFacing::
 	jr c, .c_directly_below_e
 ; c directly above e
 	ld d, DOWN
-	and a
-	ret
+	jr .done
 
 .c_directly_below_e
 	ld d, UP
-	and a
-	ret
+	jr .done
 
 .same_y_1
 	ld a, b
@@ -784,11 +771,11 @@ GetRelativeFacing::
 	jr c, .b_directly_right_of_d
 ; b directly left of d
 	ld d, RIGHT
-	and a
-	ret
+	jr .done
 
 .b_directly_right_of_d
 	ld d, LEFT
+.done
 	and a
 	ret
 

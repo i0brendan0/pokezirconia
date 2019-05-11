@@ -306,7 +306,7 @@ MagnetTrain_Jumptable:
 	ld d, 10 * 8 + 5
 	ld a, [wMagnetTrainPlayerSpriteInitX]
 	ld e, a
-	ld b, SPRITE_ANIM_INDEX_MAGNET_TRAIN_RED
+	ld b, SPRITE_ANIM_INDEX_MAGNET_TRAIN_BLUE
 	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wPlayerGender)
@@ -314,7 +314,7 @@ MagnetTrain_Jumptable:
 	ld a, [wPlayerGender]
 	bit PLAYERGENDER_FEMALE_F, a
 	jr z, .got_gender
-	ld b, SPRITE_ANIM_INDEX_MAGNET_TRAIN_BLUE
+	ld b, SPRITE_ANIM_INDEX_MAGNET_TRAIN_PINK
 
 .got_gender
 	pop af
@@ -367,7 +367,7 @@ MagnetTrain_Jumptable:
 	ld hl, wMagnetTrainFinalPosition
 	ld a, [wMagnetTrainPosition]
 	cp [hl]
-	jr z, .PrepareToFinishAnim
+	jp z, .Next
 	ld e, a
 	ld a, [wMagnetTrainDirection]
 	xor $ff
@@ -385,11 +385,6 @@ MagnetTrain_Jumptable:
 	add d
 	ld [hl], a
 	ret
-
-	ret
-
-.PrepareToFinishAnim:
-	jp .Next
 
 .TrainArrived:
 	ld a, $80
