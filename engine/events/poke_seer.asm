@@ -107,7 +107,7 @@ ReadCaughtData:
 
 	inc hl
 	ld a, [wPlayerID + 1]
-	; cp [hl]
+	cp [hl]
 	jr nz, .traded
 
 	ld a, SEERACTION_MET
@@ -148,9 +148,6 @@ GetCaughtLevel:
 	ld a, [wSeerCaughtData]
 	and CAUGHT_LEVEL_MASK
 	jr z, .unknown
-	cp CAUGHT_EGG_LEVEL ; egg marker value
-	jr nz, .print
-	ld a, EGG_LEVEL ; egg hatch level
 
 .print
 	ld [wSeerCaughtLevel], a
