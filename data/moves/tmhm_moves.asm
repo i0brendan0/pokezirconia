@@ -59,6 +59,7 @@ TMHMMoves:
 	db FLASH
 	db WHIRLPOOL
 	db WATERFALL
+	db ROCK_CLIMB
 ; Move tutor
 	db FLAMETHROWER
 	db THUNDERBOLT

@@ -1570,3 +1570,25 @@ _WhitedOutToTrainerText::
 	para "<PLAYER> whited"
 	line "out!"
 	done
+	
+_AskRockClimbText::
+	text "The wall is very"
+	line "rocky…"
+
+	para "Want to use"
+	line "ROCK CLIMB?"
+	done
+
+_UsedRockClimbText::
+	text_ram wStringBuffer2
+	text " used"
+	line "ROCK CLIMB!"
+	prompt
+
+_CantRockClimbText::
+	text "The wall is very"
+	line "rocky…"
+
+	para "Will a #MON's"
+	line "move scale it?"
+	done

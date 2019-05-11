@@ -252,7 +252,7 @@ BattleAnimations::
 	dw BattleAnim_RockSmash
 	dw BattleAnim_Whirlpool
 	dw BattleAnim_BeatUp
-	dw BattleAnim_252
+	dw BattleAnim_RockClimb
 	dw BattleAnim_253
 	dw BattleAnim_254
 	dw BattleAnim_SweetScent2
@@ -281,7 +281,6 @@ BattleAnimations::
 	dw BattleAnim_HitConfusion
 
 BattleAnim_0:
-BattleAnim_252:
 BattleAnim_253:
 BattleAnim_254:
 BattleAnim_MirrorMove:
@@ -2948,6 +2947,7 @@ BattleAnim_Barrier:
 	anim_wait 32
 	anim_ret
 
+BattleAnim_RockClimb:
 BattleAnim_Waterfall:
 	anim_1gfx ANIM_GFX_HIT
 	anim_call BattleAnim_TargetObj_2Row

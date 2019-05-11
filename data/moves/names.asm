@@ -250,3 +250,6 @@ MoveNames::
 	db "ROCK SMASH@"
 	db "WHIRLPOOL@"
 	db "BEAT UP@"
+	db "WATERFALL@"
+	db "MOVE 253@"
+	db "MOVE 254@"
