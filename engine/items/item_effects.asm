@@ -192,6 +192,19 @@ ItemEffects:
 	dw PokeBallEffect      ; PARK_BALL
 	dw NoEffect            ; RAINBOW_WING
 	dw NoEffect            ; ITEM_B3
+	dw NoEffect            ; BRICK_PIECE
+	dw NoEffect            ; SURF_MAIL
+	dw NoEffect            ; LITEBLUEMAIL
+	dw NoEffect            ; PORTRAITMAIL
+	dw NoEffect            ; LOVELY_MAIL
+	dw NoEffect            ; EON_MAIL
+	dw NoEffect            ; MORPH_MAIL
+	dw NoEffect            ; BLUESKY_MAIL
+	dw NoEffect            ; MUSIC_MAIL
+	dw NoEffect            ; MIRAGE_MAIL
+	dw NoEffect            ; ITEM_BE
+	dw NoEffect            ; ITEM_C3
+	dw NoEffect            ; ITEM_DC
 
 PokeBallEffect:
 	ld a, [wBattleMode]
@@ -886,9 +899,6 @@ LureBallMultiplier:
 	ret
 
 MoonBallMultiplier:
-; This function is buggy.
-; Intent:  multiply catch rate by 4 if mon evolves with moon stone
-; Reality: no boost
 	push bc
 	ld a, [wTempEnemyMonSpecies]
 	dec a
@@ -930,13 +940,7 @@ MoonBallMultiplier:
 
 LoveBallMultiplier:
 ; Multiply catch rate by 8 if mons are of same species, different sex
-
-	; does species match?
-	ld a, [wTempEnemyMonSpecies]
-	ld c, a
-	ld a, [wTempBattleMonSpecies]
-	cp c
-	ret nz
+; Multiply catch rate by 4 if mons are different sex, not of same species
 
 	; check player mon species
 	push bc
@@ -978,6 +982,13 @@ LoveBallMultiplier:
 	jr c, .max
 	sla b
 	jr c, .max
+
+	; does species match?
+	ld a, [wTempEnemyMonSpecies]
+	ld c, a
+	ld a, [wTempBattleMonSpecies]
+	cp c
+	ret nz
 	sla b
 	ret nc
 .max
