@@ -188,7 +188,7 @@ TrainerCard_Page2_Joypad:
 	ld [wJumptableIndex], a
 	ret
 
-.Quit_or_kanto
+.Quit_or_Kanto
 	ld a, [wKantoBadges]
 	and a
 	jr nz, .Kanto
