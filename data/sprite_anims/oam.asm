@@ -1090,7 +1090,7 @@ SpriteAnimOAMData:
 	dsprite  0,  0, -1,  0, $02, PAL_OW_BLUE
 	dsprite  0,  0,  0,  0, $03, PAL_OW_BLUE
 
-.OAMData_MagnetTrainBrown:
+.OAMData_MagnetTrainBlue:
 	db 4
 	dsprite -1,  0, -1,  0, $00, PAL_OW_BLUE | PRIORITY
 	dsprite -1,  0,  0,  0, $01, PAL_OW_BLUE | PRIORITY

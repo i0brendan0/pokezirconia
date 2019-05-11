@@ -327,8 +327,18 @@ _CGB_BillsPC:
 .Function9009:
 	ld hl, .BillsPCOrangePalette
 	call LoadHLPaletteIntoDE
-	jr .asm_901a
-
+	call WipeAttrMap
+	hlcoord 1, 1, wAttrMap
+	lb bc, 7, 7
+	ld a, $1
+	call FillBoxCGB
+	call InitPartyMenuOBPals
+	call ApplyAttrMap
+	call ApplyPals
+	ld a, $1
+	ldh [hCGBPalUpdate], a
+	ret
+	
 .BillsPCOrangePalette:
 INCLUDE "gfx/pc/orange.pal"
 
