@@ -1084,7 +1084,7 @@ TryTileCollisionEvent::
 	jr .noevent
 
 .rock_climb
-	ld a, [wFacingTileID]
+	ld a, [wEngineBuffer1]
 	call CheckRockyWallTile
 	jr nz, .surf
 	farcall TryRockClimbOW
