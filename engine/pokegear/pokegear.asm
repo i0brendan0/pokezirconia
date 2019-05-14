@@ -2745,7 +2745,8 @@ LoadTownMapGFX:
 	jp DecompressRequest2bpp
 
 JohtoMap:
-INCBIN "gfx/pokegear/johto.bin"
+INCBIN "gfx/pokegear/map1.bin"
+	db $ff
 
 KantoMap:
 INCBIN "gfx/pokegear/kanto.bin"

@@ -1,10 +1,10 @@
 	const_def
-	const PAL_TOWNMAP_BORDER   ; 0
-	const PAL_TOWNMAP_EARTH    ; 1
-	const PAL_TOWNMAP_MOUNTAIN ; 2
-	const PAL_TOWNMAP_CITY     ; 3
-	const PAL_TOWNMAP_POI      ; 4
-	const PAL_TOWNMAP_POI_MTN  ; 5
+	const PAL_TOWNMAP_BORDER   ; 0 [border/road] WHITE, BLUE, YELLOW, ORANGE
+	const PAL_TOWNMAP_EARTH    ; 1 [shore]       LIGHT, BLUE, GREEN, DARK
+	const PAL_TOWNMAP_MOUNTAIN ; 2 [inland]      ???, BROWN, GREEN, DARK
+	const PAL_TOWNMAP_CITY     ; 3 [no change]   
+	const PAL_TOWNMAP_POI      ; 4 [city]        GRAY, LIGHT,  RED, DARK
+	const PAL_TOWNMAP_POI_MTN  ; 5 [poi]         GRAY, LIGHT, BLUE, DARK
 
 townmappals: MACRO
 rept _NARG / 2
@@ -16,11 +16,11 @@ ENDM
 
 ; gfx/pokegear/town_map.png
 	townmappals EARTH,    EARTH,    EARTH,    MOUNTAIN, MOUNTAIN, MOUNTAIN, BORDER,   BORDER
-	townmappals EARTH,    EARTH,    CITY,     EARTH,    POI,      POI_MTN,  POI,      POI_MTN
+	townmappals MOUNTAIN, MOUNTAIN, MOUNTAIN, BORDER,   POI,      EARTH,    EARTH,    BORDER
 	townmappals EARTH,    EARTH,    EARTH,    MOUNTAIN, MOUNTAIN, MOUNTAIN, BORDER,   BORDER
-	townmappals EARTH,    EARTH,    BORDER,   EARTH,    EARTH,    BORDER,   BORDER,   BORDER
+	townmappals MOUNTAIN, MOUNTAIN, MOUNTAIN, EARTH,    POI_MTN,  EARTH,    EARTH,    BORDER
 	townmappals EARTH,    EARTH,    EARTH,    MOUNTAIN, MOUNTAIN, MOUNTAIN, BORDER,   BORDER
-	townmappals BORDER,   BORDER,   BORDER,   BORDER,   BORDER,   BORDER,   BORDER,   BORDER
+	townmappals MOUNTAIN, MOUNTAIN, MOUNTAIN, MOUNTAIN, BORDER,   BORDER,   BORDER,   BORDER
 ; gfx/pokegear/pokegear.png
 	townmappals BORDER,   BORDER,   BORDER,   BORDER,   POI,      POI,      POI,      BORDER
 	townmappals BORDER,   BORDER,   BORDER,   BORDER,   BORDER,   BORDER,   BORDER,   BORDER
