@@ -178,6 +178,12 @@ TilesetDarkCaveAnim:
 	dw NULL,  FlickeringCaveEntrancePalette
 	dw vTiles2 tile $14, WriteTileFromBuffer
 	dw NULL,  FlickeringCaveEntrancePalette
+	dw vTiles2 tile $47, WriteTileToBuffer
+	dw NULL,  FlickeringCaveEntrancePalette
+	dw wTileAnimBuffer, ScrollTileRightLeft
+	dw NULL,  FlickeringCaveEntrancePalette
+	dw vTiles2 tile $47, WriteTileFromBuffer
+	dw NULL,  FlickeringCaveEntrancePalette
 	dw NULL,  AnimateWaterPalette
 	dw NULL,  FlickeringCaveEntrancePalette
 	dw vTiles2 tile $40, WriteTileToBuffer
