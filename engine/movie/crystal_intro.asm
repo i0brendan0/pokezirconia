@@ -131,8 +131,6 @@ PlaceGameFreakPresents:
 PlaceGameFreakPresents_AdvanceIndex:
 	ld hl, wJumptableIndex
 	inc [hl]
-	ret
-
 PlaceGameFreakPresents_0:
 	ret
 

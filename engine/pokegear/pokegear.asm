@@ -327,14 +327,6 @@ InitPokegearTilemap:
 	ld e, 1
 .ok
 	farcall PokegearMap
-	ld a, $07
-	ld bc, $12
-	hlcoord 1, 2
-	call ByteFill
-	hlcoord 0, 2
-	ld [hl], $06
-	hlcoord 19, 2
-	ld [hl], $17
 	ld a, [wPokegearMapCursorLandmark]
 	jp PokegearMap_UpdateLandmarkName
 
@@ -1870,24 +1862,6 @@ _TownMap:
 	ld e, KANTO_REGION
 .okay_tilemap
 	farcall PokegearMap
-	ld a, $07
-	ld bc, 6
-	hlcoord 1, 0
-	call ByteFill
-	hlcoord 0, 0
-	ld [hl], $06
-	hlcoord 7, 0
-	ld [hl], $17
-	hlcoord 7, 1
-	ld [hl], $16
-	hlcoord 7, 2
-	ld [hl], $26
-	ld a, $07
-	ld bc, NAME_LENGTH
-	hlcoord 8, 2
-	call ByteFill
-	hlcoord 19, 2
-	ld [hl], $17
 	ld a, [wTownMapCursorLandmark]
 	call PokegearMap_UpdateLandmarkName
 	farcall TownMapPals
