@@ -49,7 +49,7 @@ ItemDescriptions:
 	dw SodaPopDesc
 	dw LemonadeDesc
 	dw XAttackDesc
-	dw TeruSama4Desc
+	dw TeruSamaDesc
 	dw XDefendDesc
 	dw XSpeedDesc
 	dw XSpecialDesc
