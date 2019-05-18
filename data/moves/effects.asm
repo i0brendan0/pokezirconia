@@ -1155,6 +1155,21 @@ Splash:
 	usedmovetext
 	doturn
 	splash
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
+Splash_NotRainingEarlyEnd:
 	endmove
 
 Disable:
