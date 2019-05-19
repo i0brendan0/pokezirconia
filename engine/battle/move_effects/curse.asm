@@ -26,10 +26,10 @@ BattleCommand_Curse:
 ; Attack
 	ld a, [bc]
 	cp MAX_STAT_LEVEL
+	inc bc
 	jr c, .raise
 
 ; Defense
-	inc bc
 	ld a, [bc]
 	cp MAX_STAT_LEVEL
 	jr nc, .cantraise
@@ -38,7 +38,13 @@ BattleCommand_Curse:
 
 ; Raise Attack and Defense, and lower Speed.
 
-	ld a, $1
+; Speed
+	inc bc
+	ld a, [bc]
+	dec a
+	jr z, .cantlower
+
+	ld a, $1 ; Attack and Defense rise and Speed lowers
 	ld [wKickCounter], a
 	call AnimateCurrentMove
 	ld a, SPEED
@@ -47,11 +53,54 @@ BattleCommand_Curse:
 	call BattleCommand_StatDownMessage
 	call ResetMiss
 	call BattleCommand_SwitchTurn
+.raise_end
 	call BattleCommand_AttackUp
 	call BattleCommand_StatUpMessage
 	call ResetMiss
 	call BattleCommand_DefenseUp
 	jp BattleCommand_StatUpMessage
+
+.cantlower ; Attack and Defense rise and Speed can't lower
+	ld a, $1
+	ld [wKickCounter], a
+	call AnimateCurrentMove
+	ld b, SPEED + 1
+	call GetStatName
+	ld hl, WontDropAnymoreText
+	call StdBattleTextBox
+	jr .raise_end
+
+.cantraise
+
+; Can't raise either stat.
+
+; Speed
+	inc bc
+	ld a, [bc]
+	dec a
+	jr nz, .drop
+
+	ld b, SPEED + 1
+	call GetStatName
+	call AnimateFailedMove
+	ld hl, WontDropAnymoreText
+	call StdBattleTextBox
+    jr .drop_end
+	
+.drop ; Attack and Defense can't rise but Speed lowers.
+	ld a, $1
+	ld [wKickCounter], a
+	call AnimateCurrentMove
+	ld a, SPEED
+	call LowerStat
+	call BattleCommand_SwitchTurn
+	call BattleCommand_StatDownMessage
+	call BattleCommand_SwitchTurn
+.drop_end
+	ld b, ABILITY + 1
+	call GetStatName
+	ld hl, WontRiseAnymoreText
+	jp StdBattleTextBox
 
 .ghost
 
@@ -81,13 +130,3 @@ BattleCommand_Curse:
 .failed
 	call AnimateFailedMove
 	jp PrintButItFailed
-
-.cantraise
-
-; Can't raise either stat.
-
-	ld b, ABILITY + 1
-	call GetStatName
-	call AnimateFailedMove
-	ld hl, WontRiseAnymoreText
-	jp StdBattleTextBox

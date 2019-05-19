@@ -253,7 +253,7 @@ BattleAnimations::
 	dw BattleAnim_Whirlpool
 	dw BattleAnim_BeatUp
 	dw BattleAnim_RockClimb
-	dw BattleAnim_253
+	dw BattleAnim_InnerPower
 	dw BattleAnim_254
 	dw BattleAnim_SweetScent2
 ; $100
@@ -281,7 +281,6 @@ BattleAnimations::
 	dw BattleAnim_HitConfusion
 
 BattleAnim_0:
-BattleAnim_253:
 BattleAnim_254:
 BattleAnim_MirrorMove:
 	anim_ret
@@ -4317,6 +4316,7 @@ BattleAnim_Moonlight:
 	anim_call BattleAnim_Moonlight_branch_cbc80
 	anim_ret
 
+BattleAnim_InnerPower:
 BattleAnim_HiddenPower:
 	anim_1gfx ANIM_GFX_CHARGE
 	anim_call BattleAnim_TargetObj_1Row

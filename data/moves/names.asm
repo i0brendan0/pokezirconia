@@ -251,5 +251,5 @@ MoveNames::
 	db "WHIRLPOOL@"
 	db "BEAT UP@"
 	db "WATERFALL@"
-	db "MOVE 253@"
+	db "INNER POWER@"
 	db "MOVE 254@"

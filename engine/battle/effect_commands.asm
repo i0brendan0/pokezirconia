@@ -6905,3 +6905,5 @@ _CheckBattleScene:
 	pop de
 	pop hl
 	ret
+
+INCLUDE "engine/battle/move_effects/inner_power.asm"

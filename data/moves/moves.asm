@@ -264,3 +264,4 @@ Moves:
 	move WHIRLPOOL,    EFFECT_TRAP_TARGET,        15, WATER,     70, 15,   0
 	move BEAT_UP,      EFFECT_BEAT_UP,            10, DARK,     100, 10,   0
 	move ROCK_CLIMB,   EFFECT_CONFUSE_HIT,        90, NORMAL,    85, 20,  20
+	move INNER_POWER,  EFFECT_INNER_POWER,        50, NORMAL,   100, 20,   0

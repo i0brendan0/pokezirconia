@@ -2089,3 +2089,23 @@ DefenseCurl:
 	statupmessage
 	statupfailtext
 	endmove
+
+InnerPower:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	innerpower
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove

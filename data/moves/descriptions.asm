@@ -252,12 +252,11 @@ MoveDescriptions::
 	dw WhirlpoolDescription
 	dw BeatUpDescription
 	dw RockClimbDescription
-	dw MoveFDDescription
+	dw InnerPowerDescription
 	dw MoveFEDescription
 	dw MoveFFDescription
 	dw Move00Description
 
-MoveFDDescription:
 MoveFEDescription:
 MoveFFDescription:
 Move00Description:
@@ -1270,3 +1269,7 @@ BeatUpDescription:
 RockClimbDescription:
 	db   "A strong attack"
 	next "that may onfuse.@"
+	
+InnerPowerDescription:
+	db   "Becomes either of"
+	next "the MON's types.@"
