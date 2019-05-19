@@ -87,21 +87,6 @@ BattleCommand_Curse:
 	call StdBattleTextBox
     jr .drop_end
 	
-.drop ; Attack and Defense can't rise but Speed lowers.
-	ld a, $1
-	ld [wKickCounter], a
-	call AnimateCurrentMove
-	ld a, SPEED
-	call LowerStat
-	call BattleCommand_SwitchTurn
-	call BattleCommand_StatDownMessage
-	call BattleCommand_SwitchTurn
-.drop_end
-	ld b, ABILITY + 1
-	call GetStatName
-	ld hl, WontRiseAnymoreText
-	jp StdBattleTextBox
-
 .ghost
 
 ; Cut HP in half and put a curse on the opponent.
@@ -130,3 +115,19 @@ BattleCommand_Curse:
 .failed
 	call AnimateFailedMove
 	jp PrintButItFailed
+
+	
+.drop ; Attack and Defense can't rise but Speed lowers.
+	ld a, $1
+	ld [wKickCounter], a
+	call AnimateCurrentMove
+	ld a, SPEED
+	call LowerStat
+	call BattleCommand_SwitchTurn
+	call BattleCommand_StatDownMessage
+	call BattleCommand_SwitchTurn
+.drop_end
+	ld b, ABILITY + 1
+	call GetStatName
+	ld hl, WontRiseAnymoreText
+	jp StdBattleTextBox
