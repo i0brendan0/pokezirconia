@@ -250,6 +250,17 @@ DoNPCTrade:
 	pop hl
 	ld a, [hl]
 	ld [de], a
+	
+	ld e, NPCTRADE_PV
+	call GetTradeAttribute
+	ld de, wOTTrademonPV
+	call Trade_CopyTwoBytes
+	
+	ld hl, wPartyMon1PV
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call Trade_GetAttributeOfLastPartymon
+	ld hl, wOTTrademonPV
+	call Trade_CopyTwoBytes
 
 	push af
 	push bc
