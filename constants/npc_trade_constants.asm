@@ -1,15 +1,16 @@
 	; npctrade struct members (see data/events/npc_trades.asm)
-NPCTRADE_DIALOG  EQU  0 ; db
-NPCTRADE_GIVEMON EQU  1 ; db
-NPCTRADE_GETMON  EQU  2 ; db
-NPCTRADE_NICK    EQU  3 ; ds MON_NAME_LENGTH
-NPCTRADE_DVS     EQU 14 ; dw
-NPCTRADE_ITEM    EQU 16 ; db
-NPCTRADE_OT_ID   EQU 17 ; dw
-NPCTRADE_OT_NAME EQU 19 ; ds NAME_LENGTH
-NPCTRADE_GENDER  EQU 30 ; db
-NPCTRADE_PV      EQU 31 ; dw
-NPCTRADE_PADDING EQU 33 ; db
+NPCTRADE_DIALOG      EQU  0 ; db
+NPCTRADE_GIVEMON     EQU  1 ; db
+NPCTRADE_GETMON      EQU  2 ; db
+NPCTRADE_NICK        EQU  3 ; ds MON_NAME_LENGTH
+NPCTRADE_DVS         EQU 14 ; dw
+NPCTRADE_ITEM        EQU 16 ; db
+NPCTRADE_OT_ID       EQU 17 ; dw
+NPCTRADE_OT_NAME     EQU 19 ; ds NAME_LENGTH
+NPCTRADE_GENDER      EQU 30 ; db
+NPCTRADE_PV          EQU 31 ; dw
+NPCTRADE_PKMN_GENDER EQU 33 ; db
+NPCTRADE_PADDING     EQU 34 ; db
 
 ; NPCTrades indexes (see data/events/npc_trades.asm)
 	const_def
@@ -44,3 +45,8 @@ NUM_NPC_TRADES EQU const_value
 	const TRADE_DIALOGSET_HAPPY
 	const TRADE_DIALOGSET_NEWBIE
 	const TRADE_DIALOGSET_GIRL
+	
+; pokemon gender constants
+; genderless pokemon won't use this
+PKMN_GENDER_MALE   EQU 255
+PKMN_GENDER_FEMALE EQU 0

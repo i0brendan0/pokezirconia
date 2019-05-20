@@ -262,6 +262,16 @@ DoNPCTrade:
 	ld hl, wOTTrademonPV
 	call Trade_CopyTwoBytes
 
+	ld e, NPCTRADE_PKMN_GENDER
+	call GetTradeAttribute
+	push hl
+	ld hl, wPartyMon1GenderByte
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call Trade_GetAttributeOfLastPartymon
+	pop hl
+	ld a, [hl]
+	ld [de], a
+
 	push af
 	push bc
 	push de
