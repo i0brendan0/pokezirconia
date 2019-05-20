@@ -259,7 +259,7 @@ DoNPCTrade:
 	ld hl, wPartyMon1Personality
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call Trade_GetAttributeOfLastPartymon
-	ld hl, wOTTrademonPV
+	ld hl, wOTTrademonPersonality
 	call Trade_CopyTwoBytes
 
 	ld e, NPCTRADE_PKMN_GENDER
