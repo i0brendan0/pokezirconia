@@ -11,3 +11,9 @@ Warwolf (Brrufman) Sprite
 
 Wolfman (Warwulf) Sprite
 -EeveeEe
+
+Town Map Graphics
+-SaveState
+
+Sideways Cave Entrance/Exit
+-JaceDeane
