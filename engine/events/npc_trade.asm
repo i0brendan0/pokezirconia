@@ -256,7 +256,7 @@ DoNPCTrade:
 	ld de, wOTTrademonPV
 	call Trade_CopyTwoBytes
 	
-	ld hl, wPartyMon1PV
+	ld hl, wPartyMon1Personality
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call Trade_GetAttributeOfLastPartymon
 	ld hl, wOTTrademonPV
