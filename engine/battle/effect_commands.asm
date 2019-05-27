@@ -3710,6 +3710,8 @@ BattleCommand_PoisonTarget:
 	ret z
 	call CheckIfTargetIsPoisonType
 	ret z
+	call CheckIfTargetIsSteelType
+	ret z
 	call GetOpponentItem
 	ld a, b
 	cp HELD_PREVENT_POISON
@@ -3740,6 +3742,8 @@ BattleCommand_Poison:
 	jp z, .failed
 
 	call CheckIfTargetIsPoisonType
+	jp z, .failed
+	call CheckIfTargetIsSteelType
 	jp z, .failed
 
 	ld a, BATTLE_VARS_STATUS_OPP
@@ -3851,6 +3855,21 @@ CheckIfTargetIsPoisonType:
 	ret z
 	ld a, [de]
 	cp POISON
+	ret
+
+CheckIfTargetIsSteelType:
+	ld de, wEnemyMonType1
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .ok
+	ld de, wBattleMonType1
+.ok
+	ld a, [de]
+	inc de
+	cp STEEL
+	ret z
+	ld a, [de]
+	cp STEEL
 	ret
 
 PoisonOpponent:
