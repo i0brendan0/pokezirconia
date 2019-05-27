@@ -134,3 +134,15 @@
 	tilecoll UP_WALL, FLOOR, FLOOR, WALL ; 85
 	tilecoll FLOOR, WALL, WALL, WALL ; 86
 	tilecoll WALL, FLOOR, WALL, WALL ; 87
+	tilecoll WALL, WALL, WATER, WATER ; 88
+	tilecoll WALL, WALL, WALL, WATER ; 89
+	tilecoll WHIRLPOOL, WALL, WATER, WALL ; 8a
+	tilecoll WALL, WALL, WATER, WALL ; 8b
+	tilecoll FLOOR, FLOOR, WALL, FLOOR ; 8c
+	tilecoll UP_WALL, WALL, FLOOR, WALL ; 8d
+	tilecoll FLOOR, FLOOR, FLOOR, WALL ; 8e
+	tilecoll WALL, WALL, FLOOR, FLOOR ; 8f
+	tilecoll FLOOR, WALL, FLOOR, WALL ; 90
+	tilecoll WALL, FLOOR, FLOOR, FLOOR ; 91
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; 92
+	tilecoll WALL, WALL, DOOR, DOOR ; 93

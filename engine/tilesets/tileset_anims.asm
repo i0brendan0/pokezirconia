@@ -35,7 +35,6 @@ _AnimateTileset::
 
 Tileset0Anim:
 TilesetJohtoModernAnim:
-TilesetKantoAnim:
 	dw vTiles2 tile $14, AnimateWaterTile
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
@@ -44,6 +43,21 @@ TilesetKantoAnim:
 	dw NULL,  WaitTileAnimation
 	dw NULL,  AnimateFlowerTile
 	dw NULL,  WaitTileAnimation
+	dw NULL,  WaitTileAnimation
+	dw NULL,  StandingTileFrame8
+	dw NULL,  DoneTileAnimation
+
+TilesetKantoAnim:
+	dw vTiles2 tile $14, AnimateWaterTile
+	dw NULL,  WaitTileAnimation
+	dw NULL,  WaitTileAnimation
+	dw NULL,  AnimateWaterPalette
+	dw NULL,  WaitTileAnimation
+	dw NULL,  AnimateFlowerTile
+	dw WhirlpoolKantoFrames1, AnimateWhirlpoolTile
+	dw WhirlpoolKantoFrames2, AnimateWhirlpoolTile
+	dw WhirlpoolKantoFrames3, AnimateWhirlpoolTile
+	dw WhirlpoolKantoFrames4, AnimateWhirlpoolTile
 	dw NULL,  WaitTileAnimation
 	dw NULL,  StandingTileFrame8
 	dw NULL,  DoneTileAnimation
@@ -77,16 +91,19 @@ TilesetForestAnim:
 
 TilesetJohtoAnim:
 	dw vTiles2 tile $14, AnimateWaterTile
+	dw vTiles2 tile $6f, WriteTileToBuffer
 	dw NULL,  WaitTileAnimation
-	dw NULL,  WaitTileAnimation
+	dw wTileAnimBuffer, ScrollTileDown
 	dw NULL,  AnimateWaterPalette
-	dw NULL,  WaitTileAnimation
+	dw wTileAnimBuffer, ScrollTileDown
 	dw NULL,  AnimateFlowerTile
+	dw wTileAnimBuffer, ScrollTileDown
+	dw NULL,  WaitTileAnimation
+	dw vTiles2 tile $40, WriteTileFromBuffer
 	dw WhirlpoolFrames1, AnimateWhirlpoolTile
 	dw WhirlpoolFrames2, AnimateWhirlpoolTile
 	dw WhirlpoolFrames3, AnimateWhirlpoolTile
 	dw WhirlpoolFrames4, AnimateWhirlpoolTile
-	dw NULL,  WaitTileAnimation
 	dw NULL,  StandingTileFrame8
 	dw NULL,  DoneTileAnimation
 
@@ -970,6 +987,11 @@ WhirlpoolFrames1: dw vTiles2 tile $32, WhirlpoolTiles1
 WhirlpoolFrames2: dw vTiles2 tile $33, WhirlpoolTiles2
 WhirlpoolFrames3: dw vTiles2 tile $42, WhirlpoolTiles3
 WhirlpoolFrames4: dw vTiles2 tile $43, WhirlpoolTiles4
+
+WhirlpoolKantoFrames1: dw vTiles2 tile $62, WhirlpoolTiles1
+WhirlpoolKantoFrames2: dw vTiles2 tile $63, WhirlpoolTiles2
+WhirlpoolKantoFrames3: dw vTiles2 tile $72, WhirlpoolTiles3
+WhirlpoolKantoFrames4: dw vTiles2 tile $73, WhirlpoolTiles4
 
 WhirlpoolTiles1: INCBIN "gfx/tilesets/whirlpool/1.2bpp"
 WhirlpoolTiles2: INCBIN "gfx/tilesets/whirlpool/2.2bpp"

@@ -135,10 +135,10 @@
 	tilecoll WALL, WALL, FLOOR, FLOOR ; 86
 	tilecoll WALL, WALL, WALL, WALL ; 87
 	tilecoll WALL, WALL, WALL, WALL ; 88
-	tilecoll WALL, WALL, WALL, WALL ; 89
+	tilecoll WALL, FLOOR, WALL, WALL ; 89
 	tilecoll FLOOR, WALL, WALL, WALL ; 8a
 	tilecoll FLOOR, WALL, WALL, WALL ; 8b
-	tilecoll WALL, FLOOR, WALL, WALL ; 8c
+	tilecoll WALL, WALL, WALL, WALL ; 8c
 	tilecoll WALL, WALL, WALL, WALL ; 8d
 	tilecoll WALL, WALL, WALL, WALL ; 8e
 	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; 8f
@@ -151,3 +151,39 @@
 	tilecoll FLOOR, FLOOR, WALL, WALL ; 96
 	tilecoll FLOOR, HEADBUTT_TREE, WALL, WALL ; 97
 	tilecoll FLOOR, WALL, RIGHT_WALL, CAVE ; 98
+	tilecoll WATER, WATER, WATER, WATER ; 99
+	tilecoll WATER, WATER, WATER, WATER ; 9a
+	tilecoll BUOY, BUOY, BUOY, BUOY ; 9b
+	tilecoll BUOY, BUOY, BUOY, BUOY ; 9c
+	tilecoll WALL, WALL, FLOOR, FLOOR ; 9d
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; 9e
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; 9f
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a0
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a1
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a2
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a3
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a4
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a5
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a6
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; a7
+	tilecoll WALL, WALL, WALL, WALL ; a8
+	tilecoll WALL, WALL, WALL, WALL ; a9
+	tilecoll WALL, WALL, WALL, WALL ; aa
+	tilecoll WALL, WALL, WALL, WALL ; ab
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; ac
+	tilecoll FLOOR, FLOOR, FLOOR, FLOOR ; ad
+	tilecoll WALL, WALL, WALL, WALL ; ae
+	tilecoll WALL, WALL, WALL, WALL ; af
+	tilecoll WALL, UP_WALL, WALL, WALL ; b0
+	tilecoll UP_WALL, WALL, WALL, WALL ; b1
+	tilecoll WATERFALL, WATERFALL, WATERFALL, WATERFALL ; b2
+	tilecoll WALL, WALL, WALL, WALL ; b3
+	tilecoll WALL, WALL, WALL, WALL ; b4
+	tilecoll FLOOR, WALL, ROCKY_WALL, WALL ; b5
+	tilecoll WALL, FLOOR, WALL, FLOOR ; b6
+	tilecoll FLOOR, WALL, FLOOR, WALL ; b7
+	tilecoll WALL, FLOOR, WALL, ROCKY_WALL ; b8
+	tilecoll FLOOR, FLOOR, FLOOR, WARP_CARPET_DOWN ; b9
+	tilecoll UP_WALL, WALL, FLOOR, FLOOR ; ba
+	tilecoll FLOOR, FLOOR, WALL, WALL ; bb
+	tilecoll FLOOR, FLOOR, WALL, WALL ; bc
