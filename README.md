@@ -18,19 +18,24 @@ Features
 * Pokémon now survive poisoning.
 * Losing money is now proportional.
 * Critical hit chances are different for stages 5 and 6.
-* Solarbeam does less damage during a sandstorm.
-* Magnitude now has levels 1 through 10 with edited chances and powers.
 * Stat EXP has been replaced with EVs.
 * TMs are now infinite.
-* Rock Smash and Flash have swapped TM/HM places.
 * Shininess is now independent of DVs.
-* Sketch fails if transformed.
 * The second badge page now works.
-* Rock Climb is added and is now the 8th HM.
 * Egg rates are increased.
 * Fairy type is added with Polkadot Bow increasing Fairy moves.
+
+Move related changes
+* Solarbeam does less damage during a sandstorm.
+* Magnitude now has levels 1 through 10 with edited chances and powers.
+* Rock Smash and Flash have swapped TM/HM places.
+* Sketch fails if transformed.
+* Rock Climb is added and is now the 8th HM.
 * Splash now does damage during rain.
 * Explosion no longer halves the defense stat of the opposing Pokémon.
+* Twinneedle no longer poisons Steel-type Pokémon. Due to the fix, any move that poisons but isn't Poison-type won't poison Steel-type Pokémon.
 
 New Moves
 * Inner Power - 50 Power, 100 Acc, 20 PP. Effect - Changes type to either of the Pokemon's types at random.
+
+Removed Moves
