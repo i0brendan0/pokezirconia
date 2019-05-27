@@ -309,10 +309,6 @@ SECTION "Tileset Data 7", ROMX
 
 TilesetRuinsOfAlphGFX:
 TilesetBetaWordRoomGFX:
-TilesetHoOhWordRoomGFX:
-TilesetKabutoWordRoomGFX:
-TilesetOmanyteWordRoomGFX:
-TilesetAerodactylWordRoomGFX:
 INCBIN "gfx/tilesets/ruins_of_alph.2bpp.lz"
 
 TilesetRuinsOfAlphMeta:
@@ -335,3 +331,15 @@ INCBIN "data/tilesets/omanyte_word_room_metatiles.bin"
 
 TilesetAerodactylWordRoomMeta:
 INCBIN "data/tilesets/aerodactyl_word_room_metatiles.bin"
+
+TilesetAerodactylWordRoomGFX:
+INCBIN "gfx/tilesets/aerodactyl_word_room.2bpp.lz"
+
+TilesetHoOhWordRoomGFX:
+INCBIN "gfx/tilesets/ho_oh_word_room.2bpp.lz"
+
+TilesetKabutoWordRoomGFX:
+INCBIN "gfx/tilesets/kabuto_word_room.2bpp.lz"
+
+TilesetOmanyteWordRoomGFX:
+INCBIN "gfx/tilesets/omanyte_word_room.2bpp.lz"
