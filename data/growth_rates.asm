@@ -11,12 +11,12 @@ ENDM
 
 GrowthRates:
 ; entries correspond to GROWTH_* (see constants/pokemon_data_constants.asm)
-	growth_rate 1, 1,   0,   0,   0 ; Medium Fast
-	growth_rate 3, 4,  10,   0,  30 ; Slightly Fast
-	growth_rate 3, 4,  20,   0,  70 ; Slightly Slow
-	growth_rate 6, 5, -15, 100, 140 ; Medium Slow
-	growth_rate 4, 5,   0,   0,   0 ; Fast
-	growth_rate 5, 4,   0,   0,   0 ; Slow
+	growth_rate 1, 1,   0,   0,   0 ; Medium Fast   1,000,000
+	growth_rate 3, 4,  15,   0,   0 ; Slightly Fast   900,000
+	growth_rate 3, 4,  10,  150,  0 ; Slightly Slow 1,115,000
+	growth_rate 6, 5, -15, 100, 140 ; Medium Slow   1,059,860
+	growth_rate 4, 5,   0,   0,   0 ; Fast            800,000
+	growth_rate 5, 4,   0,   0,   0 ; Slow          1,250,000
 
 ErraticExperience:
 	dt      0 ; L:1
