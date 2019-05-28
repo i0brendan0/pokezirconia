@@ -66,3 +66,8 @@
 	tilecoll UP_WALL, FLOOR, FLOOR, FLOOR ; 41
 	tilecoll UP_WALL, FLOOR, FLOOR, WALL ; 42
 	tilecoll FLOOR, UP_WALL, WALL, FLOOR ; 43
+	tilecoll WALL, FLOOR, CAVE, LEFT_WALL ; 44
+	tilecoll FLOOR, WALL, RIGHT_WALL, CAVE ; 45
+	tilecoll UP_WALL, UP_WALL, FLOOR, LADDER ; 46
+	tilecoll FLOOR, WALL, WALL, FLOOR ; 47
+	tilecoll WALL, FLOOR, FLOOR, WALL ; 48
