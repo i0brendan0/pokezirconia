@@ -11,8 +11,8 @@ NUM_POKEGEAR_CARDS EQU const_value
 	const POKEGEARSTATE_CLOCKINIT       ; 0
 	const POKEGEARSTATE_CLOCKJOYPAD     ; 1
 	const POKEGEARSTATE_MAPCHECKREGION  ; 2
-	const POKEGEARSTATE_JOHTOMAPINIT    ; 3
-	const POKEGEARSTATE_JOHTOMAPJOYPAD  ; 4
+	const POKEGEARSTATE_CAIRNMAPINIT    ; 3
+	const POKEGEARSTATE_CAIRNMAPJOYPAD  ; 4
 	const POKEGEARSTATE_KANTOMAPINIT    ; 5
 	const POKEGEARSTATE_KANTOMAPJOYPAD  ; 6
 	const POKEGEARSTATE_PHONEINIT       ; 7
@@ -21,6 +21,8 @@ NUM_POKEGEAR_CARDS EQU const_value
 	const POKEGEARSTATE_FINISHPHONECALL ; a
 	const POKEGEARSTATE_RADIOINIT       ; b
 	const POKEGEARSTATE_RADIOJOYPAD     ; c
+	
+TOWNMAP_TILE_BLANK EQU $6f
 
 PokeGear:
 	ld hl, wOptions
@@ -88,7 +90,7 @@ PokeGear:
 	xor a
 	ld [wJumptableIndex], a ; POKEGEARSTATE_CLOCKINIT
 	ld [wPokegearCard], a ; POKEGEARCARD_CLOCK
-	ld [wPokegearMapRegion], a ; JOHTO_REGION
+	ld [wPokegearMapRegion], a ; CAIRN_REGION
 	ld [wcf66], a
 	ld [wPokegearPhoneScrollPosition], a
 	ld [wPokegearPhoneCursorPosition], a
@@ -114,7 +116,7 @@ Pokegear_LoadGFX:
 	ld a, BANK(TownMapGFX)
 	call FarDecompress
 	ld hl, PokegearGFX
-	ld de, vTiles2 tile $30
+	ld de, vTiles2 tile $50
 	ld a, BANK(PokegearGFX)
 	call FarDecompress
 	ld hl, PokegearSpritesGFX
@@ -235,7 +237,7 @@ InitPokegearTilemap:
 	ldh [hBGMapMode], a
 	hlcoord 0, 0
 	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
-	ld a, $4f
+	ld a, TOWNMAP_TILE_BLANK
 	call ByteFill
 	ld a, [wPokegearCard]
 	maskbits NUM_POKEGEAR_CARDS
@@ -316,10 +318,10 @@ InitPokegearTilemap:
 .Map:
 	ld a, [wPokegearMapPlayerIconLandmark]
 	cp FAST_SHIP
-	jr z, .johto
+	jr z, .cairn
 	cp KANTO_LANDMARK
 	jr nc, .kanto
-.johto
+.cairn
 	ld e, 0
 	jr .ok
 
@@ -348,7 +350,7 @@ InitPokegearTilemap:
 
 .PlacePhoneBars:
 	hlcoord 17, 1
-	ld a, $3c
+	ld a, $5c
 	ld [hli], a
 	inc a
 	ld [hl], a
@@ -359,17 +361,17 @@ InitPokegearTilemap:
 	and a
 	ret nz
 	hlcoord 18, 2
-	ld [hl], $3f
+	ld [hl], $5f
 	ret
 
 Pokegear_FinishTilemap:
 	hlcoord 0, 0
 	ld bc, $8
-	ld a, $4f
+	ld a, TOWNMAP_TILE_BLANK
 	call ByteFill
 	hlcoord 0, 1
 	ld bc, $8
-	ld a, $4f
+	ld a, TOWNMAP_TILE_BLANK
 	call ByteFill
 	ld de, wPokegearFlags
 	ld a, [de]
@@ -382,22 +384,22 @@ Pokegear_FinishTilemap:
 	bit POKEGEAR_RADIO_CARD_F, a
 	call nz, .PlaceRadioIcon
 	hlcoord 0, 0
-	ld a, $46
+	ld a, $66
 	jp .PlacePokegearCardIcon
 
 .PlaceMapIcon:
 	hlcoord 2, 0
-	ld a, $40
+	ld a, $60
 	jr .PlacePokegearCardIcon
 
 .PlacePhoneIcon:
 	hlcoord 4, 0
-	ld a, $44
+	ld a, $64
 	jr .PlacePokegearCardIcon
 
 .PlaceRadioIcon:
 	hlcoord 6, 0
-	ld a, $42
+	ld a, $62
 .PlacePokegearCardIcon:
 	ld [hli], a
 	inc a
@@ -428,7 +430,7 @@ PokegearJumptable:
 	dw PokegearClock_Joypad
 	dw PokegearMap_CheckRegion
 	dw PokegearMap_Init
-	dw PokegearMap_JohtoMap
+	dw PokegearMap_CairnMap
 	dw PokegearMap_Init
 	dw PokegearMap_KantoMap
 	dw PokegearPhone_Init
@@ -516,11 +518,11 @@ Pokegear_UpdateClock:
 PokegearMap_CheckRegion:
 	ld a, [wPokegearMapPlayerIconLandmark]
 	cp FAST_SHIP
-	jr z, .johto
+	jr z, .cairn
 	cp KANTO_LANDMARK
 	jr nc, .kanto
-.johto
-	ld a, POKEGEARSTATE_JOHTOMAPINIT
+.cairn
+	ld a, POKEGEARSTATE_CAIRNMAPINIT
 	jr .done
 	ret
 
@@ -548,7 +550,7 @@ PokegearMap_KantoMap:
 	call TownMap_GetKantoLandmarkLimits
 	jr PokegearMap_ContinueMap
 
-PokegearMap_JohtoMap:
+PokegearMap_CairnMap:
 	ld d, SILVER_CAVE
 	ld e, NEW_BARK_TOWN
 PokegearMap_ContinueMap:
@@ -690,7 +692,7 @@ PokegearMap_UpdateLandmarkName:
 	pop de
 	farcall TownMap_ConvertLineBreakCharacters
 	hlcoord 8, 0
-	ld [hl], $34
+	ld [hl], $54
 	ret
 
 PokegearMap_UpdateCursorPosition:
@@ -1436,7 +1438,7 @@ RadioChannels:
 ; Pokédex Show in the morning
 
 ; Oak's Pokémon Talk in the afternoon and evening
-	call .InJohto
+	call .InCairn
 	jr nc, .NoSignal
 	ld a, [wTimeOfDay]
 	and a
@@ -1444,17 +1446,17 @@ RadioChannels:
 	jp LoadStation_OaksPokemonTalk
 
 .PokemonMusic:
-	call .InJohto
+	call .InCairn
 	jr nc, .NoSignal
 	jp LoadStation_PokemonMusic
 
 .LuckyChannel:
-	call .InJohto
+	call .InCairn
 	jr nc, .NoSignal
 	jp LoadStation_LuckyChannel
 
 .BuenasPassword:
-	call .InJohto
+	call .InCairn
 	jr nc, .NoSignal
 	jp LoadStation_BuenasPassword
 
@@ -1465,7 +1467,7 @@ RadioChannels:
 	jp LoadStation_UnownRadio
 
 .PlacesAndPeople:
-	call .InJohto
+	call .InCairn
 	jr c, .NoSignal
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_EXPN_CARD_F, a
@@ -1473,7 +1475,7 @@ RadioChannels:
 	jp LoadStation_PlacesAndPeople
 
 .LetsAllSing:
-	call .InJohto
+	call .InCairn
 	jr c, .NoSignal
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_EXPN_CARD_F, a
@@ -1481,7 +1483,7 @@ RadioChannels:
 	jp LoadStation_LetsAllSing
 
 .PokeFluteRadio:
-	call .InJohto
+	call .InCairn
 	jr c, .NoSignal
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_EXPN_CARD_F, a
@@ -1506,20 +1508,20 @@ RadioChannels:
 .NoSignal:
 	jp NoRadioStation
 
-.InJohto:
-; if in Johto or on the S.S. Aqua, set carry
+.InCairn:
+; if in Cairn or on the S.S. Aqua, set carry
 
 ; otherwise clear carry
 	ld a, [wPokegearMapPlayerIconLandmark]
 	cp FAST_SHIP
-	jr z, .johto
+	jr z, .cairn
 	cp KANTO_LANDMARK
-	jr c, .johto
+	jr c, .cairn
 .kanto
 	and a
 	ret
 
-.johto
+.cairn
 	scf
 	ret
 
@@ -1956,7 +1958,7 @@ PokegearMap:
 	and a
 	jr nz, .kanto
 	call LoadTownMapGFX
-	jp FillJohtoMap
+	jp FillCairnMap
 
 .kanto
 	call LoadTownMapGFX
@@ -1975,7 +1977,7 @@ _FlyMap:
 	farcall ClearSpriteAnims
 	call LoadTownMapGFX
 	ld de, FlyMapLabelBorderGFX
-	ld hl, vTiles2 tile $30
+	ld hl, vTiles2 tile $50
 	lb bc, BANK(FlyMapLabelBorderGFX), 6
 	call Request1bpp
 	call FlyMap
@@ -2077,25 +2079,25 @@ TownMapBubble:
 
 ; Top-left corner
 	hlcoord 0, 0
-	ld a, $30
+	ld a, $50
 	ld [hli], a
 ; Top row
 	ld bc, 18
 	ld a, " "
 	call ByteFill
 ; Top-right corner
-	ld a, $31
+	ld a, $51
 	ld [hli], a
 	
 ; Bottom-left corner
-	ld a, $32
+	ld a, $52
 	ld [hli], a
 ; Bottom row
 	ld bc, 18
 	ld a, " "
 	call ByteFill
 ; Bottom-right corner
-	ld a, $33
+	ld a, $53
 	ld [hl], a
 
 ; Print "Where?"
@@ -2106,7 +2108,7 @@ TownMapBubble:
 	call .Name
 ; Up/down arrows
 	hlcoord 18, 1
-	ld [hl], $34
+	ld [hl], $54
 	ret
 
 .Where:
@@ -2193,10 +2195,10 @@ FlyMap:
 	ld c, a
 	call GetWorldMapLocation
 .CheckRegion:
-; The first 46 locations are part of Johto. The rest are in Kanto.
+; The first 46 locations are part of Cairn. The rest are in Kanto.
 	cp KANTO_LANDMARK
 	jr nc, .KantoFlyMap
-.JohtoFlyMap:
+.CairnFlyMap:
 ; Note that .NoKanto should be modified in tandem with this branch
 	push af
 ; Start from New Bark Town
@@ -2208,7 +2210,7 @@ FlyMap:
 	ld a, FLY_MT_SILVER
 	ld [wEndFlypoint], a
 ; Fill out the map
-	call FillJohtoMap
+	call FillCairnMap
 	call .MapHud
 	pop af
 	jp TownMapPlayerIcon
@@ -2245,7 +2247,7 @@ FlyMap:
 	jp TownMapPlayerIcon
 
 .NoKanto:
-; If Indigo Plateau hasn't been visited, we use Johto's map instead
+; If Indigo Plateau hasn't been visited, we use Cairn's map instead
 
 ; Start from New Bark Town
 	ld a, FLY_NEW_BARK
@@ -2255,7 +2257,7 @@ FlyMap:
 ; ..and end at Silver Cave
 	ld a, FLY_MT_SILVER
 	ld [wEndFlypoint], a
-	call FillJohtoMap
+	call FillCairnMap
 	pop af
 .MapHud:
 	call TownMapBubble
@@ -2296,7 +2298,7 @@ Pokedex_GetArea:
 	call TownMapPals
 	hlbgcoord 0, 0, vBGMap1
 	call TownMapBGUpdate
-	call FillJohtoMap
+	call FillCairnMap
 	call .PlaceString_MonsNest
 	call TownMapPals
 	hlbgcoord 0, 0
@@ -2306,7 +2308,7 @@ Pokedex_GetArea:
 	call SetPalettes
 	xor a
 	ldh [hBGMapMode], a
-	xor a ; JOHTO_REGION
+	xor a ; CAIRN_REGION
 	call .GetAndPlaceNest
 .loop
 	call JoyTextDelay
@@ -2351,7 +2353,7 @@ Pokedex_GetArea:
 	call ClearSprites
 	ld a, $90
 	ldh [hWY], a
-	xor a ; JOHTO_REGION
+	xor a ; CAIRN_REGION
 	jp .GetAndPlaceNest
 
 .right
@@ -2389,12 +2391,6 @@ Pokedex_GetArea:
 	ld a, " "
 	call ByteFill
 	hlcoord 0, 1
-	ld a, $6
-	ld [hli], a
-	ld bc, SCREEN_WIDTH - 2
-	ld a, $7
-	call ByteFill
-	ld [hl], $17
 	call GetPokemonName
 	hlcoord 2, 0
 	call PlaceString
@@ -2500,16 +2496,16 @@ Pokedex_GetArea:
 ; on the screen.
 	ld a, [wTownMapPlayerIconLandmark]
 	cp FAST_SHIP
-	jr z, .johto
+	jr z, .cairn
 	cp KANTO_LANDMARK
-	jr c, .johto
+	jr c, .cairn
 .kanto
 	ld a, [wTownMapCursorLandmark]
 	and a
 	jr z, .clear
 	jr .ok
 
-.johto
+.cairn
 	ld a, [wTownMapCursorLandmark]
 	and a
 	jr nz, .clear
@@ -2565,8 +2561,8 @@ TownMapBGUpdate:
 	ldh [hBGMapMode], a
 	ret
 
-FillJohtoMap:
-	ld de, JohtoMap
+FillCairnMap:
+	ld de, CairnMap
 	jr FillTownMap
 
 FillKantoMap:
@@ -2591,8 +2587,8 @@ TownMapPals:
 ; Current tile
 	ld a, [hli]
 	push hl
-; The palette map covers tiles $00 to $5f; $60 and above use palette 0
-	cp $60
+; The palette map covers tiles $00 to $7e; $7f is space
+	cp $7f
 	jr nc, .pal0
 
 ; The palette data is condensed to nybbles, least-significant first.
@@ -2708,11 +2704,11 @@ TownMapPlayerIcon:
 LoadTownMapGFX:
 	ld hl, TownMapGFX
 	ld de, vTiles2
-	lb bc, BANK(TownMapGFX), 48
+	lb bc, BANK(TownMapGFX), $50
 	jp DecompressRequest2bpp
 
-JohtoMap:
-INCBIN "gfx/pokegear/map1.bin"
+CairnMap:
+INCBIN "gfx/pokegear/cairn.bin"
 	db $ff
 
 KantoMap:
@@ -2722,132 +2718,3 @@ PokedexNestIconGFX:
 INCBIN "gfx/pokegear/dexmap_nest_icon.2bpp"
 FlyMapLabelBorderGFX:
 INCBIN "gfx/pokegear/flymap_label_border.1bpp"
-
-Unreferenced_Function92311:
-	xor a
-	ld [wTownMapPlayerIconLandmark], a
-	call ClearBGPalettes
-	call ClearTileMap
-	call ClearSprites
-	ld hl, hInMenu
-	ld a, [hl]
-	push af
-	ld [hl], $1
-	xor a
-	ldh [hBGMapMode], a
-	farcall ClearSpriteAnims
-	call LoadTownMapGFX
-	ld de, FlyMapLabelBorderGFX
-	ld hl, vTiles2 tile $30
-	lb bc, BANK(FlyMapLabelBorderGFX), 6
-	call Request1bpp
-	call FillKantoMap
-	call TownMapBubble
-	call TownMapPals
-	hlbgcoord 0, 0, vBGMap1
-	call TownMapBGUpdate
-	call FillJohtoMap
-	call TownMapBubble
-	call TownMapPals
-	hlbgcoord 0, 0
-	call TownMapBGUpdate
-	call TownMapMon
-	ld a, c
-	ld [wTownMapCursorCoordinates], a
-	ld a, b
-	ld [wTownMapCursorCoordinates + 1], a
-	ld b, SCGB_POKEGEAR_PALS
-	call GetSGBLayout
-	call SetPalettes
-.loop
-	call JoyTextDelay
-	ld hl, hJoyPressed
-	ld a, [hl]
-	and B_BUTTON
-	jr nz, .pressedB
-	ld a, [hl]
-	and A_BUTTON
-	jr nz, .pressedA
-	call .HandleDPad
-	call GetMapCursorCoordinates
-	farcall PlaySpriteAnimations
-	call DelayFrame
-	jr .loop
-
-.pressedB
-	ld a, -1
-	jr .finished_a_b
-
-.pressedA
-	ld a, [wTownMapPlayerIconLandmark]
-	ld l, a
-	ld h, 0
-	add hl, hl
-	ld de, Flypoints + 1
-	add hl, de
-	ld a, [hl]
-.finished_a_b
-	ld [wTownMapPlayerIconLandmark], a
-	pop af
-	ldh [hInMenu], a
-	call ClearBGPalettes
-	ld a, $90
-	ldh [hWY], a
-	xor a ; LOW(vBGMap0)
-	ldh [hBGMapAddress], a
-	ld a, HIGH(vBGMap0)
-	ldh [hBGMapAddress + 1], a
-	ld a, [wTownMapPlayerIconLandmark]
-	ld e, a
-	ret
-
-.HandleDPad:
-	ld hl, hJoyLast
-	ld a, [hl]
-	and D_DOWN | D_RIGHT
-	jr nz, .down_right
-	ld a, [hl]
-	and D_UP | D_LEFT
-	jr nz, .up_left
-	ret
-
-.down_right
-	ld hl, wTownMapPlayerIconLandmark
-	ld a, [hl]
-	cp FLY_INDIGO
-	jr c, .okay_dr
-	ld [hl], -1
-.okay_dr
-	inc [hl]
-	jr .continue
-
-.up_left
-	ld hl, wTownMapPlayerIconLandmark
-	ld a, [hl]
-	and a
-	jr nz, .okay_ul
-	ld [hl], FLY_INDIGO + 1
-.okay_ul
-	dec [hl]
-.continue
-	ld a, [wTownMapPlayerIconLandmark]
-	cp KANTO_FLYPOINT
-	jr c, .johto
-	call FillKantoMap
-	xor a
-	ld b, $9c
-	jr .finish
-
-.johto
-	call FillJohtoMap
-	ld a, $90
-	ld b, $98
-.finish
-	ldh [hWY], a
-	ld a, b
-	ldh [hBGMapAddress + 1], a
-	call TownMapBubble
-	call WaitBGMap
-	xor a
-	ldh [hBGMapMode], a
-	ret

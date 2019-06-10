@@ -1069,9 +1069,6 @@ INCLUDE "gfx/title/unused_gs_fg.pal"
 MalePokegearPals:
 INCLUDE "gfx/pokegear/pokegear.pal"
 
-FemalePokegearPals:
-INCLUDE "gfx/pokegear/pokegear_f.pal"
-
 BetaPokerPals:
 INCLUDE "gfx/beta_poker/beta_poker.pal"
 
