@@ -12,7 +12,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 
 The Cairn Region
 
-![Cairn](../blob/master/docs/town_map_mockup.png)
+![cairn](docs/town_map_mockup.png)
 
 Features
 * Love Ball quadruples catch rate if the wild Pokémon is the opposite gender.
