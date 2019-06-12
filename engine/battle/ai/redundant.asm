@@ -166,7 +166,7 @@ AI_Redundant:
 	jr .NotRedundant
 	
 .Hail
-	ld a, [wWeather]
+	ld a, [wBattleWeather]
 	cp WEATHER_HAIL
 	jr z, .Redundant
 	jr .NotRedundant
