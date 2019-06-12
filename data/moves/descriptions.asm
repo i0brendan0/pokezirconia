@@ -253,11 +253,10 @@ MoveDescriptions::
 	dw BeatUpDescription
 	dw RockClimbDescription
 	dw InnerPowerDescription
-	dw MoveFEDescription
+	dw HailDescription
 	dw MoveFFDescription
 	dw Move00Description
 
-MoveFEDescription:
 MoveFFDescription:
 Move00Description:
 	db "?@"
@@ -1273,3 +1272,7 @@ RockClimbDescription:
 InnerPowerDescription:
 	db   "Becomes either of"
 	next "the MON's types.@"
+	
+HailDescription:
+	db   "Starts a hailstorm"
+	next "for five turns.@"

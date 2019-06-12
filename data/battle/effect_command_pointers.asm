@@ -96,7 +96,7 @@ BattleCommandPointers:
 	dw BattleCommand_Endure
 	dw BattleCommand_CheckCurl
 	dw BattleCommand_RolloutPower
-	dw BattleCommand5d
+	dw BattleCommand_StartHail
 	dw BattleCommand_FuryCutter
 	dw BattleCommand_Attract
 	dw BattleCommand_HappinessPower

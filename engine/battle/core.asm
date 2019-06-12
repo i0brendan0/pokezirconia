@@ -1681,6 +1681,9 @@ HandleWeather:
 	cp WEATHER_SANDSTORM
 	ret nz
 
+	cp WEATHER_HAIL
+	ret nz
+
 	ldh a, [hSerialConnectionStatus]
 	cp USING_EXTERNAL_CLOCK
 	jr z, .enemy_first
@@ -1708,6 +1711,11 @@ HandleWeather:
 	jr z, .ok
 	ld hl, wEnemyMonType1
 .ok
+
+	ld a, [wBattleWeather]
+	cp WEATHER_HAIL
+	jr z, .HailDamage
+	
 	ld a, [hli]
 	cp ROCK
 	ret z
@@ -1730,10 +1738,31 @@ HandleWeather:
 	ld de, ANIM_IN_SANDSTORM
 	call Call_PlayBattleAnim
 	call SwitchTurnCore
-	call GetEighthMaxHP
+	call GetSixteenthMaxHP
 	call SubtractHPFromUser
 
 	ld hl, SandstormHitsText
+	jp StdBattleTextBox
+
+.HailDamage:
+	ld a, [hli]
+	cp ICE
+	ret z
+	
+	ld a, [hl]
+	cp ICE
+	ret z
+	
+	call SwitchTurnCore
+	xor a
+	ld [wNumHits], a
+	ld de, ANIM_IN_HAIL
+	call Call_PlayBattleAnim
+	call SwitchTurnCore
+	call GetSixteenthMaxHP
+	call SubtractHPFromUser
+
+	ld hl, HailHitsText
 	jp StdBattleTextBox
 
 .ended
@@ -1760,12 +1789,14 @@ HandleWeather:
 	dw BattleText_RainContinuesToFall
 	dw BattleText_TheSunlightIsStrong
 	dw BattleText_TheSandstormRages
+	dw BattleText_HailContinuesToFall
 
 .WeatherEndedMessages:
 ; entries correspond to WEATHER_* constants
 	dw BattleText_TheRainStopped
 	dw BattleText_TheSunlightFaded
 	dw BattleText_TheSandstormSubsided
+	dw BattleText_TheHailStopped
 
 SubtractHPFromTarget:
 	call SubtractHP

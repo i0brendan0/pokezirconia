@@ -259,9 +259,9 @@
 	const BEAT_UP      ; fb
 	const ROCK_CLIMB   ; fc
 	const INNER_POWER  ; fd
+	const HAIL         ; fe
 NUM_ATTACKS EQU const_value + -1
 
-	const MOVE_OR_ANIM_FE ; fe
 
 ; Battle animations use the same constants as the moves up to this point
 	const ANIM_SWEET_SCENT_2     ; ff
@@ -288,6 +288,7 @@ NUM_ATTACKS EQU const_value + -1
 	const ANIM_WOBBLE            ; 113
 	const ANIM_SHAKE             ; 114
 	const ANIM_HIT_CONFUSION     ; 115
+	const ANIM_IN_HAIL           ; 116
 
 ; wNumHits uses offsets from ANIM_MISS
 	const_def

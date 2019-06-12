@@ -254,7 +254,7 @@ BattleAnimations::
 	dw BattleAnim_BeatUp
 	dw BattleAnim_RockClimb
 	dw BattleAnim_InnerPower
-	dw BattleAnim_254
+	dw BattleAnim_Hail
 	dw BattleAnim_SweetScent2
 ; $100
 	dw BattleAnim_ThrowPokeBall
@@ -279,9 +279,9 @@ BattleAnimations::
 	dw BattleAnim_Wobble
 	dw BattleAnim_Shake
 	dw BattleAnim_HitConfusion
+	dw BattleAnim_Hail
 
 BattleAnim_0:
-BattleAnim_254:
 BattleAnim_MirrorMove:
 	anim_ret
 
@@ -3696,6 +3696,25 @@ BattleAnim_Sandstorm:
 	anim_loop 16, .loop
 	anim_wait 8
 	anim_ret
+	
+BattleAnim_Hail:
+	anim_1gfx ANIM_GFX_POWDER
+	anim_bgeffect ANIM_BG_06, 0, 2, 0
+	anim_bgeffect ANIM_BG_WHITE_HUES, 0, 8, 0
+	anim_obj ANIM_OBJ_HAIL, 88, 0, $0
+	anim_wait 8
+	anim_obj ANIM_OBJ_HAIL, 72, 0, $1
+	anim_wait 8
+	anim_obj ANIM_OBJ_HAIL, 56, 0, $2
+.loop
+	anim_sound 0, 1, SFX_SHINE
+	anim_wait 6
+	anim_sound 0, 0, SFX_SHINE
+	anim_wait 6
+	anim_loop 8, .loop
+	anim_wait 8
+	anim_ret
+
 
 BattleAnim_GigaDrain:
 	anim_2gfx ANIM_GFX_BUBBLE, ANIM_GFX_CHARGE

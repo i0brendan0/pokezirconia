@@ -78,7 +78,7 @@ MoveEffectsPointers:
 	dw SkyAttack
 	dw ConfuseHit
 	dw PoisonMultiHit
-	dw NormalHit ; unused
+	dw FreezeHit
 	dw Substitute
 	dw HyperBeam
 	dw Rage
@@ -110,7 +110,7 @@ MoveEffectsPointers:
 	dw Nightmare
 	dw FlameWheel
 	dw Curse
-	dw NormalHit ; unused
+	dw Hail
 	dw Protect
 	dw Spikes
 	dw Foresight

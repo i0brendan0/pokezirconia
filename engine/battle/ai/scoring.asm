@@ -3225,4 +3225,45 @@ AI_80_20:
 AI_50_50:
 	call Random
 	cp 50 percent + 1
+AI_Smart_Hail:
+; Discourage this move if the player is ice
+	ld a, [wBattleMonType1]
+	cp ICE
+	jr z, .discourage
+
+	ld a, [wBattleMonType2]
+	cp ICE
+	jr z, .discourage
+	
+; Greatly encourage this move if the enemy has Blizzard
+	ld b, EFFECT_BLIZZARD
+	call AIHasMoveEffect
+	jr c, .greatlyencourage
+	
+; Encourage this move if the enemy is ice
+	ld a, [wEnemyMonType1]
+	cp ICE
+	jr z, .encourage
+
+	ld a, [wEnemyMonType2]
+	cp ICE
+	jr z, .encourage
+	
+; Discourage this move if player's HP is below 50%.
+	call AICheckPlayerHalfHP
+	jr nc, .discourage
+
+; 50% chance to encourage this move otherwise.
+	call AI_50_50
+	ret c
+	inc [hl]
+	
+.greatlyencourage
+	dec [hl]
+.encourage
+	dec [hl]
+	ret
+
+.discourage
+	inc [hl]
 	ret

@@ -252,4 +252,4 @@ MoveNames::
 	db "BEAT UP@"
 	db "WATERFALL@"
 	db "INNER POWER@"
-	db "MOVE 254@"
+	db "HAIL@"
