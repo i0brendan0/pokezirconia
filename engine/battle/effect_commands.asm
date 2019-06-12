@@ -3722,9 +3722,11 @@ BattleCommand_PoisonTarget:
 	ld a, [wTypeModifier]
 	and $7f
 	ret z
-	call CheckIfTargetIsPoisonType
+	ld b, POISON
+	call CheckIfTargetIsbType
 	ret z
-	call CheckIfTargetIsSteelType
+	ld b, STEEL
+	call CheckIfTargetIsbType
 	ret z
 	call GetOpponentItem
 	ld a, b
@@ -3755,9 +3757,11 @@ BattleCommand_Poison:
 	and $7f
 	jp z, .failed
 
-	call CheckIfTargetIsPoisonType
+	ld b, POISON
+	call CheckIfTargetIsbType
 	jp z, .failed
-	call CheckIfTargetIsSteelType
+	ld b, STEEL
+	call CheckIfTargetIsbType
 	jp z, .failed
 
 	ld a, BATTLE_VARS_STATUS_OPP
@@ -3856,7 +3860,7 @@ BattleCommand_Poison:
 	cp EFFECT_TOXIC
 	ret
 
-CheckIfTargetIsPoisonType:
+CheckIfTargetIsbType:
 	ld de, wEnemyMonType1
 	ldh a, [hBattleTurn]
 	and a
@@ -3865,25 +3869,10 @@ CheckIfTargetIsPoisonType:
 .ok
 	ld a, [de]
 	inc de
-	cp POISON
+	cp b
 	ret z
 	ld a, [de]
-	cp POISON
-	ret
-
-CheckIfTargetIsSteelType:
-	ld de, wEnemyMonType1
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .ok
-	ld de, wBattleMonType1
-.ok
-	ld a, [de]
-	inc de
-	cp STEEL
-	ret z
-	ld a, [de]
-	cp STEEL
+	cp b
 	ret
 
 PoisonOpponent:
@@ -4011,7 +4000,8 @@ BattleCommand_BurnTarget:
 	ld a, [wTypeModifier]
 	and $7f
 	ret z
-	call CheckMoveTypeMatchesTarget ; Don't burn a Fire-type
+	ld b, FIRE
+	call CheckIfTargetIsbType ; Don't burn a Fire-type
 	ret z
 	call GetOpponentItem
 	ld a, b
@@ -4042,7 +4032,12 @@ Defrost:
 	ld a, [hl]
 	and 1 << FRZ
 	ret z
-
+	
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp TRI_ATTACK
+	ret z
+	
 	xor a
 	ld [hl], a
 
@@ -4080,7 +4075,8 @@ BattleCommand_FreezeTarget:
 	ld a, [wBattleWeather]
 	cp WEATHER_SUN
 	ret z
-	call CheckMoveTypeMatchesTarget ; Don't freeze an Ice-type
+	ld b, ICE
+	call CheckIfTargetIsbType ; Don't freeze an Ice-type
 	ret z
 	call GetOpponentItem
 	ld a, b
@@ -4129,6 +4125,9 @@ BattleCommand_ParalyzeTarget:
 	ret nz
 	ld a, [wTypeModifier]
 	and $7f
+	ret z
+	ld b, ELECTRIC
+	call CheckIfTargetIsbType
 	ret z
 	call GetOpponentItem
 	ld a, b
@@ -5974,6 +5973,9 @@ BattleCommand_Paralyze:
 	jr nz, .paralyzed
 	ld a, [wTypeModifier]
 	and $7f
+	jr z, .didnt_affect
+	ld b, ELECTRIC
+	call CheckIfTargetIsbype
 	jr z, .didnt_affect
 	call GetOpponentItem
 	ld a, b
