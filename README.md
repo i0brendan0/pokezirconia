@@ -10,6 +10,10 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 [travis]: https://travis-ci.org/i0brendan0/pokezirconia
 [travis-badge]: https://travis-ci.org/i0brendan0/pokezirconia.svg?branch=master
 
+The Cairn Region
+
+![Cairn](../blob/master/docs/town_map_mockup.png)
+
 Features
 * Love Ball quadruples catch rate if the wild Pokémon is the opposite gender.
 * The erratic and fluctuating experience values are added.
