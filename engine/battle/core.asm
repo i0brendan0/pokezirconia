@@ -1744,6 +1744,13 @@ HandleWeather:
 	ld hl, SandstormHitsText
 	jp StdBattleTextBox
 
+.ended
+	ld hl, .WeatherEndedMessages
+	call .PrintWeatherMessage
+	xor a
+	ld [wBattleWeather], a
+	ret
+
 .HailDamage:
 	ld a, [hli]
 	cp ICE
@@ -1764,13 +1771,6 @@ HandleWeather:
 
 	ld hl, HailHitsText
 	jp StdBattleTextBox
-
-.ended
-	ld hl, .WeatherEndedMessages
-	call .PrintWeatherMessage
-	xor a
-	ld [wBattleWeather], a
-	ret
 
 .PrintWeatherMessage:
 	ld a, [wBattleWeather]
