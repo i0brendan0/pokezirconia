@@ -96,7 +96,7 @@ BattleCommand_Thief:
 	jp StdBattleTextBox
 
 .playeritem
-	ld a, 1
+	inc a
 	call BattlePartyAttr
 	ld d, h
 	ld e, l

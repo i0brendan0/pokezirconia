@@ -12,8 +12,7 @@ CheckPlayerMoveTypeMatchups:
 	and a
 	jr z, .unknown_moves
 
-	ld d, NUM_MOVES
-	ld e, 0
+	lb de, NUM_MOVES, 0
 .loop
 	ld a, [hli]
 	and a
@@ -97,8 +96,7 @@ CheckPlayerMoveTypeMatchups:
 
 .CheckEnemyMoveMatchups:
 	ld de, wEnemyMonMoves
-	ld b, NUM_MOVES + 1
-	ld c, 0
+	lb bc, NUM_MOVES + 1, 0
 
 	ld a, [wTypeMatchup]
 	push af
@@ -259,7 +257,7 @@ CheckAbleToSwitch:
 	ld a, [wEnemyAISwitchScore]
 	cp 10
 	jr nc, .okay
-	ld c, $20
+	sla c
 
 .okay
 	ld a, b
@@ -295,7 +293,7 @@ FindAliveEnemyMons:
 	ld d, a
 	ld e, 0
 	ld b, 1 << (PARTY_LENGTH - 1)
-	ld c, 0
+	ld c, e
 	ld hl, wOTPartyMon1HP
 
 .loop
@@ -342,8 +340,8 @@ FindEnemyMonsImmuneToLastCounterMove:
 	ld a, [wOTPartyCount]
 	ld b, a
 	ld c, 1 << (PARTY_LENGTH - 1)
-	ld d, 0
 	xor a
+	ld d, a
 	ld [wEnemyAISwitchScore], a
 
 .loop
@@ -408,8 +406,7 @@ FindAliveEnemyMonsWithASuperEffectiveMove:
 	ld a, [wOTPartyCount]
 	ld e, a
 	ld hl, wOTPartyMon1HP
-	ld b, 1 << (PARTY_LENGTH - 1)
-	ld c, 0
+	lb bc, 1 << (PARTY_LENGTH - 1), 0
 .loop
 	ld a, [hli]
 	or [hl]
@@ -440,8 +437,7 @@ FindEnemyMonsWithASuperEffectiveMove:
 	ld [wEnemyAISwitchScore], a
 	ld hl, wOTPartyMon1Moves
 	ld b, 1 << (PARTY_LENGTH - 1)
-	ld d, 0
-	ld e, 0
+	ld de, 0
 .loop
 	ld a, b
 	and c
@@ -450,8 +446,7 @@ FindEnemyMonsWithASuperEffectiveMove:
 	push hl
 	push bc
 	; for move on mon:
-	ld b, NUM_MOVES
-	ld c, 0
+	lb bc, NUM_MOVES, 0
 .loop3
 	; if move is None: break
 	ld a, [hli]
@@ -483,7 +478,7 @@ FindEnemyMonsWithASuperEffectiveMove:
 	jr c, .nope
 
 	; if super-effective: load 2 and break
-	ld e, 2
+	inc e
 	jr .break3
 
 .nope
@@ -543,8 +538,7 @@ FindEnemyMonsWithASuperEffectiveMove:
 FindEnemyMonsThatResistPlayer:
 	push bc
 	ld hl, wOTPartySpecies
-	ld b, 1 << (PARTY_LENGTH - 1)
-	ld c, 0
+	lb bc, 1 << (PARTY_LENGTH - 1), 0
 
 .loop
 	ld a, [hli]
@@ -603,14 +597,13 @@ FindEnemyMonsThatResistPlayer:
 FindEnemyMonsWithAtLeastQuarterMaxHP:
 	push bc
 	ld de, wOTPartySpecies
-	ld b, 1 << (PARTY_LENGTH - 1)
-	ld c, 0
+	lb bc, 1 << (PARTY_LENGTH - 1), 0
 	ld hl, wOTPartyMon1HP
 
 .loop
 	ld a, [de]
 	inc de
-	cp $ff
+	inc a
 	jr z, .done
 
 	push hl

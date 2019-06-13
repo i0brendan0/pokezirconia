@@ -1,6 +1,4 @@
 AI_SwitchOrTryItem:
-	and a
-
 	ld a, [wBattleMode]
 	dec a
 	ret z
@@ -50,7 +48,7 @@ SwitchOften:
 	cp $10
 	jr nz, .not_10
 	call Random
-	cp 50 percent + 1
+	add a
 	jr c, .switch
 	jp DontSwitch
 .not_10
@@ -127,7 +125,7 @@ SwitchSometimes:
 	cp $20
 	jr nz, .not_20
 	call Random
-	cp 50 percent + 1
+	add a
 	jr c, .switch
 	jp DontSwitch
 .not_20
@@ -175,7 +173,6 @@ AI_TryItem:
 	ld de, wEnemyTrainerItem1
 .loop
 	ld a, [hl]
-	and a
 	inc a
 	ret z
 
@@ -215,22 +212,19 @@ AI_TryItem:
 .used_item
 	xor a
 	ld [de], a
+	ld [wEnemyFuryCutterCount], a
+	ld [wEnemyProtectCount], a
+	ld [wEnemyRageCounter], a
+	ld [wLastEnemyCounterMove], a
+
 	inc a
 	ld [wEnemyGoesFirst], a
 
 	ld hl, wEnemySubStatus3
 	res SUBSTATUS_BIDE, [hl]
 
-	xor a
-	ld [wEnemyFuryCutterCount], a
-	ld [wEnemyProtectCount], a
-	ld [wEnemyRageCounter], a
-
 	ld hl, wEnemySubStatus4
 	res SUBSTATUS_RAGE, [hl]
-
-	xor a
-	ld [wLastEnemyCounterMove], a
 
 	scf
 	ret
@@ -351,7 +345,7 @@ AI_Items:
 	callfar AICheckEnemyQuarterHP
 	jp nc, .UseHealItem
 	call Random
-	cp 50 percent + 1
+	add a
 	jp c, .UseHealItem
 	jp .DontUse
 
@@ -395,49 +389,6 @@ AI_Items:
 	ld b, 20
 	call EnemyUsedPotion
 	jp .Use
-
-.asm_382ae ; This appears to be unused
-	callfar AICheckEnemyMaxHP
-	jr c, .dont_use
-	push bc
-	ld de, wEnemyMonMaxHP + 1
-	ld hl, wEnemyMonHP + 1
-	ld a, [de]
-	sub [hl]
-	jr z, .check_40_percent
-	dec hl
-	dec de
-	ld c, a
-	sbc [hl]
-	and a
-	jr nz, .check_40_percent
-	ld a, c
-	cp b
-	jp c, .check_50_percent
-	callfar AICheckEnemyQuarterHP
-	jr c, .check_40_percent
-
-.check_50_percent
-	pop bc
-	ld a, [bc]
-	bit UNKNOWN_USE_F, a
-	jp z, .Use
-	call Random
-	cp 50 percent + 1
-	jp c, .Use
-
-.dont_use
-	jp .DontUse
-
-.check_40_percent
-	pop bc
-	ld a, [bc]
-	bit UNKNOWN_USE_F, a
-	jp z, .DontUse
-	call Random
-	cp 39 percent + 1
-	jp c, .Use
-	jp .DontUse
 
 .XAccuracy:
 	call .XItem
@@ -489,13 +440,13 @@ AI_Items:
 	bit ALWAYS_USE_F, a
 	jr nz, .Use
 	call Random
-	cp 50 percent + 1
+	add a
 	jp c, .DontUse
 	ld a, [bc]
 	bit CONTEXT_USE_F, a
 	jr nz, .Use
 	call Random
-	cp 50 percent + 1
+	add a
 	jp c, .DontUse
 	jr .Use
 .notfirstturnout
@@ -708,12 +659,6 @@ TextJump_EnemyWithdrew:
 	text_far Text_EnemyWithdrew
 	text_end
 
-Function384d5: ; This appears to be unused
-	call AIUsedItemSound
-	call AI_HealStatus
-	ld a, FULL_HEAL_RED ; X_SPEED
-	jp PrintText_UsedItemOn_AND_AIUpdateHUD
-
 AI_HealStatus:
 	ld a, [wCurOTMon]
 	ld hl, wOTPartyMon1Status
@@ -748,31 +693,6 @@ EnemyUsedDireHit:
 	set SUBSTATUS_FOCUS_ENERGY, [hl]
 	ld a, DIRE_HIT
 	jp PrintText_UsedItemOn_AND_AIUpdateHUD
-
-Function3851e: ; This appears to be unused
-	ldh [hDivisor], a
-	ld hl, wEnemyMonMaxHP
-	ld a, [hli]
-	ldh [hDividend], a
-	ld a, [hl]
-	ldh [hDividend + 1], a
-	ld b, 2
-	call Divide
-	ldh a, [hQuotient + 3]
-	ld c, a
-	ldh a, [hQuotient + 2]
-	ld b, a
-	ld hl, wEnemyMonHP + 1
-	ld a, [hld]
-	ld e, a
-	ld a, [hl]
-	ld d, a
-	ld a, d
-	sub b
-	ret nz
-	ld a, e
-	sub c
-	ret
 
 EnemyUsedXAttack:
 	ld b, ATTACK

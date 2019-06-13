@@ -12,13 +12,13 @@ BattleCommand_Encore:
 	ld a, BATTLE_VARS_LAST_MOVE_OPP
 	call GetBattleVar
 	and a
-	jp z, PrintDidntAffect2
+	jr z, ._PrintDidntAffect2
 	cp STRUGGLE
-	jp z, PrintDidntAffect2
+	jr z, ._PrintDidntAffect2
 	cp ENCORE
-	jp z, PrintDidntAffect2
+	jr z, ._PrintDidntAffect2
 	cp MIRROR_MOVE
-	jp z, PrintDidntAffect2
+	jr z, ._PrintDidntAffect2
 	ld b, a
 
 .got_move
@@ -30,14 +30,14 @@ BattleCommand_Encore:
 	add hl, bc
 	ld a, [hl]
 	and PP_MASK
-	jp z, PrintDidntAffect2
+	jr z, ._PrintDidntAffect2
 	ld a, [wAttackMissed]
 	and a
-	jp nz, PrintDidntAffect2
+	jr nz, ._PrintDidntAffect2
 	ld a, BATTLE_VARS_SUBSTATUS5_OPP
 	call GetBattleVarAddr
 	bit SUBSTATUS_ENCORED, [hl]
-	jp nz, PrintDidntAffect2
+	jr nz, ._PrintDidntAffect2
 	set SUBSTATUS_ENCORED, [hl]
 	call BattleRandom
 	and $3
@@ -68,6 +68,7 @@ BattleCommand_Encore:
 	res SUBSTATUS_ENCORED, [hl]
 	xor a
 	ld [de], a
+._PrintDidntAffect2
 	jp PrintDidntAffect2
 
 .got_player_move
@@ -99,7 +100,7 @@ BattleCommand_Encore:
 	res SUBSTATUS_ENCORED, [hl]
 	xor a
 	ld [de], a
-	jp PrintDidntAffect2
+	jr ._PrintDidntAffect2
 
 .got_enemy_move
 	pop hl

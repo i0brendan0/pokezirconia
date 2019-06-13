@@ -59,7 +59,7 @@ BattleCommand_MirrorCoat:
 	ret
 	
 .failed
-	ld a, 1
+	inc a
 	ld [wEffectFailed], a
 	and a
 	ret

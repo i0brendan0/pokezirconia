@@ -56,8 +56,7 @@ HiddenPowerDamage:
 
 ; Divide by 2 and add 30 + 1
 	srl a
-	add 30
-	inc a
+	add 31
 
 	ld d, a
 

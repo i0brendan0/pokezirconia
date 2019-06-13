@@ -11,7 +11,7 @@ BattleCommand_Transform:
 	xor a
 	ld [wNumHits], a
 	ld [wFXAnimID + 1], a
-	ld a, $1
+	inc a
 	ld [wKickCounter], a
 	ld a, BATTLE_VARS_SUBSTATUS4
 	call GetBattleVarAddr
@@ -34,7 +34,6 @@ BattleCommand_Transform:
 	jr nz, .got_mon_species
 	ld hl, wEnemyMonSpecies
 	ld de, wBattleMonSpecies
-	xor a
 	ld [wCurMoveNum], a
 .got_mon_species
 	push hl

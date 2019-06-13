@@ -40,7 +40,7 @@ BattleCommand_RolloutPower:
 	ld a, [hl]
 	and a
 	jr nz, .skip_set_rampage
-	ld a, 1
+	inc a
 	ld [wSomeoneIsRampaging], a
 
 .skip_set_rampage

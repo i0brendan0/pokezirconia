@@ -326,13 +326,6 @@ UpdateChannels:
 	ldh [rNR21], a
 	ret
 
-.asm_e81db ; unused
-	ld a, [wCurTrackFrequency]
-	ldh [rNR23], a
-	ld a, [wCurTrackFrequency + 1]
-	ldh [rNR24], a
-	ret
-
 .asm_e81e6
 	ld a, [wCurTrackDuty]
 	ld d, a
@@ -374,15 +367,7 @@ UpdateChannels:
 	bit NOTE_NOISE_SAMPLING, [hl]
 	jr nz, .asm_e824d
 	bit NOTE_VIBRATO_OVERRIDE, [hl]
-	jr nz, .asm_e823a
-	ret
-
-.asm_e822f ; unused
-	ld a, [wCurTrackFrequency]
-	ldh [rNR33], a
-	ld a, [wCurTrackFrequency + 1]
-	ldh [rNR34], a
-	ret
+	ret z
 
 .asm_e823a
 	ld a, [wCurTrackFrequency]
@@ -394,8 +379,7 @@ UpdateChannels:
 	and %10001011 ; ch3 off
 	ldh [rNR52], a
 	ld hl, rNR30
-	call ClearChannel
-	ret
+	jp ClearChannel
 
 .asm_e824d
 	ld a, $3f ; sound length
@@ -473,20 +457,7 @@ endr
 	bit NOTE_REST, [hl] ; rest
 	jr nz, .ch4rest
 	bit NOTE_NOISE_SAMPLING, [hl]
-	jr nz, .asm_e82d4
-	ret
-
-.asm_e82c1 ; unused
-	ld a, [wCurTrackFrequency]
-	ldh [rNR43], a
-	ret
-
-.ch4rest
-	ldh a, [rNR52]
-	and %10000111 ; ch4 off
-	ldh [rNR52], a
-	ld hl, rNR40
-	jp ClearChannel
+	ret z
 
 .asm_e82d4
 	ld a, $3f ; sound length
@@ -498,6 +469,13 @@ endr
 	ld a, $80
 	ldh [rNR44], a
 	ret
+
+.ch4rest
+	ldh a, [rNR52]
+	and %10000111 ; ch4 off
+	ldh [rNR52], a
+	ld hl, rNR40
+	jp ClearChannel
 
 _CheckSFX:
 ; return carry if any sfx channels are active
@@ -690,20 +668,18 @@ FadeMusic:
 	jr nc, .maxvolume
 	; inc volume
 	inc a
-	jr .updatevolume
-
-.maxvolume
-	; we're done
-	xor a
-	ld [wMusicFade], a
-	ret
-
 .updatevolume
 	; hi = lo
 	ld d, a
 	swap a
 	or d
 	ld [wVolume], a
+	ret
+
+.maxvolume
+	; we're done
+	xor a
+	ld [wMusicFade], a
 	ret
 
 LoadNote:
@@ -1380,30 +1356,30 @@ MusicCommands:
 	dw Music_ToggleSFX ; sound on/off
 	dw Music_SlidePitchTo ; pitch wheel
 	dw Music_Vibrato ; vibrato
-	dw MusicE2 ; unused
+	dw Music__Unused ; unused
 	dw Music_ToggleNoise ; music noise sampling
 	dw Music_Panning ; force panning
 	dw Music_Volume ; volume
 	dw Music_Tone ; tone
-	dw MusicE7 ; unused
-	dw MusicE8 ; unused
+	dw Music__Unused ; unused
+	dw Music__Unused ; unused
 	dw Music_TempoRelative ; global tempo
 	dw Music_RestartChannel ; restart current channel from header
 	dw Music_NewSong ; new song
 	dw Music_SFXPriorityOn ; sfx priority on
 	dw Music_SFXPriorityOff ; sfx priority off
-	dw MusicEE ; unused
+	dw Music__Unused ; unused
 	dw Music_StereoPanning ; stereo panning
 	dw Music_SFXToggleNoise ; sfx noise sampling
-	dw MusicF1 ; nothing
-	dw MusicF2 ; nothing
-	dw MusicF3 ; nothing
-	dw MusicF4 ; nothing
-	dw MusicF5 ; nothing
-	dw MusicF6 ; nothing
-	dw MusicF7 ; nothing
-	dw MusicF8 ; nothing
-	dw MusicF9 ; unused
+	dw Music__Unused ; nothing
+	dw Music__Unused ; nothing
+	dw Music__Unused ; nothing
+	dw Music__Unused ; nothing
+	dw Music__Unused ; nothing
+	dw Music__Unused ; nothing
+	dw Music__Unused ; nothing
+	dw Music__Unused ; nothing
+	dw Music__Unused ; unused
 	dw Music_SetCondition ; setcondition
 	dw Music_JumpIf ; jumpif
 	dw Music_JumpChannel ; jump
@@ -1411,14 +1387,8 @@ MusicCommands:
 	dw Music_CallChannel ; call
 	dw Music_EndChannel ; return
 
-MusicF1:
-MusicF2:
-MusicF3:
-MusicF4:
-MusicF5:
-MusicF6:
-MusicF7:
-MusicF8:
+
+Music__Unused:
 	ret
 
 Music_EndChannel:
@@ -1610,78 +1580,6 @@ Music_JumpIf:
 	ld [hl], d
 	ret
 
-MusicEE:
-; conditional jump
-; checks a byte in ram corresponding to the current channel
-; doesn't seem to be set by any commands
-; params: 2
-;		ll hh ; pointer
-
-; if ????, jump
-	; get channel
-	ld a, [wCurChannel]
-	maskbits NUM_MUSIC_CHANS
-	ld e, a
-	ld d, 0
-	; hl = wChannel1JumpCondition + channel id
-	ld hl, wChannel1JumpCondition
-	add hl, de
-	; if set, jump
-	ld a, [hl]
-	and a
-	jr nz, .jump
-; skip to next command
-	; get address
-	ld hl, CHANNEL_MUSIC_ADDRESS
-	add hl, bc
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	; skip pointer
-	inc de
-	inc de
-	; update address
-	ld [hl], d
-	dec hl
-	ld [hl], e
-	ret
-
-.jump
-	; reset jump flag
-	ld [hl], 0
-	; de = pointer
-	call GetMusicByte
-	ld e, a
-	call GetMusicByte
-	ld d, a
-	; update address
-	ld hl, CHANNEL_MUSIC_ADDRESS
-	add hl, bc
-	ld [hl], e
-	inc hl
-	ld [hl], d
-	ret
-
-MusicF9:
-; sets some flag
-; seems to be unused
-; params: 0
-	ld a, 1
-	ld [wc2b5], a
-	ret
-
-MusicE2:
-; seems to have been dummied out
-; params: 1
-	call GetMusicByte
-	ld hl, CHANNEL_FIELD2C
-	add hl, bc
-	ld [hl], a
-	ld hl, CHANNEL_FLAGS2
-	add hl, bc
-	set SOUND_UNKN_0B, [hl]
-	ret
-
 Music_Vibrato:
 ; vibrato
 ; params: 2
@@ -1782,18 +1680,6 @@ Music_Tone:
 	ld [hl], a
 	ret
 
-MusicE7:
-; unused
-; params: 1
-	ld hl, CHANNEL_FLAGS2
-	add hl, bc
-	set SOUND_UNKN_0E, [hl]
-	call GetMusicByte
-	ld hl, CHANNEL_FIELD29
-	add hl, bc
-	ld [hl], a
-	ret
-
 Music_SoundDuty:
 ; sequence of 4 duty cycles to be looped
 ; params: 1 (4 2-bit duty cycle arguments)
@@ -1810,18 +1696,6 @@ Music_SoundDuty:
 	; update duty cycle
 	and $c0 ; only uses top 2 bits
 	ld hl, CHANNEL_DUTY_CYCLE
-	add hl, bc
-	ld [hl], a
-	ret
-
-MusicE8:
-; unused
-; params: 1
-	ld hl, CHANNEL_FLAGS2
-	add hl, bc
-	set SOUND_UNKN_0D, [hl]
-	call GetMusicByte
-	ld hl, CHANNEL_FIELD2A
 	add hl, bc
 	ld [hl], a
 	ret
@@ -2337,7 +2211,6 @@ _PlayMusic::
 	pop af
 	dec a
 	jr nz, .loop
-	xor a
 	ld [wc2b5], a
 	ld [wChannel1JumpCondition], a
 	ld [wChannel2JumpCondition], a
@@ -2468,15 +2341,13 @@ _PlaySFX::
 	res SOUND_CHANNEL_ON, [hl] ; turn it off
 	xor a
 	ldh [rNR11], a ; length/wavepattern = 0
-	ld a, $8
-	ldh [rNR12], a ; envelope = 0
-	xor a
 	ldh [rNR13], a ; frequency lo = 0
-	ld a, $80
-	ldh [rNR14], a ; restart sound (freq hi = 0)
-	xor a
 	ld [wSoundInput], a ; global sound off
 	ldh [rNR10], a ; sweep = 0
+	ld a, $8
+	ldh [rNR12], a ; envelope = 0
+	ld a, $80
+	ldh [rNR14], a ; restart sound (freq hi = 0)
 .ch6
 	ld hl, wChannel6Flags1
 	bit SOUND_CHANNEL_ON, [hl]
@@ -2484,10 +2355,9 @@ _PlaySFX::
 	res SOUND_CHANNEL_ON, [hl] ; turn it off
 	xor a
 	ldh [rNR21], a ; length/wavepattern = 0
+	ldh [rNR23], a ; frequency lo = 0
 	ld a, $8
 	ldh [rNR22], a ; envelope = 0
-	xor a
-	ldh [rNR23], a ; frequency lo = 0
 	ld a, $80
 	ldh [rNR24], a ; restart sound (freq hi = 0)
 .ch7
@@ -2498,10 +2368,9 @@ _PlaySFX::
 	xor a
 	ldh [rNR30], a ; sound mode #3 off
 	ldh [rNR31], a ; length/wavepattern = 0
+	ldh [rNR33], a ; frequency lo = 0
 	ld a, $8
 	ldh [rNR32], a ; envelope = 0
-	xor a
-	ldh [rNR33], a ; frequency lo = 0
 	ld a, $80
 	ldh [rNR34], a ; restart sound (freq hi = 0)
 .ch8
@@ -2511,15 +2380,13 @@ _PlaySFX::
 	res SOUND_CHANNEL_ON, [hl] ; turn it off
 	xor a
 	ldh [rNR41], a ; length/wavepattern = 0
-	ld a, $8
-	ldh [rNR42], a ; envelope = 0
-	xor a
 	ldh [rNR43], a ; frequency lo = 0
-	ld a, $80
-	ldh [rNR44], a ; restart sound (freq hi = 0)
-	xor a
 	ld [wNoiseSampleAddress], a
 	ld [wNoiseSampleAddress + 1], a
+	ld a, $8
+	ldh [rNR42], a ; envelope = 0
+	ld a, $80
+	ldh [rNR44], a ; restart sound (freq hi = 0)
 .chscleared
 ; start reading sfx header for # chs
 	ld hl, wMusicID
@@ -2751,22 +2618,8 @@ INCLUDE "audio/drumkits.asm"
 GetLRTracks:
 ; gets the default sound l/r channels
 ; stores mono/stereo table in hl
-	ld a, [wOptions]
-	bit STEREO, a
-	; made redundant, could have had a purpose in gold
-	jr nz, .stereo
-	ld hl, MonoTracks
-	ret
-
-.stereo
 	ld hl, StereoTracks
 	ret
-
-MonoTracks:
-; bit corresponds to track #
-; hi: left channel
-; lo: right channel
-	db $11, $22, $44, $88
 
 StereoTracks:
 ; made redundant
@@ -2809,12 +2662,10 @@ ClearChannel:
 ;   sound channel   1      2      3      4
 	xor a
 	ld [hli], a ; rNR10, rNR20, rNR30, rNR40 ; sweep = 0
-
 	ld [hli], a ; rNR11, rNR21, rNR31, rNR41 ; length/wavepattern = 0
+	ld [hli], a ; rNR13, rNR23, rNR33, rNR43 ; frequency lo = 0
 	ld a, $8
 	ld [hli], a ; rNR12, rNR22, rNR32, rNR42 ; envelope = 0
-	xor a
-	ld [hli], a ; rNR13, rNR23, rNR33, rNR43 ; frequency lo = 0
 	ld a, $80
 	ld [hli], a ; rNR14, rNR24, rNR34, rNR44 ; restart sound (freq hi = 0)
 	ret

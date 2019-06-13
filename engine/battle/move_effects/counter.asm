@@ -36,7 +36,6 @@ BattleCommand_Counter:
 	cp SPECIAL
 	ret nc
 
-	; BUG: Move should fail with all non-damaging battle actions
 	ld hl, wCurDamage
 	ld a, [hli]
 	or [hl]
@@ -59,7 +58,7 @@ BattleCommand_Counter:
 	ret
 
 .failed
-	ld a, 1
+	inc a
 	ld [wEffectFailed], a
 	and a
 	ret

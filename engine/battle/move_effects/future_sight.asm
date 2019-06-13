@@ -13,8 +13,8 @@ BattleCommand_CheckFutureSight:
 	ld a, [hl]
 	and a
 	ret z
-	cp 1
-	ret nz
+	dec a
+	ret z
 
 	ld [hl], 0
 	ld a, [de]

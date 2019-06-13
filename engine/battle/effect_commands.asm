@@ -264,7 +264,7 @@ CheckPlayerTurn:
 
 	; 50% chance of hitting itself
 	call BattleRandom
-	cp 50 percent + 1
+	add a
 	jr nc, .not_confused
 
 	; clear confusion-dependent substatus
@@ -292,7 +292,7 @@ CheckPlayerTurn:
 
 	; 50% chance of infatuation
 	call BattleRandom
-	cp 50 percent + 1
+	add a
 	jr c, .not_infatuated
 
 	ld hl, InfatuationText
@@ -493,7 +493,7 @@ CheckEnemyTurn:
 
 	; 50% chance of hitting itself
 	call BattleRandom
-	cp 50 percent + 1
+	add a
 	jr nc, .not_confused
 
 	; clear confusion-dependent substatus
@@ -538,7 +538,7 @@ CheckEnemyTurn:
 
 	; 50% chance of infatuation
 	call BattleRandom
-	cp 50 percent + 1
+	add a
 	jr c, .not_infatuated
 
 	ld hl, InfatuationText
@@ -838,8 +838,7 @@ BattleCommand_CheckObedience:
 
 	ld hl, wBattleMonPP
 	ld de, wBattleMonMoves
-	ld b, 0
-	ld c, NUM_MOVES
+	ld bc, NUM_MOVES
 
 .GetTotalPP:
 	ld a, [hli]
@@ -925,10 +924,9 @@ BattleCommand_CheckObedience:
 	ld [wLastPlayerCounterMove], a
 
 	; Break Encore too.
+	ld [wPlayerEncoreCount], a
 	ld hl, wPlayerSubStatus5
 	res SUBSTATUS_ENCORED, [hl]
-	xor a
-	ld [wPlayerEncoreCount], a
 
 	jp EndMoveEffect
 
@@ -1056,7 +1054,6 @@ BattleCommand_DoTurn:
 	and PP_MASK
 	jr z, .out_of_pp
 	dec [hl]
-	ld b, 0
 	ret
 
 .wild
@@ -1287,9 +1284,7 @@ BattleCommand_Stab:
 	cp b
 	jr z, .stab
 	cp c
-	jr z, .stab
-
-	jr .SkipStab
+	jr nz, .SkipStab
 
 .stab
 	ld hl, wCurDamage + 1
@@ -1340,8 +1335,7 @@ BattleCommand_Stab:
 	cp d
 	jr z, .GotMatchup
 	cp e
-	jr z, .GotMatchup
-	jr .SkipType
+	jr nz, .SkipType
 
 .GotMatchup:
 	push hl
@@ -1393,7 +1387,7 @@ BattleCommand_Stab:
 	or b
 	jr nz, .ok
 
-	ld a, 1
+	inc a
 	ldh [hMultiplicand + 2], a
 
 .ok
@@ -2064,7 +2058,6 @@ BattleCommand_StatUpAnim:
 	and a
 	jp nz, BattleCommand_MoveDelay
 
-	xor a
 	jr BattleCommand_StatUpDownAnim
 
 BattleCommand_StatDownAnim:
@@ -2146,8 +2139,7 @@ BattleCommand_FailureText:
 	cp EFFECT_POISON_MULTI_HIT
 	jr z, .multihit
 	cp EFFECT_BEAT_UP
-	jr z, .multihit
-	jp EndMoveEffect
+	jp nz, .EndMoveEffect
 
 .multihit
 	call BattleCommand_RaiseSub
@@ -2172,7 +2164,7 @@ BattleCommand_ApplyDamage:
 	call BattleCommand_FalseSwipe
 	ld b, 0
 	jr nc, .damage
-	ld b, 1
+	inc b
 	jr .damage
 
 .focus_band
@@ -2432,7 +2424,7 @@ BattleCommand_CheckFaint:
 	jr nz, .got_max_hp
 	ld hl, wBattleMonMaxHP + 1
 	bccoord 10, 9 ; hp bar
-	ld a, 1
+	inc a
 
 .got_max_hp
 	ld [wWhichHPBar], a
@@ -3013,7 +3005,7 @@ BattleCommand_DamageCalc:
 	ld a, c
 	and a
 	jr nz, .not_dividing_by_zero
-	ld c, 1
+	inc c
 .not_dividing_by_zero
 
 	xor a
@@ -3238,7 +3230,7 @@ BattleCommand_ConstantDamage:
 	ld a, BATTLE_VARS_MOVE_POWER
 	call GetBattleVar
 	ld b, a
-	ld a, $0
+	xor a
 	jr .got_power
 
 .psywave
@@ -3253,7 +3245,7 @@ BattleCommand_ConstantDamage:
 	cp b
 	jr nc, .psywave_loop
 	ld b, a
-	ld a, 0
+	xor a
 	jr .got_power
 
 .super_fang
@@ -3925,7 +3917,7 @@ SapHealth:
 	ldh [hDividend + 1], a
 	or b
 	jr nz, .at_least_one
-	ld a, 1
+	inc a
 	ldh [hDividend + 1], a
 .at_least_one
 
@@ -4335,7 +4327,7 @@ RaiseStat:
 .cant_raise_stat
 	ld a, $2
 	ld [wFailedMessage], a
-	ld a, $1
+	dec a
 	ld [wAttackMissed], a
 	ret
 

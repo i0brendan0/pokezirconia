@@ -208,8 +208,7 @@ AI_Types:
 	jr z, .checkmove2
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
-	jr nz, .asm_38692
-	jr .checkmove2
+	jr z, .checkmove2
 
 .asm_38692
 	ld c, a
@@ -1254,7 +1253,6 @@ AI_Smart_Rage:
 	cp $2
 	ret c
 	dec [hl]
-	ld a, [wEnemyRageCounter]
 	cp $3
 	ret c
 	dec [hl]
@@ -2434,8 +2432,7 @@ AI_Smart_BellyDrum:
 AI_Smart_PsychUp:
 	push hl
 	ld hl, wEnemyAtkLevel
-	ld b, $8
-	ld c, 100
+	lb bc, $8, 100
 
 ; Calculate the sum of all enemy's stat level modifiers. Add 100 first to prevent underflow.
 ; Put the result in c. c will range between 58 and 142.
@@ -2491,8 +2488,7 @@ AI_Smart_PsychUp:
 AI_Smart_MirrorCoat:
 	push hl
 	ld hl, wPlayerUsedMoves
-	ld c, $4
-	ld b, $0
+	ld bc, $4
 
 .asm_39193
 	ld a, [hli]
@@ -3225,7 +3221,9 @@ AI_80_20:
 
 AI_50_50:
 	call Random
-	cp 50 percent + 1
+	add a
+	ret
+	
 AI_Smart_Hail:
 ; Discourage this move if the player is ice
 	ld a, [wBattleMonType1]

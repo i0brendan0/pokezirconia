@@ -9,12 +9,11 @@ BattleCommand_SleepTalk:
 	and a
 	ld hl, wBattleMonMoves + 1
 	ld a, [wDisabledMove]
-	ld d, a
 	jr z, .got_moves
 	ld hl, wEnemyMonMoves + 1
 	ld a, [wEnemyDisabledMove]
-	ld d, a
 .got_moves
+	ld d, a
 	ld a, BATTLE_VARS_STATUS
 	call GetBattleVar
 	and SLP

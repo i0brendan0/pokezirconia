@@ -47,7 +47,7 @@ BattleCommand_BeatUp:
 	and a
 	jp nz, .beatup_fail
 
-	ld a, $1
+	inc a
 	ld [wBeatUpHitAtLeastOnce], a
 	ld hl, BeatUpAttackText
 	call StdBattleTextBox
@@ -110,9 +110,9 @@ BattleCommand_BeatUp:
 	and a
 	jr nz, .link_or_tower
 
+	ld b, a
 	ld a, [wd002]
 	ld c, a
-	ld b, 0
 	ld hl, wOTPartySpecies
 	add hl, bc
 	ld a, [hl]
@@ -148,7 +148,7 @@ BattleCommand_BeatUp:
 	and a
 	jr nz, .beatup_fail
 
-	ld a, $1
+	inc a
 	ld [wBeatUpHitAtLeastOnce], a
 .finish_beatup
 	ld hl, BeatUpAttackText

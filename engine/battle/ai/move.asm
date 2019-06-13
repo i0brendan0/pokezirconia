@@ -26,10 +26,10 @@ AIChooseMove:
 ; Don't pick disabled moves.
 	ld a, [wEnemyDisabledMove]
 	and a
+	ld bc, 0
 	jr z, .CheckPP
 
 	ld hl, wEnemyMonMoves
-	ld c, 0
 .CheckDisabledMove:
 	cp [hl]
 	jr z, .ScoreDisabledMove
@@ -38,7 +38,6 @@ AIChooseMove:
 	jr .CheckDisabledMove
 .ScoreDisabledMove:
 	ld hl, wBuffer1
-	ld b, 0
 	add hl, bc
 	ld [hl], 80
 
@@ -46,7 +45,6 @@ AIChooseMove:
 .CheckPP:
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonPP
-	ld b, 0
 .CheckMovePP:
 	inc b
 	ld a, b

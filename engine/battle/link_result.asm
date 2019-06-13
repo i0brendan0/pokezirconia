@@ -15,10 +15,9 @@ DetermineLinkBattleResult:
 .even_number_of_mons_remaining
 	call .BothSides_CheckNumberMonsAtFullHealth
 	jr z, .drawn
-	ld a, e
-	cp $1
+	dec e
 	jr z, .victory
-	cp $2
+	dec e
 	jr z, .defeat
 	ld hl, wPartyMon1HP
 	call .CalcPercentHPRemaining
@@ -58,8 +57,7 @@ DetermineLinkBattleResult:
 	ret
 
 .CountMonsRemaining:
-	ld c, 0
-	ld b, 3
+	lb bc, 3, 0
 	ld de, PARTYMON_STRUCT_LENGTH - 1
 .loop
 	ld a, [hli]

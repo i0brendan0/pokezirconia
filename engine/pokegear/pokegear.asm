@@ -259,7 +259,7 @@ InitPokegearTilemap:
 	ld a, [wPokegearMapRegion]
 	and a
 	jr nz, .kanto_0
-	xor a ; LOW(vBGMap0)
+	; a = LOW(vBGMap0)
 	ldh [hBGMapAddress], a
 	ld a, HIGH(vBGMap0)
 	ldh [hBGMapAddress + 1], a
@@ -308,7 +308,7 @@ InitPokegearTilemap:
 	ld de, .switch
 	call PlaceString
 	hlcoord 0, 12
-	lb bc, 4, 18
+	lb bc, 4, SCREEN_WIDTH - 2
 	call TextBox
 	jp Pokegear_UpdateClock
 
@@ -316,17 +316,14 @@ InitPokegearTilemap:
 	db " SWITCH▶@"
 
 .Map:
+	ld e, 0
 	ld a, [wPokegearMapPlayerIconLandmark]
 	cp FAST_SHIP
-	jr z, .cairn
+	jr z, .ok
 	cp KANTO_LANDMARK
-	jr nc, .kanto
-.cairn
-	ld e, 0
-	jr .ok
-
+	jr c, .ok
 .kanto
-	ld e, 1
+	inc e
 .ok
 	farcall PokegearMap
 	ld a, [wPokegearMapCursorLandmark]
@@ -336,14 +333,14 @@ InitPokegearTilemap:
 	ld de, RadioTilemapRLE
 	call Pokegear_LoadTilemapRLE
 	hlcoord 0, 12
-	lb bc, 4, 18
+	lb bc, 4, SCREEN_WIDTH - 2
 	jp TextBox
 
 .Phone:
 	ld de, PhoneTilemapRLE
 	call Pokegear_LoadTilemapRLE
 	hlcoord 0, 12
-	lb bc, 4, 18
+	lb bc, 4, SCREEN_WIDTH - 2
 	call TextBox
 	call .PlacePhoneBars
 	jp PokegearPhone_UpdateDisplayList
@@ -460,24 +457,21 @@ PokegearClock_Joypad:
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_MAP_CARD_F, a
 	jr z, .no_map_card
-	ld c, POKEGEARSTATE_MAPCHECKREGION
-	ld b, POKEGEARCARD_MAP
+	lb bc, POKEGEARCARD_MAP, POKEGEARSTATE_MAPCHECKREGION
 	jr .done
 
 .no_map_card
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_PHONE_CARD_F, a
 	jr z, .no_phone_card
-	ld c, POKEGEARSTATE_PHONEINIT
-	ld b, POKEGEARCARD_PHONE
+	lb bc, POKEGEARCARD_PHONE, POKEGEARSTATE_PHONEINIT
 	jr .done
 
 .no_phone_card
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_RADIO_CARD_F, a
 	ret z
-	ld c, POKEGEARSTATE_RADIOINIT
-	ld b, POKEGEARCARD_RADIO
+	lb bc, POKEGEARCARD_RADIO, POKEGEARSTATE_RADIOINIT
 .done
 	jp Pokegear_SwitchPage
 
@@ -524,7 +518,6 @@ PokegearMap_CheckRegion:
 .cairn
 	ld a, POKEGEARSTATE_CAIRNMAPINIT
 	jr .done
-	ret
 
 .kanto
 	ld a, POKEGEARSTATE_KANTOMAPINIT
@@ -570,24 +563,20 @@ PokegearMap_ContinueMap:
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_PHONE_CARD_F, a
 	jr z, .no_phone
-	ld c, POKEGEARSTATE_PHONEINIT
-	ld b, POKEGEARCARD_PHONE
+	lb bc, POKEGEARCARD_PHONE, POKEGEARSTATE_PHONEINIT
 	jr .done
 
 .no_phone
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_RADIO_CARD_F, a
 	ret z
-	ld c, POKEGEARSTATE_RADIOINIT
-	ld b, POKEGEARCARD_RADIO
+	lb bc, POKEGEARCARD_RADIO, POKEGEARSTATE_RADIOINIT
 	jr .done
 
 .left
-	ld c, POKEGEARSTATE_CLOCKINIT
-	ld b, POKEGEARCARD_CLOCK
+	lb bc, POKEGEARCARD_CLOCK, POKEGEARSTATE_CLOCKINIT
 .done
-	call Pokegear_SwitchPage
-	ret
+	jp Pokegear_SwitchPage
 
 .cancel
 	ld hl, wJumptableIndex
@@ -756,21 +745,18 @@ PokegearRadio_Joypad:
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_PHONE_CARD_F, a
 	jr z, .no_phone
-	ld c, POKEGEARSTATE_PHONEINIT
-	ld b, POKEGEARCARD_PHONE
+	lb bc, POKEGEARCARD_PHONE, POKEGEARSTATE_PHONEINIT
 	jr .switch_page
 
 .no_phone
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_MAP_CARD_F, a
 	jr z, .no_map
-	ld c, POKEGEARSTATE_MAPCHECKREGION
-	ld b, POKEGEARCARD_MAP
+	lb bc, POKEGEARCARD_MAP, POKEGEARSTATE_MAPCHECKREGION
 	jr .switch_page
 
 .no_map
-	ld c, POKEGEARSTATE_CLOCKINIT
-	ld b, POKEGEARCARD_CLOCK
+	lb bc, POKEGEARCARD_CLOCK, POKEGEARSTATE_CLOCKINIT
 .switch_page
 	jp Pokegear_SwitchPage
 
@@ -812,21 +798,18 @@ PokegearPhone_Joypad:
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_MAP_CARD_F, a
 	jr z, .no_map
-	ld c, POKEGEARSTATE_MAPCHECKREGION
-	ld b, POKEGEARCARD_MAP
+	lb bc, POKEGEARCARD_MAP, POKEGEARSTATE_MAPCHECKREGION
 	jr .switch_page
 
 .no_map
-	ld c, POKEGEARSTATE_CLOCKINIT
-	ld b, POKEGEARCARD_CLOCK
+	lb bc, POKEGEARCARD_CLOCK, POKEGEARSTATE_CLOCKINIT
 	jr .switch_page
 
 .right
 	ld a, [wPokegearFlags]
 	bit POKEGEAR_RADIO_CARD_F, a
 	ret z
-	ld c, POKEGEARSTATE_RADIOINIT
-	ld b, POKEGEARCARD_RADIO
+	lb bc, POKEGEARCARD_RADIO, POKEGEARSTATE_RADIOINIT
 .switch_page
 	jp Pokegear_SwitchPage
 
@@ -851,7 +834,7 @@ PokegearPhone_Joypad:
 	ld [wPokegearPhoneSelectedPerson], a
 	hlcoord 1, 4
 	ld a, [wPokegearPhoneCursorPosition]
-	ld bc, 20 * 2
+	ld bc, SCREEN_WIDTH * 2
 	call AddNTimes
 	ld [hl], "▷"
 	call PokegearPhoneContactSubmenu
@@ -1002,7 +985,7 @@ PokegearPhone_UpdateDisplayList:
 	ld b, 9
 	ld a, " "
 .row
-	ld c, 18
+	ld c, SCREEN_WIDTH - 2
 .col
 	ld [hli], a
 	dec c
@@ -1250,20 +1233,6 @@ PokegearPhoneContactSubmenu:
 	dw .Call
 	dw .Cancel
 
-; unused
-	ldh a, [hHours]
-	cp 12
-	jr c, .am
-	sub 12
-	ld [wTempByteValue], a
-	scf
-	ret
-
-.am
-	ld [wTempByteValue], a
-	and a
-	ret
-
 Pokegear_SwitchPage:
 	ld de, SFX_READ_TEXT_2
 	call PlaySFX
@@ -1343,9 +1312,6 @@ INCBIN "gfx/pokegear/phone.tilemap.rle"
 ClockTilemapRLE:
 INCBIN "gfx/pokegear/clock.tilemap.rle"
 
-_UpdateRadioStation:
-	jr UpdateRadioStation
-
 ; called from engine/sprite_anims.asm
 
 AnimateTuningKnob:
@@ -1385,7 +1351,7 @@ AnimateTuningKnob:
 	inc [hl]
 	inc [hl]
 .update
-UpdateRadioStation:
+_UpdateRadioStation:
 	ld hl, wRadioTuningKnob
 	ld d, [hl]
 	ld hl, RadioChannels
@@ -1689,7 +1655,7 @@ NoRadioStation:
 	ld [wPokegearRadioChannelBank], a
 	ld [wPokegearRadioChannelAddr], a
 	ld [wPokegearRadioChannelAddr + 1], a
-	ld a, $1
+	inc a
 	ldh [hBGMapMode], a
 	ret
 
@@ -1704,10 +1670,10 @@ NoRadioName:
 	xor a
 	ldh [hBGMapMode], a
 	hlcoord 1, 8
-	lb bc, 3, 18
+	lb bc, 3, SCREEN_WIDTH - 2
 	call ClearBox
 	hlcoord 0, 12
-	lb bc, 4, 18
+	lb bc, 4, SCREEN_WIDTH - 2
 	jp TextBox
 
 OaksPKMNTalkName:     db "OAK's <PK><MN> Talk@"
@@ -1775,8 +1741,7 @@ _TownMap:
 	ld a, [wTownMapPlayerIconLandmark]
 	cp KANTO_LANDMARK
 	jr nc, .kanto
-	ld d, KANTO_LANDMARK - 1
-	ld e, 1
+	lb de, KANTO_LANDMARK - 1, 1
 	call .loop
 	jr .resume
 
@@ -1916,7 +1881,7 @@ PlayRadio:
 .jump_return
 	push de
 	hlcoord 0, 12
-	lb bc, 4, 18
+	lb bc, 4, SCREEN_WIDTH - 2
 	call TextBox
 	hlcoord 1, 14
 	ld [hl], "“"
@@ -2082,7 +2047,7 @@ TownMapBubble:
 	ld a, $50
 	ld [hli], a
 ; Top row
-	ld bc, 18
+	ld bc, SCREEN_WIDTH - 2
 	ld a, " "
 	call ByteFill
 ; Top-right corner
@@ -2090,15 +2055,13 @@ TownMapBubble:
 	ld [hli], a
 	
 ; Bottom-left corner
-	ld a, $52
+	inc a
 	ld [hli], a
 ; Bottom row
-	ld bc, 18
+	ld bc, SCREEN_WIDTH - 2
 	ld a, " "
 	call ByteFill
 ; Bottom-right corner
-	ld a, $53
-	ld [hl], a
 
 ; Print "Where?"
 	hlcoord 1, 0
@@ -2282,7 +2245,7 @@ Pokedex_GetArea:
 	call ClearSprites
 	xor a
 	ldh [hBGMapMode], a
-	ld a, $1
+	inc a
 	ldh [hInMenu], a
 	ld de, PokedexNestIconGFX
 	ld hl, vTiles0 tile $7f
@@ -2308,7 +2271,7 @@ Pokedex_GetArea:
 	call SetPalettes
 	xor a
 	ldh [hBGMapMode], a
-	xor a ; CAIRN_REGION
+	; CAIRN_REGION
 	call .GetAndPlaceNest
 .loop
 	call JoyTextDelay
@@ -2502,8 +2465,14 @@ Pokedex_GetArea:
 .kanto
 	ld a, [wTownMapCursorLandmark]
 	and a
-	jr z, .clear
-	jr .ok
+	jr nz, .ok
+.clear
+	ld hl, wVirtualOAM
+	ld bc, wVirtualOAMEnd - wVirtualOAM
+	xor a
+	call ByteFill
+	scf
+	ret
 
 .cairn
 	ld a, [wTownMapCursorLandmark]
@@ -2511,14 +2480,6 @@ Pokedex_GetArea:
 	jr nz, .clear
 .ok
 	and a
-	ret
-
-.clear
-	ld hl, wVirtualOAM
-	ld bc, wVirtualOAMEnd - wVirtualOAM
-	xor a
-	call ByteFill
-	scf
 	ret
 
 .GetPlayerOrFastShipIcon:
@@ -2709,7 +2670,6 @@ LoadTownMapGFX:
 
 CairnMap:
 INCBIN "gfx/pokegear/cairn.bin"
-	db $ff
 
 KantoMap:
 INCBIN "gfx/pokegear/kanto.bin"
