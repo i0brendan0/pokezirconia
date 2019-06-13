@@ -130,7 +130,7 @@
 	const EFFECT_BATON_PASS
 	const EFFECT_PURSUIT
 	const EFFECT_RAPID_SPIN
-	const EFFECT_UNUSED_82        ; unused
+	const EFFECT_ROCK_STORM
 	const EFFECT_UNUSED_83        ; unused
 	const EFFECT_MORNING_SUN
 	const EFFECT_SYNTHESIS

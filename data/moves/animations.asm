@@ -165,7 +165,6 @@ BattleAnimations::
 	dw BattleAnim_SuperFang
 	dw BattleAnim_Slash
 	dw BattleAnim_Substitute
-	dw BattleAnim_Struggle
 	dw BattleAnim_Sketch
 	dw BattleAnim_TripleKick
 	dw BattleAnim_Thief
@@ -255,8 +254,10 @@ BattleAnimations::
 	dw BattleAnim_RockClimb
 	dw BattleAnim_InnerPower
 	dw BattleAnim_Hail
-	dw BattleAnim_SweetScent2
+	dw BattleAnim_RockStorm
+	dw BattleAnim_Struggle
 ; $100
+	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon
 	dw BattleAnim_ReturnMon
@@ -3683,6 +3684,7 @@ BattleAnim_Outrage:
 	anim_wait 16
 	anim_ret
 
+BattleAnim_RockStorm:
 BattleAnim_Sandstorm:
 	anim_1gfx ANIM_GFX_POWDER
 	anim_obj ANIM_OBJ_SANDSTORM, 88, 0, $0

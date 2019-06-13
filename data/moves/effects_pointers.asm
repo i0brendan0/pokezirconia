@@ -130,7 +130,7 @@ MoveEffectsPointers:
 	dw BatonPass
 	dw Pursuit
 	dw RapidSpin
-	dw NormalHit ; unused
+	dw RockStorm
 	dw NormalHit ; unused
 	dw MorningSun
 	dw Synthesis

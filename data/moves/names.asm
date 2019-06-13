@@ -163,7 +163,6 @@ MoveNames::
 	db "SUPER FANG@"
 	db "SLASH@"
 	db "SUBSTITUTE@"
-	db "STRUGGLE@"
 	db "SKETCH@"
 	db "TRIPLE KICK@"
 	db "THIEF@"
@@ -253,3 +252,5 @@ MoveNames::
 	db "WATERFALL@"
 	db "INNER POWER@"
 	db "HAIL@"
+	db "ROCK STORM@"
+	db "STRUGGLE@"

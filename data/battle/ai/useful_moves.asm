@@ -21,4 +21,5 @@ UsefulMoves:
 	db SOFTBOILED
 	db SUPER_FANG
 	db INNER_POWER
+	db ROCK_STORM
 	db -1 ; end

@@ -32,9 +32,8 @@ Function170000:
 	ld hl, $c608
 	ld de, $d800
 	ld bc, $008f
-	call CopyBytes
-	ret
-
+	jp CopyBytes
+ 
 Function17005a:
 	ld a, $5
 	call GetSRAMBank
@@ -68,8 +67,7 @@ Function17005a:
 	ld [wOTTrademonCaughtData], a
 	ld a, [wcd81]
 	ld [wc74e], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 INCLUDE "engine/events/battle_tower/battle_tower.asm"
 
@@ -80,8 +78,7 @@ Function170be4:
 	ld hl, $a894
 	ld bc, $0008
 	call ByteFill
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Clears5_a89a:
 	ld a, $5
@@ -90,8 +87,7 @@ Clears5_a89a:
 	xor a
 	ld [hli], a
 	ld [hl], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function170c06:
 	ld a, $5
@@ -192,8 +188,7 @@ Function170c06:
 	ld a, [hl]
 	add c
 	ld [hl], a
-	call CloseSRAM
-	ret
+	jp CloseSRAM
 
 Function170c8b:
 	ld hl, wLastEnemyCounterMove
@@ -211,21 +206,12 @@ CheckBTMonMovesForErrors:
 	ld hl, wBT_OTTempMon1Moves
 .loop
 	push hl
-	ld a, [hl]
-	cp NUM_ATTACKS + 1
-	jr c, .okay
-	ld a, POUND
-	ld [hl], a
-
-.okay
-	inc hl
+	ld a, [hli]
 	ld b, NUM_MOVES - 1
 .loop2
 	ld a, [hl]
 	and a
-	jr z, .loop3
-	cp NUM_ATTACKS + 1
-	jr c, .next
+	jr nz, .next
 
 .loop3
 	xor a
@@ -342,8 +328,7 @@ Function171a11:
 	jr .loop
 .done
 	farcall ClearSpriteAnims
-	call ClearSprites
-	ret
+	jp ClearSprites
 
 Function171a36:
 	ld a, [wcd49]
@@ -680,8 +665,7 @@ Function171c87:
 	call PlaceString
 	hlcoord 3, 16
 	ld de, String_172e3f
-	call PlaceString
-	ret
+	jp PlaceString
 
 Function171ccd:
 	ldh a, [rSVBK]
@@ -752,8 +736,7 @@ Function171d2b:
 	call PlaceString
 	hlcoord 14, 16
 	ld de, String_172e58
-	call PlaceString
-	ret
+	jp PlaceString
 
 Palette_171d71:
 	RGB  0,  0,  0
@@ -842,8 +825,7 @@ Function172e78:
 	ld hl, Attrmap_173517
 	decoord 0, 0, wAttrMap
 	ld bc, $168
-	call CopyBytes
-	ret
+	jp CopyBytes
 
 Function172eb9:
 	ldh a, [rSVBK]
@@ -901,11 +883,7 @@ GameBoyN64GFX:
 INCBIN "gfx/trade/game_boy_n64.2bpp"
 
 Tilemap_1733af:
-if DEF(_CRYSTAL11)
-INCBIN "gfx/unknown/1733af_corrupt.tilemap"
-else
 INCBIN "gfx/unknown/1733af.tilemap"
-endc
 
 Attrmap_173517:
 INCBIN "gfx/unknown/173517.attrmap"

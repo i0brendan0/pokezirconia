@@ -164,7 +164,6 @@ MoveDescriptions::
 	dw SuperFangDescription
 	dw SlashDescription
 	dw SubstituteDescription
-	dw StruggleDescription
 	dw SketchDescription
 	dw TripleKickDescription
 	dw ThiefDescription
@@ -254,10 +253,10 @@ MoveDescriptions::
 	dw RockClimbDescription
 	dw InnerPowerDescription
 	dw HailDescription
-	dw MoveFFDescription
+	dw RockStormDescription
+	dw StruggleDescription
 	dw Move00Description
 
-MoveFFDescription:
 Move00Description:
 	db "?@"
 
@@ -1276,3 +1275,7 @@ InnerPowerDescription:
 HailDescription:
 	db   "Starts a hailstorm"
 	next "for five turns.@"
+	
+RockStormDescription:
+	db   "Impales the foe"
+	next "with rocks.@"
