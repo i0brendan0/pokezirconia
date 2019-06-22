@@ -60,6 +60,10 @@ LoadBattleFontsHPBar:
 	call LoadFrame
 
 LoadHPBar:
+	ld hl, vTiles2 tile $70
+	ld de, StatsScreenPageTilesGFX + 14 tiles ; Shiny icon
+	lb bc, BANK(StatsScreenPageTilesGFX), 1
+	call Get2bpp_2
 	ld de, EnemyHPBarBorderGFX
 	ld hl, vTiles2 tile $6c
 	lb bc, BANK(EnemyHPBarBorderGFX), 4

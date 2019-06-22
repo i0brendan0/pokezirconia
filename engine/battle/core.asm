@@ -4666,6 +4666,23 @@ PrintPlayerHUD:
 	inc de
 	ld a, [hl]
 	ld [de], a
+	ld a, [wCurBattleMon]
+	ld hl, wPartyMon1Personality
+	call GetPartyLocation
+	ld b, h
+	ld c, l
+	push bc
+	ld a, [wCurBattleMon]
+	ld hl, wPartyMon1ID
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	pop bc
+	callfar CheckShininess
+	jr nc, .not_shiny
+	hlcoord 18, 8
+	ld [hl], $70
+.not_shiny
 	ld hl, wBattleMonLevel
 	ld de, wTempMonLevel
 	ld bc, $11
@@ -4755,6 +4772,24 @@ DrawEnemyHUD:
 	inc de
 	ld a, [hl]
 	ld [de], a
+	
+	ld a, [wCurBattleMon]
+	ld hl, wOTPartyMon1Personality
+	call GetPartyLocation
+	ld b, h
+	ld c, l
+	push bc
+	ld a, [wCurBattleMon]
+	ld hl, wOTPartyMon1ID
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	pop bc
+	callfar CheckShininess
+	jr nc, .not_shiny
+	hlcoord 10, 1
+	ld [hl], $70
+.not_shiny
 
 	ld a, TEMPMON
 	ld [wMonType], a
