@@ -5999,6 +5999,15 @@ BattleCommand_Paralyze:
 	call AnimateFailedMove
 	ld hl, ProtectedByText
 	jp StdBattleTextBox
+	
+.paralyzed
+	call AnimateFailedMove
+	ld hl, AlreadyParalyzedText
+	jp StdBattleTextBox
+
+.didnt_affect
+	call AnimateFailedMove
+	jp PrintDoesntAffect
 
 .no_item_protection
 	ldh a, [hBattleTurn]
@@ -6047,17 +6056,8 @@ BattleCommand_Paralyze:
 	ld hl, UseHeldStatusHealingItem
 	jp CallBattleCore
 
-.paralyzed
-	call AnimateFailedMove
-	ld hl, AlreadyParalyzedText
-	jp StdBattleTextBox
-
 .failed
 	jp PrintDidntAffect2
-
-.didnt_affect
-	call AnimateFailedMove
-	jp PrintDoesntAffect
 
 CheckMoveTypeMatchesTarget:
 ; Compare move type to opponent type.
