@@ -15,7 +15,6 @@ EnemySwitch_TrainerHud:
 	jp ShowOTTrainerMonsRemaining
 
 ShowPlayerMonsRemaining:
-	call DrawPlayerPartyIconHUDBorder
 	ld hl, wPartyMon1HP
 	ld de, wPartyCount
 	call StageBallTilesData
@@ -114,30 +113,7 @@ DrawPlayerHUDBorder:
 	db $76 ; bottom side
 .tiles_end
 
-DrawPlayerPartyIconHUDBorder:
-	ld hl, .tiles
-	ld de, wTrainerHUDTiles
-	ld bc, .tiles_end - .tiles
-	call CopyBytes
-	hlcoord 18, 10
-	ld de, -1 ; start on right
-	jr PlaceHUDBorderTiles
-
-.tiles
-	db $73 ; right side
-	db $5c ; bottom right
-	db $6f ; bottom left
-	db $76 ; bottom side
-.tiles_end
-
 DrawEnemyHUDBorder:
-	ld hl, .tiles
-	ld de, wTrainerHUDTiles
-	ld bc, .tiles_end - .tiles
-	call CopyBytes
-	hlcoord 1, 2
-	ld de, 1 ; start on left
-	call PlaceHUDBorderTiles
 	ld a, [wBattleMode]
 	dec a
 	ret nz
@@ -145,16 +121,9 @@ DrawEnemyHUDBorder:
 	dec a
 	call CheckCaughtMon
 	ret z
-	hlcoord 1, 1
+	hlcoord 1, 2
 	ld [hl], $5d
 	ret
-
-.tiles
-	db $6d ; left side
-	db $74 ; bottom left
-	db $78 ; bottom right
-	db $76 ; bottom side
-.tiles_end
 
 PlaceHUDBorderTiles:
 	ld a, [wTrainerHUDTiles + 0]

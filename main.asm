@@ -694,6 +694,10 @@ SECTION "Battle Tower Trainer Data", ROMX
 INCLUDE "data/battle_tower/unknown.asm"
 
 
+SECTION "Battle Weather Images"
+
+INCLUDE "gfx/weather_images.asm"
+
 SECTION "Crystal Events", ROMX
 
 INCLUDE "engine/events/battle_tower/load_trainer.asm"
