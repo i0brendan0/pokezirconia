@@ -694,7 +694,7 @@ SECTION "Battle Tower Trainer Data", ROMX
 INCLUDE "data/battle_tower/unknown.asm"
 
 
-SECTION "Battle Weather Images"
+SECTION "Battle Weather Images", ROMX
 
 INCLUDE "gfx/weather_images.asm"
 
