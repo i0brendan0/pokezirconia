@@ -304,7 +304,8 @@ ROMX $7b
 	"Battle Tower Text"
 ROMX $7c
 	"Battle Tower Trainer Data"
-;ROMX $7d
+ROMX $7d
+	"Battle Weather Images" 
 ROMX $7e
 	"Crystal Events"
 ROMX $7f
