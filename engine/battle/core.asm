@@ -7050,6 +7050,17 @@ GiveExperiencePoints:
 	jr z, .no_pokerus
 	inc e
 .no_pokerus
+	ld hl, MON_ITEM
+	add hl, bc
+	push bc
+	ld b, [hl]
+	farcall GetItemHeldEffect
+	ld a, b
+	pop bc
+	cp HELD_EV_BOOST
+	jr nz, .no_macho_brace
+	inc e
+.no_macho_brace
 	ld hl, MON_EVS
 	add hl, bc
 	push bc
@@ -7067,10 +7078,12 @@ GiveExperiencePoints:
 	rlc b
 	ld a, b
 	and %11
-	bit 0, e
-	jr z, .no_pokerus_boost
+.ev_boost_loop
+	dec e
+	jr c, .no_ev_boost
 	add a
-.no_pokerus_boost
+	jr .ev_boost_loop
+.no_ev_boost
 	add [hl]
 	jr nc, .no_overflow
 	ld a, $ff
