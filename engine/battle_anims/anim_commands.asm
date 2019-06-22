@@ -849,8 +849,6 @@ BattleAnimCmd_CheckPokeball:
 	callfar GetPokeBallWobble
 	ld a, c
 	ld [wBattleAnimVar], a
-	ret
-
 BattleAnimCmd_E7:
 	ret
 
@@ -896,14 +894,12 @@ BattleAnimCmd_UpdateActorPic:
 	jr z, .player
 
 	ld hl, vTiles2 tile $00
-	ld b, 0
-	ld c, 7 * 7
+	lb bc, 0, 7 * 7
 	jp Request2bpp
 
 .player
 	ld hl, vTiles2 tile $31
-	ld b, 0
-	ld c, 6 * 6
+	lb bc, 0, 6 * 6
 	jp Request2bpp
 
 BattleAnimCmd_RaiseSub:
@@ -1121,8 +1117,6 @@ BattleAnimCmd_OAMOff:
 BattleAnimCmd_ClearSprites:
 	ld hl, wBattleAnimFlags
 	set 3, [hl]
-	ret
-
 BattleAnimCmd_F5:
 BattleAnimCmd_F6:
 BattleAnimCmd_F7:

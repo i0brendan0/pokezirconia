@@ -81,7 +81,6 @@ DoBattleTransition:
 	xor a
 	ldh [hBGMapMode], a
 	ld hl, wJumptableIndex
-	xor a
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -97,8 +96,7 @@ LoadTrainerBattlePokeballTiles:
 ; at the start of every Trainer battle.
 	ld de, TrainerBattlePokeballTiles
 	ld hl, vTiles0 tile BATTLETRANSITION_SQUARE
-	ld b, BANK(TrainerBattlePokeballTiles)
-	ld c, 2
+	lb bc, BANK(TrainerBattlePokeballTiles), 2
 	call Request2bpp
 
 	ldh a, [rVBK]
@@ -108,8 +106,7 @@ LoadTrainerBattlePokeballTiles:
 
 	ld de, TrainerBattlePokeballTiles
 	ld hl, vTiles3 tile BATTLETRANSITION_SQUARE
-	ld b, BANK(TrainerBattlePokeballTiles)
-	ld c, 2
+	lb bc, BANK(TrainerBattlePokeballTiles), 2
 	call Request2bpp
 
 	pop af
@@ -135,8 +132,7 @@ ConvertTrainerBattlePokeballTilesTo2bpp:
 
 	pop hl
 	ld de, wDecompressScratch
-	ld b, BANK(@)
-	ld c, $28
+	lb bc, BANK(@), $28
 	call Request2bpp
 	pop af
 	ldh [rSVBK], a
@@ -332,11 +328,10 @@ StartTrainerBattle_SetUpForWavyOutro:
 
 	ld a, LOW(rSCX)
 	ldh [hLCDCPointer], a
-	xor a
-	ldh [hLYOverrideStart], a
 	ld a, $90
 	ldh [hLYOverrideEnd], a
 	xor a
+	ldh [hLYOverrideStart], a
 	ld [wcf64], a
 	ld [wcf65], a
 	ret
@@ -657,7 +652,7 @@ StartTrainerBattle_LoadPokeBallGraphics:
 	ldh a, [hCGB]
 	and a
 	jr nz, .cgb
-	ld a, $1
+	inc a
 	ldh [hBGMapMode], a
 	call DelayFrame
 	call DelayFrame
@@ -836,12 +831,4 @@ ENDM
 	pop bc
 	dec b
 	jr nz, .row
-	ret
-
-Unreferenced_Function8c7c9:
-	ld a, $1
-	ldh [hBGMapMode], a
-	call WaitBGMap
-	xor a
-	ldh [hBGMapMode], a
 	ret

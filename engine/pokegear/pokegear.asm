@@ -698,15 +698,14 @@ PokegearMap_UpdateCursorPosition:
 	ret
 
 TownMap_GetKantoLandmarkLimits:
+	ld d, ROUTE_28
 	ld a, [wStatusFlags]
 	bit STATUSFLAGS_HALL_OF_FAME_F, a
 	jr z, .not_hof
-	ld d, ROUTE_28
 	ld e, PALLET_TOWN
 	ret
 
 .not_hof
-	ld d, ROUTE_28
 	ld e, VICTORY_ROAD
 	ret
 
@@ -2062,6 +2061,7 @@ TownMapBubble:
 	ld a, " "
 	call ByteFill
 ; Bottom-right corner
+	ld [hl], $53
 
 ; Print "Where?"
 	hlcoord 1, 0

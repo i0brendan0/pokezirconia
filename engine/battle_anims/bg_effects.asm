@@ -359,7 +359,7 @@ BattleBGEffect_HideMon:
 	pop bc
 	xor a
 	ldh [hBGMapThird], a
-	ld a, $1
+	inc a
 	ldh [hBGMapMode], a
 	ret
 
@@ -604,7 +604,7 @@ BattleBGEffect_27:
 .okay2
 	xor a
 	ldh [hBGMapThird], a
-	ld a, $1
+	inc a
 	ldh [hBGMapMode], a
 	call BattleBGEffects_IncrementJumptable
 	ld hl, BG_EFFECT_STRUCT_03

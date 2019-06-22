@@ -4,8 +4,7 @@ PlaceMenuItemName:
 	ld [wNamedObjectIndexBuffer], a
 	call GetItemName
 	pop hl
-	call PlaceString
-	ret
+	jp PlaceString
 
 PlaceMenuItemQuantity:
 	push de
@@ -49,8 +48,7 @@ PlaceMoneyTextBox:
 	add hl, de
 	ld de, wMoney
 	lb bc, PRINTNUM_MONEY | 3, 6
-	call PrintNum
-	ret
+	jp PrintNum
 
 MenuHeader_0x24b15:
 	db MENU_BACKUP_TILES ; flags
@@ -67,8 +65,7 @@ MenuHeader_0x24b1d:
 DisplayCoinCaseBalance:
 	; Place a text box of size 1x7 at 11, 0.
 	hlcoord 11, 0
-	ld b, 1
-	ld c, 7
+	lb bc, 1, 7
 	call TextBox
 	hlcoord 12, 0
 	ld de, CoinString
@@ -79,13 +76,11 @@ DisplayCoinCaseBalance:
 	ld de, wCoins
 	lb bc, 2, 4
 	hlcoord 13, 1
-	call PrintNum
-	ret
+	jp PrintNum
 
 DisplayMoneyAndCoinBalance:
 	hlcoord 5, 0
-	ld b, 3
-	ld c, 13
+	lb bc, 3, 13
 	call TextBox
 	hlcoord 6, 1
 	ld de, MoneyString
@@ -100,8 +95,7 @@ DisplayMoneyAndCoinBalance:
 	hlcoord 15, 3
 	ld de, wCoins
 	lb bc, 2, 4
-	call PrintNum
-	ret
+	jp PrintNum
 
 MoneyString:
 	db "MONEY@"
@@ -112,10 +106,8 @@ ShowMoney_TerminatorString:
 
 StartMenu_DrawBugContestStatusBox:
 	hlcoord 0, 0
-	ld b, 5
-	ld c, 17
-	call TextBox
-	ret
+	lb bc, 5, 17
+	jp TextBox
 
 StartMenu_PrintBugContestStatus:
 	ld hl, wOptions

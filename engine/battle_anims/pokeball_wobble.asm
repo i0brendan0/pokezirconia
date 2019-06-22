@@ -48,7 +48,7 @@ GetPokeBallWobble:
 	and a
 	ld c, 1 ; caught
 	jr nz, .done
-	ld c, 2 ; escaped
+	inc c
 
 .done
 	pop de

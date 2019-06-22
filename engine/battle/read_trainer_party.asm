@@ -438,14 +438,6 @@ CopyTrainerName:
 	pop de
 	ret
 
-Function39990:
-; This function is useless.
-	ld de, wStringBuffer1
-	push de
-	ld bc, NAME_LENGTH
-	pop de
-	ret
-
 INCLUDE "data/trainers/party_pointers.asm"
 
 SetTrainerBattleLevel:

@@ -171,7 +171,7 @@ Moves:
 	move ROCK_SLIDE,   EFFECT_FLINCH_HIT,         75, ROCK,      90, 10,  30
 	move HYPER_FANG,   EFFECT_FLINCH_HIT,         80, NORMAL,    90, 15,  10
 	move SHARPEN,      EFFECT_ATTACK_UP,           0, NORMAL,   100, 30,   0
-	move CONVERSION,   EFFECT_CONVERSION,          0, NORMAL,   100, 30,   0
+	move CONVERSION,   EFFECT_CONVERSION,          0, NORMAL,   100, 30,   0 ; remove
 	move TRI_ATTACK,   EFFECT_TRI_ATTACK,         80, NORMAL,   100, 10,  20
 	move SUPER_FANG,   EFFECT_SUPER_FANG,          1, NORMAL,    90, 10,   0
 	move SLASH,        EFFECT_NORMAL_HIT,         70, NORMAL,   100, 20,   0
@@ -180,13 +180,13 @@ Moves:
 	move TRIPLE_KICK,  EFFECT_TRIPLE_KICK,        10, FIGHTING,  90, 10,   0
 	move THIEF,        EFFECT_THIEF,              40, DARK,     100, 10, 100
 	move SPIDER_WEB,   EFFECT_MEAN_LOOK,           0, BUG,      100, 10,   0
-	move MIND_READER,  EFFECT_LOCK_ON,             0, NORMAL,   100,  5,   0
+	move MIND_READER,  EFFECT_LOCK_ON,             0, NORMAL,   100,  5,   0 ; remove
 	move NIGHTMARE,    EFFECT_NIGHTMARE,           0, GHOST,    100, 15,   0
 	move FLAME_WHEEL,  EFFECT_FLAME_WHEEL,        60, FIRE,     100, 25,  10
 	move SNORE,        EFFECT_SNORE,              40, NORMAL,   100, 15,  30
 	move CURSE,        EFFECT_CURSE,               0, CURSE_T,  100, 10,   0
 	move FLAIL,        EFFECT_REVERSAL,            1, NORMAL,   100, 15,   0
-	move CONVERSION2,  EFFECT_CONVERSION2,         0, NORMAL,   100, 30,   0
+	move CONVERSION2,  EFFECT_CONVERSION2,         0, NORMAL,   100, 30,   0 ; remove
 	move AEROBLAST,    EFFECT_NORMAL_HIT,        100, FLYING,    95,  5,   0
 	move COTTON_SPORE, EFFECT_SPEED_DOWN_2,        0, GRASS,     85, 40,   0
 	move REVERSAL,     EFFECT_REVERSAL,            1, FIGHTING, 100, 15,   0
@@ -207,7 +207,7 @@ Moves:
 	move DESTINY_BOND, EFFECT_DESTINY_BOND,        0, GHOST,    100,  5,   0
 	move PERISH_SONG,  EFFECT_PERISH_SONG,         0, NORMAL,   100,  5,   0
 	move ICY_WIND,     EFFECT_SPEED_DOWN_HIT,     55, ICE,       95, 15, 100
-	move DETECT,       EFFECT_PROTECT,             0, FIGHTING, 100,  5,   0
+	move DETECT,       EFFECT_PROTECT,             0, FIGHTING, 100,  5,   0 ; remove
 	move BONE_RUSH,    EFFECT_MULTI_HIT,          25, GROUND,    80, 10,   0
 	move LOCK_ON,      EFFECT_LOCK_ON,             0, NORMAL,   100,  5,   0
 	move OUTRAGE,      EFFECT_RAMPAGE,            90, DRAGON,   100, 15,   0
@@ -227,7 +227,7 @@ Moves:
 	move SLEEP_TALK,   EFFECT_SLEEP_TALK,          0, NORMAL,   100, 10,   0
 	move HEAL_BELL,    EFFECT_HEAL_BELL,           0, NORMAL,   100,  5,   0
 	move RETURN,       EFFECT_RETURN,              1, NORMAL,   100, 20,   0
-	move PRESENT,      EFFECT_PRESENT,             1, NORMAL,    90, 15,   0
+	move PRESENT,      EFFECT_PRESENT,             1, NORMAL,    90, 15,   0 ; remove?
 	move FRUSTRATION,  EFFECT_FRUSTRATION,         1, NORMAL,   100, 20,   0
 	move SAFEGUARD,    EFFECT_SAFEGUARD,           0, NORMAL,   100, 25,   0
 	move PAIN_SPLIT,   EFFECT_PAIN_SPLIT,          0, NORMAL,   100, 20,   0
@@ -265,5 +265,5 @@ Moves:
 	move ROCK_CLIMB,   EFFECT_CONFUSE_HIT,        90, NORMAL,    85, 20,  20
 	move INNER_POWER,  EFFECT_INNER_POWER,        50, NORMAL,   100, 20,   0
 	move HAIL,         EFFECT_HAIL,                0, ICE,      100, 10,   0
-	move ROCK_STORM    EFFECT_ROCK_STORM,        120, ROCK,      85,  5,   0
+	move ROCK_STORM,   EFFECT_ROCK_STORM,        120, ROCK,      85,  5,   0
 	move STRUGGLE,     EFFECT_RECOIL_HIT,         50, NORMAL,   100,  1,   0

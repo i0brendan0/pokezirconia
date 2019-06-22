@@ -285,8 +285,7 @@ VerifyUniqueness:
 
 Function_PartyItemsAreUnique:
 	ld hl, wPartyMon1Item
-	call VerifyUniqueness
-	ret
+	jp VerifyUniqueness
 
 Function_HasPartyAnEgg:
 	ld hl, wPartyCount

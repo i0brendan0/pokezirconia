@@ -190,8 +190,8 @@ BattleAnimFunction_03:
 	call BattleAnim_IncAnonJumptableIndex
 	ld hl, BATTLEANIMSTRUCT_0B
 	add hl, bc
+	xor a
 	bit 7, [hl]
-	ld a, $0
 	jr z, .asm_cd0f9
 	ld a, $20
 .asm_cd0f9
@@ -607,7 +607,6 @@ BattleAnimFunction_08:
 	jp DeinitBattleAnimation
 
 .retain
-	jp .SetCoords
 
 .SetCoords:
 	ld hl, BATTLEANIMSTRUCT_0B

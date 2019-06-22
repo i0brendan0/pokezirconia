@@ -227,20 +227,6 @@ BattleTurn:
 
 Stubbed_Function3c1bf:
 	ret
-	ld a, 5 ; MBC30 bank used by JP Crystal; inaccessible by MBC3
-	call GetSRAMBank
-	ld hl, $a89b ; address of MBC30 bank
-	inc [hl]
-	jr nz, .finish
-	dec hl
-	inc [hl]
-	jr nz, .finish
-	dec [hl]
-	inc hl
-	dec [hl]
-
-.finish
-	jp CloseSRAM
 
 HandleBetweenTurnEffects:
 	ldh a, [hSerialConnectionStatus]
@@ -5357,14 +5343,12 @@ MoveSelectionScreen:
 	ldh [hBGMapMode], a
 
 	hlcoord 4, 17 - NUM_MOVES - 1
-	ld b, 4
-	ld c, 14
+	lb bc, 4, 14
 	ld a, [wMoveSelectionMenuType]
 	cp $2
 	jr nz, .got_dims
 	hlcoord 4, 17 - NUM_MOVES - 1 - 4
-	ld b, 4
-	ld c, 14
+	lb bc, 4, 14
 .got_dims
 	call TextBox
 
@@ -5643,8 +5627,7 @@ MoveInfoBox:
 	ldh [hBGMapMode], a
 
 	hlcoord 0, 8
-	ld b, 3
-	ld c, 9
+	lb bc, 3, 9
 	call TextBox
 	call MobileTextBorder
 
