@@ -5987,7 +5987,7 @@ BattleCommand_Paralyze:
 	and $7f
 	jr z, .didnt_affect
 	ld b, ELECTRIC
-	call CheckIfTargetIsbype
+	call CheckIfTargetIsbType
 	jr z, .didnt_affect
 	call GetOpponentItem
 	ld a, b
