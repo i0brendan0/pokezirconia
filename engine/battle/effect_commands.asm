@@ -2139,7 +2139,7 @@ BattleCommand_FailureText:
 	cp EFFECT_POISON_MULTI_HIT
 	jr z, .multihit
 	cp EFFECT_BEAT_UP
-	jp nz, .EndMoveEffect
+	jp nz, EndMoveEffect
 
 .multihit
 	call BattleCommand_RaiseSub
